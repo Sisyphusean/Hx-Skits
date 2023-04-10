@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# dependencies
+/node_modules
+
+# production build output
+/dist
+
+# vite cache
+/.vite
+
+# local environment variables
+*.local
+
+# misc
+.DS_Store
+
+# IDEs and editors
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Jest cache
+/jest-cache
+
+# Jest coverage reports
+/coverage
+
+# Cypress screenshots and videos
+/cypress/screenshots
+/cypress/videos
