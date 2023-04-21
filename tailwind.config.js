@@ -19,7 +19,14 @@ export default {
       colors: {
         charlestoneGreen: "#282828",
         white: "#ffffff",
-        silver: "#D6D8DA"
+        silver: "#D6D8DA",
+        deepBlue: {
+          500: "#2980B9",
+          400: "#3498DB",
+          300: "#5DADE2",
+          200: "#85C1E9",
+          100: "#AED6F1",
+        }
       }
     }
   },
