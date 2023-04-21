@@ -1,7 +1,11 @@
 import { defineConfig } from 'vite'
+//Plugin for using Ract
 import react from '@vitejs/plugin-react'
-
+//For PWA feature
 import { VitePWA } from 'vite-plugin-pwa'
+//For importing SVGs
+import svgr from 'vite-plugin-svgr'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -63,6 +67,7 @@ export default defineConfig({
           }
         ]
       }
-    })
+    }),
+    svgr()
   ],
 })

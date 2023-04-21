@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+
+@layer base {
+    @font-face {
+        font-family: 'Schibsted Grotesk';
+        font-weight: 400;
+        src: url(/fonts/SchibstedGrotesk-Regular.ttf);
+    }
+
+    @font-face {
+        font-family: 'Schibsted Grotesk';
+        font-weight: 500;
+        src: url(/fonts/SchibstedGrotesk-Medium.ttf);
+    }
+
+    @font-face {
+        font-family: 'Schibsted Grotesk';
+        font-weight: 700;
+        src: url(/fonts/SchibstedGrotesk-SemiBold.ttf);
+    }
+}
+
+html{
+    background-color: theme('colors.charlestoneGreen');
+    color: theme('colors.white');
+}
+
+/* Animation classes */
+@keyframes translateYDown {
+    from {
+        transform: translateY(-4rem);
+        visibility: hidden;
+    }
+
+    to {
+        transform: translateY(0);
+        visibility: visible;
+    }
+}
+
+@keyframes translateYUp {
+    from {
+        transform: translateY(0);
+        visibility: hidden;
+    }
+
+    to {
+        transform: translateY(-4rem);
+        visibility: visible;
+    }
+}
+
+.animate-y-down {
+    animation: translateYUp 0.15s ease-in-out;
+}
+
+.animate-y-up {
+    animation: translateYDown 0.15s ease-in-out;
+}
