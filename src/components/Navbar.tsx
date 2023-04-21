@@ -20,7 +20,7 @@ export default function Navbar(props: navbarProps) {
     }
 
     return (
-        <nav className="md:flex md:flex md:flex-row md:flex-wrap md:justify-between">
+        <nav className="md:flex md:flex-row md:flex-wrap md:justify-between">
 
             <div className="flex flex-row flex-wrap justify-between font-medium m-0 border-box content-center">
                 <img title="Bababooey!!" alt="Hyphonix Logo" className="w-11" src="./favicons/android-chrome-512x512.png" />
@@ -33,13 +33,13 @@ export default function Navbar(props: navbarProps) {
 
             <div className={`align-center text-charlestoneGreen bg-white p-6 rounded mt-4  \
             md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible
-            ${!isVisible ? "invisible animate-y-down" : "visible animate-y-up"}`}>
+            ${!isVisible ? "invisible sm:animate-y-down" : "visible sm:animate-y-up"}`}>
 
                 {userType === "admin" ?
                     <button type="button" className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
-                    text-base m-0 items-center border-2 border-charlestoneGreen text-charlestoneGreen rounded p-2 py-0.25 mb-6
+                    text-base m-0 items-center border-2 border-charlestoneGreen rounded p-2 py-0.25 mb-6
                     hover:bg-silver hover:scale-105 hover:text-charlestoneGreen
-                    md:m-0 md:text-white md:border-white md:p-2 md:bg-transparent md:border-white">
+                    md:m-0 md:text-white md:border-white md:p-2 md:bg-transparent">
                         Switch to Community mode
                     </button> : ""
                 }
