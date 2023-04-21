@@ -33,7 +33,7 @@ export default function Navbar(props: navbarProps) {
 
             <div className={`align-center text-charlestoneGreen bg-white p-6 rounded mt-4  \
             md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible
-            ${!isVisible ? "invisible sm:animate-y-down" : "visible sm:animate-y-up"}`}>
+            ${!isVisible ? "invisible animate-y-down" : "visible animate-y-up"}`}>
 
                 {userType === "admin" ?
                     <button type="button" className="inline-block transition ease-in-out delay-150 text-charlestoneGreen

@@ -21,7 +21,7 @@
     }
 }
 
-html{
+html {
     background-color: theme('colors.charlestoneGreen');
     color: theme('colors.white');
 }
@@ -51,10 +51,12 @@ html{
     }
 }
 
-.animate-y-down {
-    animation: translateYUp 0.15s ease-in-out;
-}
+@media (max-width: 481px) {
+    .animate-y-down {
+        animation: translateYUp 0.15s ease-in-out;
+    }
 
-.animate-y-up {
-    animation: translateYDown 0.15s ease-in-out;
+    .animate-y-up {
+        animation: translateYDown 0.15s ease-in-out;
+    }
 }
