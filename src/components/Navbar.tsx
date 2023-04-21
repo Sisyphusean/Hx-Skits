@@ -23,7 +23,7 @@ export default function Navbar(props: navbarProps) {
         <nav className="md:flex md:flex-row md:flex-wrap md:justify-between">
 
             <div className="flex flex-row flex-wrap justify-between font-medium m-0 border-box content-center">
-                <img title="Bababooey!!" alt="Hyphonix Logo" className="w-11" src="./favicons/android-chrome-512x512.png" />
+                <img title="Bababooey!!" alt="Hyphonix Logo" className="w-11" src="/assets/hyphonixLogo.png" />
 
                 <div onClick={toggleMenu} className="flex flex-row flex-wrap align-center">
                     <img alt="Hamburger Icon" title=""
