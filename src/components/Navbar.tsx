@@ -20,7 +20,7 @@ export default function Navbar(props: navbarProps) {
     }
 
     return (
-        <nav className="md:flex md:flex-row md:flex-wrap md:justify-between">
+        <nav className="relative pt-4 md:flex md:flex-row md:flex-wrap md:justify-between md:pt-0">
 
             <div className="flex flex-row flex-wrap justify-between font-medium m-0 border-box content-center">
                 <img title="Bababooey!!" alt="Hyphonix Logo" className="w-11" src="/assets/hyphonixLogo.png" />
@@ -31,8 +31,8 @@ export default function Navbar(props: navbarProps) {
                 </div>
             </div>
 
-            <div className={`align-center text-charlestoneGreen bg-white p-6 rounded mt-4  \
-            md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible
+            <div className={`absolute align-center text-charlestoneGreen bg-white p-6 w-full rounded mt-4  \
+            md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible md:relative md:w-auto
             ${!isVisible ? "invisible animate-y-down" : "visible animate-y-up"}`}>
 
                 {userType === "admin" ?
@@ -46,7 +46,7 @@ export default function Navbar(props: navbarProps) {
 
                 <a href="" className="text-charlestoneGreen transition ease-in-out text-base m-0 flex items-center
                 md:text-white
-                hover:scale-105">
+                hover:scale-105 hover:underline">
                     Are you a mod?
                 </a>
             </div>
