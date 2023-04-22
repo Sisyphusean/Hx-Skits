@@ -2,15 +2,15 @@ import Navbar from "../components/Navbar";
 
 export default function Onboarding() {
     return (
-        <div className="container flex flex-wrap px-5 lg:px-32 md:px-16 pt-8 justify-center 
-        content-center h-screen">
-            
+        <div className="flex flex-wrap px-5 pt-4 h-full justify-center items-center 
+        lg:px-32 
+        md:px-16">
             <div className="flex flex-col w-11/12 md:w-7/12 lg:w-6/12 xl:w-5/12">
 
                 <img src="/assets/hyphonixLogo.png" className="w-24 sm:w-32 self-center"
                     alt="Hyphonix Logo" />
 
-                <div className="bg-white px-8 py-16 rounded-md mt-6">
+                <div className="bg-white px-8 py-12 rounded-md mt-6">
                     <h5 className="text-charlestoneGreen font-bold">
                         Welcome! <br /><br /> I’m the Hyphonix Skit Assistant. Which
                         option describes you best?
