@@ -7,12 +7,16 @@ import { Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import Onboarding from './pages/Onboarding'
 import Login from './pages/Login'
+import { ToastContainer } from 'react-toastify'
 
+//Toastify CSS
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
   return (
     <div className="h-screen">
+      <ToastContainer limit={1}/>
       <Routes>
         <Route path="/" element={<Onboarding />} />
         <Route path="/login" element={<Login />} />
