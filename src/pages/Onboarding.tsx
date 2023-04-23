@@ -1,5 +1,3 @@
-import Navbar from "../components/Navbar";
-
 export default function Onboarding() {
     return (
         <div className="flex flex-wrap px-5 pt-4 h-full justify-center items-center 
