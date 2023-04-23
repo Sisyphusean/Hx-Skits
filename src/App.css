@@ -2,10 +2,27 @@
 @tailwind components;
 
 /* Set root font size*/
-html{
+:root {
     font-size: 14px;
+    background-color: theme('colors.charlestoneGreen');
+    color: theme('colors.white');
+    /* Custom variables */
+    --pomegranate: #C0392B;
+    --white: #fff;
+    --silver: #D6D8DA;
+    --Nephritis: #1B8B4B;
+
+    /* Toastify Variables */
+    --toastify-color-error: var(--pomegranate) !important;
+    --toastify-icon-color-error: var(--white) !important;
+    --toastify-text-color-error: var(--white) !important;
+    --toastify-font-family: 'Schibsted Grotesk', sans-serif !important;
+    --toastify-color-success: var(--Nephritis) !important;
+    --toastify-icon-color-success: var(--white) !important;
+    --toastify-text-color-success: var(--white) !important;
 }
 
+/* Font definitions */
 @layer base {
     @font-face {
         font-family: 'Schibsted Grotesk';
@@ -24,11 +41,6 @@ html{
         font-weight: 700;
         src: url(/fonts/SchibstedGrotesk-SemiBold.ttf);
     }
-}
-
-html {
-    background-color: theme('colors.charlestoneGreen');
-    color: theme('colors.white');
 }
 
 /* Custom Scrollbar */
@@ -80,4 +92,23 @@ html {
     .animate-y-up {
         animation: translateYDown 0.15s ease-in-out;
     }
+}
+
+/* Toastify classes */
+.Toastify__toast--error {
+    background-color: var(--pomegranate) !important;
+    color: var(--white) !important;
+}
+
+.Toastify__toast--success {
+    background-color: var(--Nephritis) !important;
+    color: var(--white) !important;
+}
+
+.Toastify__close-button {
+    color: var(--silver) !important;
+}
+
+.Toastify__close-button--light {
+    opacity: 1 !important;
 }
