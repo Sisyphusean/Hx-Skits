@@ -26,3 +26,43 @@ export interface inputProps {
     //This is the error message of the input field that renders below the input field
     errorMessage: string | null,
 }
+
+/**
+ * These are props that are passed to the skitName component
+ */
+export interface skitNameProps {
+    //This is the name of the current mark
+    marksCurrentName: string,
+    //This is whether or not the current mark should be gaslighted
+    shouldUserGaslightTheMark: boolean
+}
+
+/**
+ * These are props that are passed to the activeTags component
+ */
+export interface activeTagsProps {
+    //These are the current tags that Hyphonix is currently using
+    tags: string[]
+}
+
+/**
+ * This interface is passed to the gaslight indicator
+ */
+export interface gaslightIndicatorProps {
+    //This is whether or not the current mark should be gaslighted
+    shouldUserGaslightTheMark: boolean
+}
+
+/**
+ * This interface is used to set the type of the props passed to the HomePageSkitComponent
+ */
+export interface homePageSkitComponentProps {
+    //This is the name of the current name
+    marksCurrentName: string,
+    //These are the current tags that Hyphonix is currently using
+    tags: string[]
+    //This is whether or not the current mark should be gaslighted
+    shouldUserGaslightTheMark: boolean,
+
+}
+
