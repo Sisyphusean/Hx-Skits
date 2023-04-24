@@ -6,6 +6,11 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xxs: "1px",
+        xs: "319px",
+        s: "360px"
+      },
       animation: {
         'translate-y-down-to-up': 'translateYDownToUp 0.15s ease-in-out',
         'translate-y-up-to-down': 'translateYUpToDown 0.15s ease-in-out',
@@ -20,6 +25,20 @@ export default {
         charlestoneGreen: "#282828",
         white: "#ffffff",
         silver: "#D6D8DA",
+        twitch: {
+          500: "#6441a5",
+          400: "#7E5BB8",
+          300: "#A285D0",
+          200: "#C5A5D9",
+          100: "#E5D1E8",
+        },
+        discord: {
+          500:"#525de9",
+          400: "#7289DA",
+          300: "#9AA7E1",
+          200: "#BDC3E6",
+          100: "#D9DFF1",
+        },
         deepBlue: {
           500: "#2980B9",
           400: "#3498DB",
@@ -40,6 +59,13 @@ export default {
           300: "#EC7063",
           200: "#F1948A",
           100: "#F5B7B1",
+        },
+        nephritis: {
+          500: '#1B8B4B',
+          400: '#27AE60',
+          300: '#58D68D',
+          200: '#82E0AA',
+          100: '#ABEBC6',
         }
       }
     }
