@@ -20,7 +20,8 @@ export default function Navbar(props: navbarProps) {
     }
 
     return (
-        <nav className="relative pt-4 md:flex md:flex-row md:flex-wrap md:justify-between md:pt-0">
+        <nav className="sticky top-0 bg-charlestoneGreen p-2
+        md:flex md:flex-row md:flex-wrap md:justify-between md:pt-0">
 
             <div className="flex flex-row flex-wrap justify-between font-medium m-0 border-box content-center">
                 <img title="Bababooey!!" alt="Hyphonix Logo" className="w-11" src="/assets/hyphonixLogo.png" />
@@ -31,7 +32,7 @@ export default function Navbar(props: navbarProps) {
                 </div>
             </div>
 
-            <div className={`absolute align-center text-charlestoneGreen bg-white p-6 w-full rounded mt-4  \
+            <div className={`absolute align-center text-charlestoneGreen bg-white p-6 w-full rounded \
             md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible md:relative md:w-auto
             ${!isVisible ? "invisible animate-y-down" : "visible animate-y-up"}`}>
 
