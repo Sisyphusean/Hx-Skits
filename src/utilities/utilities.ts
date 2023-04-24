@@ -1,5 +1,5 @@
 //Import Toast
-import { toast } from 'react-toastify';
+import { ToastPosition, toast } from 'react-toastify';
 
 /**
  * @description This is a Notification object that contains all the functions
@@ -10,9 +10,9 @@ export const toastHandler = {
      * This is a function that is used that is used to show error toasts
      * @param errorMessage Error message to be rendered
      */
-    showErrorToast: (errorMessage: string) => {
+    showErrorToast: (errorMessage: string, toastPosition:ToastPosition) => {
         toast.error(errorMessage, {
-            position: "top-right",
+            position: toastPosition,
             autoClose: 5000,
             closeOnClick: true,
             draggable: true,
@@ -24,9 +24,9 @@ export const toastHandler = {
     * This is a function that is used that is used to show success toasts
     * @param successMessage Success message to be rendered
     */
-    showSuccessToast: (successMessage: string) => {
+    showSuccessToast: (successMessage: string, toastPosition:ToastPosition) => {
         toast.success(successMessage, {
-            position: "top-right",
+            position: toastPosition,
             autoClose: 5000,
             closeOnClick: true,
             draggable: true,
