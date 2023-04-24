@@ -25,6 +25,8 @@ export default {
         charlestoneGreen: "#282828",
         white: "#ffffff",
         silver: "#D6D8DA",
+        clouds: "#D9DFE2",
+        videoBG: "#e0dfe1",
         twitch: {
           500: "#6441a5",
           400: "#7E5BB8",
@@ -33,7 +35,7 @@ export default {
           100: "#E5D1E8",
         },
         discord: {
-          500:"#525de9",
+          500: "#525de9",
           400: "#7289DA",
           300: "#9AA7E1",
           200: "#BDC3E6",

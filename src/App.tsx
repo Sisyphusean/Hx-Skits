@@ -12,11 +12,15 @@ import { ToastContainer } from 'react-toastify'
 //Toastify CSS
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/Footer'
+import Dialog from './components/Dialog'
 
 function App() {
 
   return (
-    <div className=''>
+    <div 
+    id="rootContent"
+    className='scroll-smooth'>
+      <Dialog />
       <div className="h-5/6">
         <ToastContainer limit={1} />
         <Routes>

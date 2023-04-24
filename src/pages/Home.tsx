@@ -7,6 +7,7 @@ import HomepageSkitComponent from '../components/HomePageSkitComponent';
 import HomePageLiveIndicator from '../components/HomePageLiveIndicator';
 import HomePageSetupLevel from '../components/HomePageSetupIndicator';
 import HomePageTutorialCard from '../components/HomePageTutorialCard';
+import Dialog from '../components/Dialog';
 
 
 export default function Home() {
@@ -18,7 +19,6 @@ export default function Home() {
     return (
         <div className="px-4">
             <Navbar userType='admin' />
-
             <div className='flex flex-col flex-wrap px-4 gap-8
              sm:px-32
              lg:px-52'>
