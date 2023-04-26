@@ -66,3 +66,10 @@ export interface homePageSkitComponentProps {
 
 }
 
+export interface nameSkitRadioStates{
+    //This is the first possible state of the radio. It prompts the user to say a name
+    sayName:string,
+    //This is the second possible state of the radio. It prompts the user to gaslight the mark
+    gaslightMark:string,
+}   
+
