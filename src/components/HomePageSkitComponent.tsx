@@ -10,7 +10,7 @@ export default function HomepageSkitComponent(props: homePageSkitComponentProps)
     let { marksCurrentName, tags, shouldUserGaslightTheMark } = props
 
     return (
-        <div>
+        <div className="w-full">
             <div className="flex flex-col-reverse justify-between items-center bg-white text-charlestoneGreen px-8 py-12 rounded-md mt-6
                 md:flex-row">
 

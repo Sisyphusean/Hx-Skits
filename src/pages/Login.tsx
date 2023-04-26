@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar"
 
 export default function Login() {
     return (
-        <div className="flex flex-col h-screen px-4 md:pt-0 ">
+        <div className="flex flex-col h-full px-4 md:pt-0 w-full ">
             <Navbar userType="admin" />
 
             <div className="flex flex-wrap lg:px-32 md:px-16 justify-center 

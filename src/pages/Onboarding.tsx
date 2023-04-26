@@ -1,6 +1,6 @@
 export default function Onboarding() {
     return (
-        <div className="flex flex-wrap px-5 pt-4 h-full justify-center items-center 
+        <div className="flex flex-wrap px-5 pt-4 h-full w-full justify-center items-center 
         lg:px-32 
         md:px-16">
             <div className="flex flex-col w-11/12 md:w-7/12 lg:w-6/12 xl:w-5/12">

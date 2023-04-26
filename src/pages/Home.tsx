@@ -7,7 +7,6 @@ import HomepageSkitComponent from '../components/HomePageSkitComponent';
 import HomePageLiveIndicator from '../components/HomePageLiveIndicator';
 import HomePageSetupLevel from '../components/HomePageSetupIndicator';
 import HomePageTutorialCard from '../components/HomePageTutorialCard';
-import Dialog from '../components/Dialog';
 
 
 export default function Home() {
@@ -17,9 +16,9 @@ export default function Home() {
     let tags: string[] = ["Marcus", 'Darkviper Au', "Say", "Barons", "Going", "Richelle"]
 
     return (
-        <div className="px-4">
+        <div id="home" className="px-4 ">
             <Navbar userType='admin' />
-            <div className='flex flex-col flex-wrap px-4 gap-8
+            <div className='flex flex-row flex-wrap px-4 gap-8 h-4/6
              sm:px-32
              lg:px-52'>
                 <HomepageSkitComponent
@@ -29,8 +28,7 @@ export default function Home() {
                 />
 
                 <div
-                    className='
-                    flex gap-8 flex-col-reverse
+                    className='w-full flex gap-8 flex-col-reverse
                     md:flex-col
                     lg:flex-row'>
                     <HomePageLiveIndicator />
@@ -43,7 +41,6 @@ export default function Home() {
                 </div>
 
             </div>
-
         </div>
     )
 }

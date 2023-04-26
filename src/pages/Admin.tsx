@@ -12,7 +12,7 @@ export default function Admin() {
     return (
         <div
             id="adminPage"
-            className="h-full justify-center items-center w-full rounded-lg">
+            className="h-full justify-center items-center w-full rounded-lg mb-2">
             <Navbar userType='admin' />
 
             <div

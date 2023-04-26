@@ -1,6 +1,8 @@
 export default function Footer() {
     return (
-        <div className="h-1/6 w-full items-center text-center pt-8 pb-4">
+        <footer
+            id="footer"
+            className="w-full text-center mt-8 pt-8 pb-8 flex-shrink-0">
             <a
                 href='https://github.com/Sisyphusean'
                 target='_blank' rel='noopener noreferrer'
@@ -9,6 +11,6 @@ export default function Footer() {
             >
                 Made by Sisyphusean 🌄
             </a>
-        </div>
+        </footer>
     )
 }
