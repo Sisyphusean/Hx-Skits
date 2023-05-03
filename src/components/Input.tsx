@@ -4,9 +4,13 @@ import { inputProps } from "../interfaces/interfaces";
 export default function Input(props: inputProps) {
     const { label, placeholder, type, id, helpText, errorMessage } = props
     return (
-        <div className="m-0 w-full">
+        <div className="m-0 w-full h-full">
 
-            <label htmlFor={id} className="flex flex-row flex-wrap justify-between items-center pb-0.5 ">
+            <label htmlFor={id} className="flex  flex-wrap justify-between   
+            xxs:flex-col xxs:gap-2 xxs:items-start xxs:pb-2
+            sm:flex-row sm:gap-0 sm:items-center sm:pb-0.5
+            md:gap-2 md:pb-3
+            lg:pb-0.5">
                 {label}
                 {helpText && <span className="leading-none text-xs text-gray-500 md:text-s">{helpText}</span>}
             </label>
