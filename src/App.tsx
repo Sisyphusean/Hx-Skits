@@ -1,5 +1,6 @@
 import './App.css'
 
+
 //React Router
 import { Routes, Route, useLocation } from "react-router-dom"
 
@@ -20,7 +21,6 @@ import Dialog from './components/Dialog'
 function App() {
 
   let currentPath = useLocation().pathname
-
   return (
     <div
       id="rootContent"
@@ -28,8 +28,10 @@ function App() {
 
       {currentPath === "/home" ? <Dialog /> : null}
 
-      <div id="mainArea" className="flex gap-8 flex-col ">
-        <ToastContainer limit={1} />
+      <div id="mainArea" className="relative flex gap-8 flex-col ">
+        <div className='absolute'>
+          <ToastContainer limit={1} />
+        </div>
         <Routes>
           <Route path="/" element={<Onboarding />} />
           <Route path="/login" element={<Login />} />
