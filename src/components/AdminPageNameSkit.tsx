@@ -18,11 +18,11 @@ export default function AdminPageNameSkitActivity() {
 
     return (
         <div
-            className="flex flex-col h-auto items-start bg-white text-charlestoneGreen p-8 rounded-md 
+            className="flex flex-col h-auto items-start bg-white text-charlestoneGreen p-6 rounded-md 
             xxs:w-full
             s:w-11/12
             md:w-8/12
-            lg:w-5/12
+            lg:w-6/12
             2xl:w-3/12">
 
             <div
@@ -60,14 +60,14 @@ export default function AdminPageNameSkitActivity() {
                         <label
                             className={radioStyle}
                             htmlFor="sayName">Say the person's name 🗣️
-                            <input className="opacity-0" type="radio" id="sayName" name="sayName" value="sayName" />
+                            <input  type="radio" id="sayName" name="gaslightOption" value="sayName" />
                         </label>
 
 
                         <label
                             className={radioStyle}
                             htmlFor="gaslightThem">Gaslight them 😈
-                            <input className="opacity-0" type="radio" id="gaslightThem" name="gaslightThem" value="gaslightThem" />
+                            <input  type="radio" id="gaslightThem" name="gaslightOption" value="gaslightThem" />
                         </label>
 
                     </fieldset>
