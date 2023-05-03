@@ -1,5 +1,5 @@
 //Intefaces
-import { activeTagsProps } from "../interfaces/interfaces";
+import { activeTagsProps } from "../interfaces/propinterfaces";
 
 //Utilities
 import { toastHandler } from "../utilities/utilities";

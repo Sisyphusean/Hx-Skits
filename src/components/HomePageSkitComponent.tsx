@@ -1,5 +1,5 @@
 //Interfaces
-import { homePageSkitComponentProps } from "../interfaces/interfaces";
+import { homePageSkitComponentProps } from "../interfaces/propinterfaces";
 
 //Components
 import ActiveTags from "./ActiveTags";

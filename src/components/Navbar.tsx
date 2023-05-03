@@ -5,7 +5,10 @@ import React, { useState } from "react"
 import { ReactComponent as Hamburger } from "../assets/hamburgerMenu.svg"
 
 //Interface
-import { navbarProps } from "../interfaces/interfaces"
+import { navbarProps } from "../interfaces/propinterfaces"
+
+//Types 
+import { userType } from "../types/types"
 
 /**
  * This is the component that renders the Navbar and controls it behavior
@@ -13,7 +16,7 @@ import { navbarProps } from "../interfaces/interfaces"
  */
 export default function Navbar(props: navbarProps) {
     const [isVisible, setVisibility] = useState(false)
-    const userType = props.userType
+    const userType: userType = props.userType
 
     function toggleMenu() {
         setVisibility(!isVisible)
@@ -36,7 +39,7 @@ export default function Navbar(props: navbarProps) {
             md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible md:relative md:w-auto
             ${!isVisible ? "invisible animate-y-down" : "visible animate-y-up"}`}>
 
-                {userType === "admin" ?
+                {userType == "admin" ?
                     <button type="button" className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
                     text-base m-0 items-center border-2 border-charlestoneGreen rounded p-2 py-0.25 mb-6
                     hover:bg-silver hover:scale-105 hover:text-charlestoneGreen

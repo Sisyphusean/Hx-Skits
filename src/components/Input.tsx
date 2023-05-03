@@ -1,5 +1,5 @@
 //Interfaces
-import { inputProps } from "../interfaces/interfaces";
+import { inputProps } from "../interfaces/propinterfaces";
 
 export default function Input(props: inputProps) {
     const { label, placeholder, type, id, helpText, errorMessage } = props

@@ -1,5 +1,5 @@
 //Interfaces
-import { skitNameProps } from "../interfaces/interfaces";
+import { skitNameProps } from "../interfaces/propinterfaces";
 
 export default function SkitName(props: skitNameProps) {
     const { marksCurrentName, shouldUserGaslightTheMark } = props
