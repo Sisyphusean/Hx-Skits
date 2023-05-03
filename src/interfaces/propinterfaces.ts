@@ -1,3 +1,6 @@
+//Types
+import { userType } from "../types/types"
+
 /**
  * These are props that are passed to the Nabar component
  */
@@ -6,7 +9,7 @@ export interface navbarProps {
      * This property sets whether the current user is an admin or a regular user
      * It can either be set to 'admin' or 'limited'
      */
-    userType: string
+    userType: userType
 }
 
 /**
@@ -66,10 +69,13 @@ export interface homePageSkitComponentProps {
 
 }
 
-export interface nameSkitRadioStates{
+/**
+ * This interface is use to indicate the possible states of the radios in the AdminPageNameSkit component
+ */
+export interface nameSkitRadioStates {
     //This is the first possible state of the radio. It prompts the user to say a name
-    sayName:string,
+    sayName: string,
     //This is the second possible state of the radio. It prompts the user to gaslight the mark
-    gaslightMark:string,
-}   
+    gaslightMark: string,
+}
 
