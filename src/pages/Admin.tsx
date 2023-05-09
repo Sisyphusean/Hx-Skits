@@ -1,10 +1,11 @@
 
 //Components
 import { useState } from "react";
-import AdminPageNameSkitActivity from "../components/AdminPageNameSkit";
-import AdminPageSkitSelector from "../components/AdminPageSkitSelector";
+import AdminPageNameSkitActivity from "../components/admin_page_components/AdminPageNameSkit";
+import AdminPageSkitSelector from "../components/admin_page_components/AdminPageSkitSelector";
+import AdminPageSetTags from "../components/admin_page_components/AdminPageSetTags";
 import Navbar from "../components/Navbar";
-import AdminPageSetTags from "../components/AdminPageSetTags";
+
 
 export default function Admin() {
     const possibleComponents = { selector: "selector", nameSkit: "nameSkit" }

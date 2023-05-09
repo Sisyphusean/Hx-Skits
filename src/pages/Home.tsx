@@ -3,10 +3,10 @@ import React from 'react';
 
 //Components
 import Navbar from '../components/Navbar';
-import HomepageSkitComponent from '../components/HomePageSkitComponent';
-import HomePageLiveIndicator from '../components/HomePageLiveIndicator';
-import HomePageSetupLevel from '../components/HomePageSetupIndicator';
-import HomePageTutorialCard from '../components/HomePageTutorialCard';
+import HomepageSkitComponent from '../components/home_page_components/HomePageSkitComponent';
+import HomePageLiveIndicator from '../components/home_page_components/HomePageLiveIndicator';
+import HomePageSetupLevel from '../components/home_page_components/HomePageSetupIndicator';
+import HomePageTutorialCard from '../components/home_page_components/HomePageTutorialCard';
 
 
 export default function Home() {

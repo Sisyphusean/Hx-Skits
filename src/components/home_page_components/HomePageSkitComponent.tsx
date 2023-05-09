@@ -1,10 +1,10 @@
 //Interfaces
-import { homePageSkitComponentProps } from "../interfaces/propinterfaces";
+import { homePageSkitComponentProps } from "../../interfaces/propinterfaces";
 
 //Components
-import ActiveTags from "./ActiveTags";
-import GaslightIndicator from "./GaslightIndicator";
-import SkitName from "./SkitName";
+import ActiveTags from "./HomePageActiveTags";
+import GaslightIndicator from "./HomePageGaslightIndicator";
+import SkitName from "./HomePageSkitName";
 
 export default function HomepageSkitComponent(props: homePageSkitComponentProps) {
     let { marksCurrentName, tags, shouldUserGaslightTheMark } = props

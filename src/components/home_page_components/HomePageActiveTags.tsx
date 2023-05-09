@@ -1,8 +1,8 @@
 //Intefaces
-import { activeTagsProps } from "../interfaces/propinterfaces";
+import { activeTagsProps } from "../../interfaces/propinterfaces";
 
 //Utilities
-import { toastHandler } from "../utilities/utilities";
+import { toastHandler } from "../../utilities/utilities";
 
 export default function ActiveTags(props: activeTagsProps) {
     const { tags } = props

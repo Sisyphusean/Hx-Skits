@@ -2,10 +2,10 @@
 import { useState } from "react";
 
 //Components
-import Input from "./Input";
+import Input from "../Input";
 
 //Interfaces
-import { nameSkitRadioStates } from "../interfaces/propinterfaces";
+import { nameSkitRadioStates } from "../../interfaces/propinterfaces";
 
 export default function AdminPageNameSkitActivity() {
     let possibleRadioStates: nameSkitRadioStates = { sayName: "sayName", gaslightMark: "gaslightThem" }

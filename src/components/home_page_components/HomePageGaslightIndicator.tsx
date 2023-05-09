@@ -1,5 +1,5 @@
 //Interaces
-import { gaslightIndicatorProps } from "../interfaces/propinterfaces";
+import { gaslightIndicatorProps } from "../../interfaces/propinterfaces";
 
 export default function GaslightIndicator(props: gaslightIndicatorProps) {
     const { shouldUserGaslightTheMark } = props
