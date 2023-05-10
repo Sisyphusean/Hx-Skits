@@ -10,7 +10,7 @@ export const toastHandler = {
      * This is a function that is used that is used to show error toasts
      * @param errorMessage Error message to be rendered
      */
-    showErrorToast: (errorMessage: string, toastPosition:ToastPosition) => {
+    showErrorToast: (errorMessage: string, toastPosition: ToastPosition) => {
         toast.error(errorMessage, {
             position: toastPosition,
             autoClose: 5000,
@@ -24,7 +24,7 @@ export const toastHandler = {
     * This is a function that is used that is used to show success toasts
     * @param successMessage Success message to be rendered
     */
-    showSuccessToast: (successMessage: string, toastPosition:ToastPosition) => {
+    showSuccessToast: (successMessage: string, toastPosition: ToastPosition) => {
         toast.success(successMessage, {
             position: toastPosition,
             autoClose: 5000,
