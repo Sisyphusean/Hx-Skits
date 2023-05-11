@@ -1,5 +1,5 @@
 // Components
-import Input from "../components/Input"
+import Input from "../components/TextInput"
 import Navbar from "../components/Navbar"
 
 export default function Login() {

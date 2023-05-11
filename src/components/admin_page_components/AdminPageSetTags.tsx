@@ -1,4 +1,4 @@
-import Input from "../Input";
+import Input from "../TextInput";
 
 export default function AdminPageSetTags() {
     return (

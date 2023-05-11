@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 //Components
-import Input from "../Input";
+import Input from "../TextInput";
 
 //Interfaces
 import { nameSkitRadioStates } from "../../interfaces/propinterfaces";
