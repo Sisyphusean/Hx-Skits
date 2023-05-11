@@ -1,5 +1,9 @@
 //Types
-import { userType } from "../types/types"
+import { UseFormRegister } from "react-hook-form/dist/types/form"
+import { buttonClassTypes, buttonIcons, buttonTypes, userType } from "../types/types"
+
+//RHF type import
+import { FieldValues } from "react-hook-form"
 
 /**
  * These are props that are passed to the Nabar component
@@ -15,7 +19,7 @@ export interface navbarProps {
 /**
  * These are props that are passed to the Input component
  */
-export interface inputProps {
+export interface textInputProps {
     //This is the label of the input field
     label: string,
     //This is the placeholder of the input field
@@ -79,3 +83,41 @@ export interface nameSkitRadioStates {
     gaslightMark: string,
 }
 
+/**
+ * This interface is used to indicate the props
+ * used in the radio Component
+ */
+export interface radioProps {
+    /**This is what is used to determine the htmlFor and Id of the radio component */
+    id: string,
+    /**This is the label of the radio component */
+    label:string,
+    /**This is the name that is assigned to the radio group to make them mutually exclusive */
+    name: string,
+    /**This is the value held by the radio */
+    value: string,
+    /**This is the value used to set if the radio's is active or not. If selected it will match the id of the radio */
+    setActiveRadio?: React.Dispatch<React.SetStateAction<null>>,
+    /** This is the active user Type that has been selected */
+    selectedUserType?: string,
+    /** This is the callback to the RHF register*/
+    register: UseFormRegister<FieldValues>
+}
+
+/**
+ * This interface is used to indicate the props
+ * used in the button Component
+ */
+export interface buttonProps {
+    //This is the class type of the button
+    buttonClassType: buttonClassTypes,
+    //This is the text of the button
+    buttonText: string
+    //This is the HTML type of the button
+    buttonType: buttonTypes,
+    //These are the possible icons of the button
+    buttonIcon?: buttonIcons,
+    //These are override classes that are used to override the default classes
+    overrideClasses?: string,
+    
+}
