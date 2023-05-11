@@ -1,4 +1,19 @@
+//Import React Hook Form
+import { useForm } from "react-hook-form";
+
+//Import components
+import Button from "../components/Button";
+import RadioInput from "../components/Radio";
+
+
 export default function Onboarding() {
+    const { register, watch, handleSubmit } = useForm()
+    const selectedUserType = watch("rawUserType")
+
+    const customSubmitHandler = (data: any) => {
+        console.log(data)
+    }
+
     return (
         <div className="flex flex-wrap px-5 pt-4 h-full w-full justify-center items-center 
         lg:px-32 
@@ -14,28 +29,51 @@ export default function Onboarding() {
                         option describes you best?
                     </h5>
 
-                    <div className="pt-7 flex flex-col gap-6">
-                        <button type="button" className="inline-block border-2 border-deepBlue-500 text-deepBlue-500
-                        rounded-lg p-4 w-full transition font-medium
-                        hover:text-charlestoneGreen hover:font-medium hover:bg-deepBlue-100 hover:scale-101
-                        active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95">
-                            I'm Hyphonix
-                        </button>
 
-                        <button type="button" className="inline-block border-2 border-deepBlue-500 text-deepBlue-500
-                        rounded-lg p-4 w-full transition font-medium
-                        hover:text-charlestoneGreen hover:font-medium hover:bg-deepBlue-100 hover:scale-101
-                        active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95">
-                            I'm a Mod
-                        </button>
+                    <form
+                        className="flex flex-col gap-6"
+                        onSubmit={handleSubmit(customSubmitHandler)}
+                    >
+                        <div className="pt-7 flex flex-col gap-4">
 
-                        <button type="button" className="inline-block border-2 border-deepBlue-500 text-deepBlue-500
-                        rounded-lg p-4 w-full transition font-medium
-                        hover:text-charlestoneGreen hover:font-medium hover:bg-deepBlue-100 hover:scale-101
-                        active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95">
-                            I'm a Community Member
-                        </button>
-                    </div>
+                            <RadioInput
+                                id="limited"
+                                label="I'm a Community Member"
+                                name="rawUserType"
+                                value="limited"
+                                selectedUserType={selectedUserType}
+                                register={register} />
+
+                            <RadioInput
+                                id="admin"
+                                label="I'm Hyphonix"
+                                name="rawUserType"
+                                value="admin"
+                                selectedUserType={selectedUserType}
+                                register={register} />
+
+                            <RadioInput
+                                id="mod"
+                                label="I'm a Mod"
+                                name="rawUserType"
+                                value="mod"
+                                selectedUserType={selectedUserType}
+                                register={register} />
+                        </div>
+
+                        <Button
+                            buttonType="submit"
+                            buttonClassType="filled"
+                            buttonText="Continue"
+                            buttonIcon="arrowRight"
+                            overrideClasses="
+                            ml-auto
+                            xxs:w-full
+                            s:w-5/12
+                            sm:w-4/12"/>
+                    </form>
+
+
                 </div>
 
             </div>

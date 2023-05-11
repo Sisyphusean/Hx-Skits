@@ -112,3 +112,8 @@
 .Toastify__close-button--light {
     opacity: 1 !important;
 }
+
+/* Component classes */
+input[type="radio"] {
+    display: none;
+}
