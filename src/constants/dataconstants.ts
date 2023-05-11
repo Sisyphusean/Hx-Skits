@@ -1,5 +1,5 @@
 //Import data interfaces
-import * as dataInterfaces from "../interfaces/datainterfaces";
+import {appData, userData, skitData, liveData} from "../interfaces/datainterfaces";
 
 //Import types
 import * as customTypes from "../types/types";
@@ -14,7 +14,7 @@ const emptyUserType: customTypes.userType = "unset";
 const emptyOnboardingState: customTypes.onboardingState = "incomplete";
 const emptyCurrentSkit: customTypes.currentSkit = "none";
 
-const emptyUserData: dataInterfaces.userData = {
+const emptyUserData: userData = {
     userType: emptyUserType,
     userToken: "",
     onboardingState: emptyOnboardingState,
@@ -23,18 +23,18 @@ const emptyUserData: dataInterfaces.userData = {
     firstOpened: new Date(),
 }
 
-const emptySkitData: dataInterfaces.skitData = {
+const emptySkitData: skitData = {
     currentSkit: emptyCurrentSkit,
     nameSkitData: null
 }
 
-const emptyLiveData: dataInterfaces.liveData = {
+const emptyLiveData: liveData = {
     isHyphonixLiveOnTwitch: false,
     isHyphonixLiveOnYoutube: false,
     currentOmegleTags: []
 }
 
-export const emptyAppData: dataInterfaces.appData = {
+export const emptyAppData: appData = {
     userData: emptyUserData,
     skitData: emptySkitData,
     liveData: emptyLiveData
