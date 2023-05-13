@@ -20,7 +20,7 @@ import { useSetAppData } from "../customhooks/useSetAppData";
 import { toastHandler } from "../utilities/toastHandler";
 
 export default function Onboarding() {
-    const { register, watch, handleSubmit, formState: { errors } } = useForm()
+    const { register, watch, handleSubmit, formState: { errors, isDirty } } = useForm()
     const selectedUserType = watch("rawUserType")
 
     const { appData } = useContext(AppDataContext)
@@ -41,9 +41,9 @@ export default function Onboarding() {
         customSetAppData(newData)
 
     }
-
+    
     //Error Handling for the form
-    if (errors.rawUserType) {
+    if (errors.rawUserType && !isDirty) {
         toastHandler.showErrorToast("Please select an option before continuing", "top-right")
     }
 
