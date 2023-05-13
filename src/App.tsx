@@ -21,11 +21,18 @@ import Dialog from './components/Dialog'
 //Guards
 import { OnboardingGuard } from './guards/OnboardingGuard'
 
+//Framer
+import { AnimatePresence, motion } from "framer-motion";
+import { HomeGuard } from './guards/HomeGuard'
+import { AdminGuard } from './guards/AdminGuard'
+import { LoginGuard } from './guards/LoginGuard'
+
 function App() {
 
   const currentPath = useLocation().pathname
 
   return (
+
     <div
       id="rootContent"
       className='flex flex-col scroll-smooth h-screen w-screen'>
@@ -38,9 +45,9 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={OnboardingGuard()} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/login" element={LoginGuard()} />
+          <Route path="/home" element={HomeGuard()} />
+          <Route path="/admin" element={AdminGuard()} />
         </Routes>
       </div>
 

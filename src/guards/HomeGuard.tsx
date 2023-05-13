@@ -3,13 +3,15 @@ import { useIsUserTypeSet } from "../customhooks/useOnboardingGuardHook";
 
 //Pages
 import Home from "../pages/Home";
-import Onboarding from "../pages/Onboarding";
 
 //Framer
 import { motion } from "framer-motion";
 
-export const OnboardingGuard = () => {
-    const isUserTypeSet = useIsUserTypeSet()
+//React Hooks
+import { useCallback } from "react";
+
+
+export const HomeGuard = () => {
 
     return (
         <motion.div
@@ -18,7 +20,7 @@ export const OnboardingGuard = () => {
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0, x: 50 }}
         >
-            {isUserTypeSet ? <Home /> : <Onboarding />}
+            <Home />
         </motion.div>
     )
 }

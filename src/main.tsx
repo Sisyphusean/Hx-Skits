@@ -12,10 +12,15 @@ import { AppDataContextProvider } from './contexts/appdatacontext'
 //Import Tailwind CSS
 import './tailwind.css';
 
+//Import Framer Motion
+import { AnimatePresence } from 'framer-motion';
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <BrowserRouter>
-    <AppDataContextProvider>
-      <App />
-    </AppDataContextProvider>
-  </BrowserRouter>,
+  <AnimatePresence>
+    <BrowserRouter>
+      <AppDataContextProvider>
+        <App />
+      </AppDataContextProvider>
+    </BrowserRouter>
+  </AnimatePresence>,
 )

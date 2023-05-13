@@ -19,11 +19,15 @@ import { useSetAppData } from "../customhooks/useSetAppData";
 //Import ToastHandler
 import { toastHandler } from "../utilities/toastHandler";
 
+//React-Router Hooks
+import { useNavigate } from "react-router-dom";
+
 export default function Onboarding() {
     const { register, watch, handleSubmit, formState: { errors, isDirty } } = useForm()
     const selectedUserType = watch("rawUserType")
 
     const { appData } = useContext(AppDataContext)
+    const navigate = useNavigate()
     const customSetAppData = useSetAppData()
 
     const setUserTypeOnOnboardingFormSubmit = (rawFormData: any) => {
@@ -39,9 +43,10 @@ export default function Onboarding() {
         }
 
         customSetAppData(newData)
+        navigate("/home")
 
     }
-    
+
     //Error Handling for the form
     if (errors.rawUserType && !isDirty) {
         toastHandler.showErrorToast("Please select an option before continuing", "top-right")
