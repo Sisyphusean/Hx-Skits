@@ -18,9 +18,13 @@ import { ToastContainer } from 'react-toastify'
 import Footer from './components/Footer'
 import Dialog from './components/Dialog'
 
+//Guards
+import { OnboardingGuard } from './guards/OnboardingGuard'
+
 function App() {
 
-  let currentPath = useLocation().pathname
+  const currentPath = useLocation().pathname
+
   return (
     <div
       id="rootContent"
@@ -33,7 +37,7 @@ function App() {
           <ToastContainer limit={1} />
         </div>
         <Routes>
-          <Route path="/" element={<Onboarding />} />
+          <Route path="/" element={OnboardingGuard()} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
