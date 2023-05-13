@@ -12,21 +12,23 @@ const localStorageKey = import.meta.env.VITE_LOCAL_STORAGE_KEY
  * 
  * @returns the app data object if successful and false if it fails to fetch the data from local storage
  */
-export const getAppDataInLocalStorage = async () => {
+export const getAppDataInLocalStorage = async (): Promise<appData | false> => {
     try {
 
         let appData = await localStorage.getItem(localStorageKey)
 
-        if (appData) {
-            let decryptedData = decryptAppDataStoredInLocalStorage(appData) ? decryptAppDataStoredInLocalStorage(appData) : false
+        // if (appData) {
+        //     let decryptedData = decryptAppDataStoredInLocalStorage(appData) ? decryptAppDataStoredInLocalStorage(appData) : false
 
-            if (decryptedData) {
-                return JSON.parse(decryptedData) as appData
-            }
+        //     if (decryptedData) {
+        //         return JSON.parse(decryptedData) as appData
+        //     }
 
-            return false
-        }
-        return false;
+        //     return false
+        // }
+        // return false;
+
+        return (appData ? JSON.parse(appData) as appData : false)
 
     } catch (error) {
         console.error(`Failed to get App Data from local storage: ${error}`)
@@ -44,7 +46,7 @@ export const setAppDataInLocalStorage = async (appData: appData) => {
     let encryptedData = encryptAppDataToBeStoredInLocalStorage(appData)
     try {
         if (encryptedData) {
-            localStorage.setItem(localStorageKey, encryptedData)
+            localStorage.setItem(localStorageKey, JSON.stringify(appData))
             return true
         }
     } catch (error) {
