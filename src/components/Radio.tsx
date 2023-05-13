@@ -19,7 +19,7 @@ export default function RadioInput({register, ...props}: radioProps) {
                 type="radio"
                 placeholder={props.value}
                 value={props.value} 
-                {...register(props.name)}/>
+                {...register(props.name, {required: true})}/>
             {props.label}
         </label>
     )

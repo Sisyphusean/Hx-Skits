@@ -5,13 +5,46 @@ import { useForm } from "react-hook-form";
 import Button from "../components/Button";
 import RadioInput from "../components/Radio";
 
+//Import React hooks
+import { useContext } from "react";
+
+//Import App data context
+import { AppDataContext } from "../contexts/appdatacontext";
+import { appData } from "../interfaces/datainterfaces";
+import { userType } from "../types/types";
+
+//Import custom hooks
+import { useSetAppData } from "../customhooks/useSetAppData";
+
+//Import ToastHandler
+import { toastHandler } from "../utilities/toastHandler";
 
 export default function Onboarding() {
-    const { register, watch, handleSubmit } = useForm()
+    const { register, watch, handleSubmit, formState: { errors } } = useForm()
     const selectedUserType = watch("rawUserType")
 
-    const customSubmitHandler = (data: any) => {
-        console.log(data)
+    const { appData } = useContext(AppDataContext)
+    const customSetAppData = useSetAppData()
+
+    const setUserTypeOnOnboardingFormSubmit = (rawFormData: any) => {
+        let newUserType = rawFormData.rawUserType === "admin" || rawFormData.rawUserType === "mod" ? "admin" : "limited"
+
+        //Make API call and then when the call is successful, update the app data
+        let newData: appData = {
+            ...appData,
+            userData: {
+                ...appData.userData,
+                userType: newUserType as userType
+            }
+        }
+
+        customSetAppData(newData)
+
+    }
+
+    //Error Handling for the form
+    if (errors.rawUserType) {
+        toastHandler.showErrorToast("Please select an option before continuing", "top-right")
     }
 
     return (
@@ -32,7 +65,7 @@ export default function Onboarding() {
 
                     <form
                         className="flex flex-col gap-6"
-                        onSubmit={handleSubmit(customSubmitHandler)}
+                        onSubmit={handleSubmit(setUserTypeOnOnboardingFormSubmit)}
                     >
                         <div className="pt-7 flex flex-col gap-4">
 
@@ -72,7 +105,6 @@ export default function Onboarding() {
                             s:w-5/12
                             sm:w-4/12"/>
                     </form>
-
 
                 </div>
 

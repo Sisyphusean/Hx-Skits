@@ -20,7 +20,7 @@ export interface userData {
     //This property specifies if the application has been installed succesfully as a PWA
     hasUserInstalledAppAsPwa: boolean,
     //This property stores the date the user first opened the application
-    firstOpened: Date
+    firstOpened: Date | string
 }
 
 /**
