@@ -17,7 +17,7 @@ export default function Home() {
 
     return (
         <div id="home" className="px-4 ">
-            <Navbar userType='admin' />
+            <Navbar/>
             <div className='flex flex-row flex-wrap px-4 gap-8 h-4/6
              sm:px-32
              lg:px-52'>

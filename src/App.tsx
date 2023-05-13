@@ -4,12 +4,6 @@ import './App.css'
 //React Router
 import { Routes, Route, useLocation } from "react-router-dom"
 
-//App's pages
-import Home from "./pages/Home"
-import Onboarding from './pages/Onboarding'
-import Login from './pages/Login'
-import Admin from './pages/Admin'
-
 //Toastify CSS
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,8 +15,7 @@ import Dialog from './components/Dialog'
 //Guards
 import { OnboardingGuard } from './guards/OnboardingGuard'
 
-//Framer
-import { AnimatePresence, motion } from "framer-motion";
+//Framer Motion
 import { HomeGuard } from './guards/HomeGuard'
 import { AdminGuard } from './guards/AdminGuard'
 import { LoginGuard } from './guards/LoginGuard'
