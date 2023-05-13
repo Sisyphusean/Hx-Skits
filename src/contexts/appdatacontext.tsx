@@ -11,36 +11,32 @@ import { appDataContextType } from "../types/types";
 //Store of the entire app's data
 export const AppDataContext = createContext<appDataContextType>({
     appData: emptyAppData,
-    setAppData: null
+    setAppData: () => { }
 });
 
 //Define the app's data context provider
 export function AppDataContextProvider({ children }: { children: React.ReactNode }) {
     const [appData, setAppData] = useState(emptyAppData)
-
     //instantiate app's data into state memory if it exists and create it if it doesn't.
     useEffect(() => {
-        let checkIfAppDataIsDefinedInLocalStorage = getAppDataInLocalStorage()
-        checkIfAppDataIsDefinedInLocalStorage.then((data) => {
+        const initiliazeAppData = async () => {
+            let appDataResult = await getAppDataInLocalStorage()
 
-            if (!data) {
+            if (!appDataResult) {
                 //Data doesn't exist and is set to false
                 setAppDataInLocalStorage(appData)
             }
 
-            if (data) {
+            if (appDataResult) {
                 //Data exists
-                setAppData(data)
+                setAppData(appDataResult)
             }
+        }
 
-        })
+        initiliazeAppData()
+
     }
         , [])
-
-    //Update app's data in local storage whenever the appData changes.
-    useEffect(() => () => {
-        setAppDataInLocalStorage(appData)
-    }, [appData])
 
     return (
         <AppDataContext.Provider value={{ appData, setAppData }}>

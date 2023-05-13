@@ -22,7 +22,7 @@ export type appDataContextType = {
     //This represents the entire app data and is a defined type of appData
     appData: appData,
     //This represents the function that is used to set the app data state and is passed down through the react apps
-    setAppData: React.Dispatch<React.SetStateAction<appData>> | null
+    setAppData: React.Dispatch<React.SetStateAction<appData>>
 }
 
 export type buttonClassTypes = "filled" | "outlined" | "text" | "disabled"
