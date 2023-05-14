@@ -6,7 +6,9 @@ import ActiveTags from "./HomePageActiveTags";
 import GaslightIndicator from "./HomePageGaslightIndicator";
 import SkitName from "./HomePageSkitName";
 
+
 export default function HomepageSkitComponent(props: homePageSkitComponentProps) {
+
     let { marksCurrentName, tags, shouldUserGaslightTheMark } = props
 
     return (
@@ -19,7 +21,8 @@ export default function HomepageSkitComponent(props: homePageSkitComponentProps)
                     <h5>Current Skit: <span className='font-medium'>[Skit Name]</span></h5>
 
                     <h5>Name being trolled:
-                        <SkitName marksCurrentName={marksCurrentName} shouldUserGaslightTheMark={shouldUserGaslightTheMark} />
+                        {props.marksCurrentName === "" ? " -"
+                            : <SkitName marksCurrentName={marksCurrentName} shouldUserGaslightTheMark={shouldUserGaslightTheMark} />}
                     </h5>
 
                     <ActiveTags tags={tags} />
