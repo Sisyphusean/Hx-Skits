@@ -1,6 +1,14 @@
+import { useCallback } from "react"
+
 export default function HomePageSetupLevel() {
     let possibleStates = { complete: "completed", incomplete: "noNotifications", onboarding: "onboarding" }
     let state = possibleStates.complete
+
+    const handleClick = useCallback(() => {
+        if (possibleStates.complete) {
+            window.open(import.meta.env.VITE_SOFIA_INSTAGRAM, "_blank")
+        }
+    }, [])
 
     function getDynamicButton(state: string) {
         let buttonText = "Complete Steps"
@@ -48,6 +56,7 @@ export default function HomePageSetupLevel() {
                 }
 
                 <button
+                    onClick={handleClick}
                     type="button"
                     className={` 
                 ${buttonStyle}
