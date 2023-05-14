@@ -1,5 +1,5 @@
 //Import data interfaces
-import {appData, userData, skitData, liveData} from "../interfaces/datainterfaces";
+import { appData, userData, skitData, liveData, nameSkitData } from "../interfaces/datainterfaces";
 
 //Import types
 import * as customTypes from "../types/types";
@@ -23,14 +23,22 @@ const emptyUserData: userData = {
     firstOpened: new Date(),
 }
 
+const emptyNameSkitData: nameSkitData = {
+    marksCurrentName: "",
+    shouldTheMarkBeGaslight: false
+
+}
+
 const emptySkitData: skitData = {
     currentSkit: emptyCurrentSkit,
-    nameSkitData: null
+    nameSkitData: emptyNameSkitData
 }
 
 const emptyLiveData: liveData = {
     isHyphonixLiveOnTwitch: false,
+    linkToHyphonixTwitch: "",
     isHyphonixLiveOnYoutube: false,
+    linkToHyphonixYoutube: "",
     currentOmegleTags: []
 }
 
