@@ -8,30 +8,41 @@ import HomePageLiveIndicator from '../components/home_page_components/HomePageLi
 import HomePageSetupLevel from '../components/home_page_components/HomePageSetupIndicator';
 import HomePageTutorialCard from '../components/home_page_components/HomePageTutorialCard';
 
+//AppDataContext
+import { AppDataContext } from '../contexts/appdatacontext';
+
+//React Hooks
+import { useContext } from "react";
+
 
 export default function Home() {
-    //Boolean used to determine if the user should gaslgight the marks
-    let shouldUserGaslightTheMark: boolean = false
-    let currentName: string = "Richard"
-    let tags: string[] = ["Marcus", 'Darkviper Au', "Say", "Barons", "Going", "Richelle"]
+
+    const { appData } = useContext(AppDataContext)
 
     return (
         <div id="home" className="px-4 ">
-            <Navbar/>
+            <Navbar />
             <div className='flex flex-row flex-wrap px-4 gap-8 h-4/6
              sm:px-32
              lg:px-52'>
-                <HomepageSkitComponent
-                    marksCurrentName={currentName}
-                    tags={tags}
-                    shouldUserGaslightTheMark={shouldUserGaslightTheMark}
-                />
+
+                {appData.skitData.currentSkit === "none" ? ""
+                    : <HomepageSkitComponent
+                        marksCurrentName={appData.skitData.nameSkitData.marksCurrentName}
+                        tags={appData.liveData.currentOmegleTags}
+                        shouldUserGaslightTheMark={appData.skitData.nameSkitData.shouldTheMarkBeGaslight}
+                    />}
 
                 <div
                     className='w-full flex gap-8 flex-col-reverse
                     md:flex-col
                     lg:flex-row'>
-                    <HomePageLiveIndicator />
+                    <HomePageLiveIndicator
+                        isHyphonixLiveOnTwitch={appData.liveData.isHyphonixLiveOnTwitch}
+                        linkToHyphonixTwitch={appData.liveData.linkToHyphonixTwitch}
+                        isHyphonixLiveOnYoutube={appData.liveData.isHyphonixLiveOnYoutube}
+                        linkToHyphonixYoutube={appData.liveData.linkToHyphonixYoutube}
+                    />
                     <HomePageSetupLevel />
                 </div>
 
