@@ -3,24 +3,42 @@
  * (if he is live) and returns links to his youtube and twitch. if he isn't live it returns a link to his discord.
  * @returns HomePageLiveIndicator Component
  */
-export default function HomePageLiveIndicator() {
-    let isHyphonixCurrentlyLive = false
-    const livePlatforms = {
-        youtube: "youtube",
-        twitch: "twitch"
-    }
-    let currentPlatform = livePlatforms.youtube
+
+//import homePageLiveIndicatorProps
+import { homePageLiveIndicatorProps } from "../../interfaces/propinterfaces"
+
+//React hooks
+import { useCallback } from 'react';
+
+export default function HomePageLiveIndicator({ isHyphonixLiveOnTwitch, isHyphonixLiveOnYoutube }: homePageLiveIndicatorProps) {
+
+    const openLiveLinkOnClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault()
+        if (isHyphonixLiveOnTwitch && !isHyphonixLiveOnYoutube) {
+            window.open(import.meta.env.VITE_HYPHONIX_TWITCH, '_blank')
+        }
+
+        if (isHyphonixLiveOnYoutube && !isHyphonixLiveOnTwitch) {
+            window.open(import.meta.env.VITE_HYPHONIX_YOUTUBE, '_blank')
+        }
+    }, [])
+
 
     /**
      * @description This function returns a string that describes what platform Hyphonix is live on (if he is live)
      * @param platform This is the platform that Hyphonix is currently live
      * @returns A string that describes what platform Hyphonix is live on (if he is live)
      */
-    function getPlatformText(platform: string) {
-        if (isHyphonixCurrentlyLive && (platform === 'youtube' || platform === 'twitch')) {
-            return 'Hyphonix is currently live on ' + platform[0].toLocaleUpperCase() + platform.slice(1)
+    function getPlatformText() {
+        if (isHyphonixLiveOnYoutube) {
+            return 'Hyphonix is currently live on Youtube'
         }
-        if (!isHyphonixCurrentlyLive) {
+
+        if (isHyphonixLiveOnTwitch) {
+            return 'Hyphonix is currently live on Twitch'
+        }
+
+        if (!isHyphonixLiveOnTwitch && !isHyphonixLiveOnYoutube) {
             return 'Hyphonix is NOT live'
         }
     }
@@ -29,21 +47,21 @@ export default function HomePageLiveIndicator() {
         <div className="flex flex-col bg-white p-8 rounded-md text-charlestoneGreen w-full h-auto" >
             <div className="flex flex-row gap-2 items-start">
                 <img
-                    src={`${isHyphonixCurrentlyLive ? './assets/liveIndicatorTrue.svg' : './assets/liveIndicatorFalse.svg'}`}
-                    alt={`${isHyphonixCurrentlyLive ? 'liveIndicatorTrue' : 'liveIndicatorFalse'}`}
+                    src={`${(isHyphonixLiveOnTwitch || isHyphonixLiveOnYoutube) ? './assets/liveIndicatorTrue.svg' : './assets/liveIndicatorFalse.svg'}`}
+                    alt={`${(isHyphonixLiveOnTwitch || isHyphonixLiveOnYoutube) ? 'liveIndicatorTrue' : 'liveIndicatorFalse'}`}
                     title="Live indicator"
                 />
                 <h4
                     className="font-bold text-lg">
-                    {getPlatformText(currentPlatform)}
+                    {getPlatformText()}
                 </h4>
             </div>
 
             <div className="mt-4">
-                {isHyphonixCurrentlyLive && currentPlatform == "youtube"
+                {isHyphonixLiveOnYoutube
 
                     ? <a
-                        target='_blank' rel='noopener noreferrer'
+                        onClick={openLiveLinkOnClick}
                         href="">
                         <button
                             id="youtubeButton"
@@ -63,11 +81,10 @@ export default function HomePageLiveIndicator() {
 
                     : <div className="m-0 p-0"></div>}
 
-                {isHyphonixCurrentlyLive && currentPlatform == "twitch"
+                {isHyphonixLiveOnTwitch
 
                     ? <a
-                        target='_blank' rel='noopener noreferrer'
-                        href="">
+                        onClick={openLiveLinkOnClick}>
                         <button
                             id="twitchButton"
                             type="button"
@@ -86,7 +103,7 @@ export default function HomePageLiveIndicator() {
 
                     : <div className="m-0 p-0"></div>}
 
-                {!isHyphonixCurrentlyLive
+                {(!isHyphonixLiveOnTwitch && !isHyphonixLiveOnYoutube)
 
                     ? <a
                         target='_blank' rel='noopener noreferrer'

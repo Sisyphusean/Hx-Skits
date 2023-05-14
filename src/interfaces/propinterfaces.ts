@@ -80,7 +80,7 @@ export interface radioProps {
     /**This is what is used to determine the htmlFor and Id of the radio component */
     id: string,
     /**This is the label of the radio component */
-    label:string,
+    label: string,
     /**This is the name that is assigned to the radio group to make them mutually exclusive */
     name: string,
     /**This is the value held by the radio */
@@ -108,5 +108,16 @@ export interface buttonProps {
     buttonIcon?: buttonIcons,
     //These are override classes that are used to override the default classes
     overrideClasses?: string,
-    
+
+}
+
+export interface homePageLiveIndicatorProps {
+    //This is whether or not Hyphonix is live on Twitch
+    isHyphonixLiveOnTwitch: boolean,
+    //This is the link to Hyphonix's live Twitch stream
+    linkToHyphonixTwitch?: string,
+    //This is whether or not Hyphonix is live on Youtube
+    isHyphonixLiveOnYoutube: boolean,
+    //This is the link to Hyphonix's live Youtube stream
+    linkToHyphonixYoutube?: string,
 }

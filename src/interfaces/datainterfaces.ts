@@ -40,7 +40,7 @@ export interface skitData {
     //This property indicates the current skit that is being played
     currentSkit: currentSkit,
     //This property indicates the data specific to the NameSkit. It is set to null if the current skit is not the NameSkit
-    nameSkitData: nameSkitData | null
+    nameSkitData: nameSkitData
 }
 
 /**
@@ -49,8 +49,10 @@ export interface skitData {
 export interface liveData {
     //This property indicates whether or not Hyphonix is live on Twitch
     isHyphonixLiveOnTwitch: boolean,
+    linkToHyphonixTwitch?: string,
     //This property indicates whether or not Hyphonix is live on Youtube
     isHyphonixLiveOnYoutube: boolean,
+    linkToHyphonixYoutube?: string,
     //This property indicates what tags Hyphonix is currently using on Omegle
     currentOmegleTags: string[]
 }
