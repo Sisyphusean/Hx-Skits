@@ -8,8 +8,11 @@ import Onboarding from "../pages/Onboarding";
 //Framer
 import { motion } from "framer-motion";
 
+//Import React Router Hooks
+import { Navigate } from "react-router-dom";
+
 export const OnboardingGuard = () => {
-    const isUserTypeSet = useIsUserTypeSet()
+    const { isUserTypeSet } = useIsUserTypeSet()
 
     return (
         <motion.div
@@ -18,7 +21,7 @@ export const OnboardingGuard = () => {
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0, x: 50 }}
         >
-            {isUserTypeSet ? <Home /> : <Onboarding />}
+            {isUserTypeSet ? <Navigate to={"/home"} /> : <Onboarding />}
         </motion.div>
     )
 }

@@ -8,6 +8,9 @@ export const useIsUserTypeSet = () => {
 
     const { appData } = useContext(AppDataContext)
 
-    return appData.userData.userType === "admin" || appData.userData.userType === "limited" ? true : false
+    let isUserTypeSet = appData.userData.userType === "admin" || appData.userData.userType === "limited" ? true : false
+    let userType = appData.userData.userType
+
+    return { isUserTypeSet, userType }
 
 } 

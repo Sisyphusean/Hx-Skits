@@ -8,7 +8,7 @@ export type userType = "admin" | "limited" | "unset"
 * onboarding dialog that shows notifications and complete if the user has completed the onboarding process 
 * by enabling notifications and installing the app as a PWA. 
 */
-export type onboardingState = "incomplete" | "notifications" | "complete"
+export type onboardingState = "incomplete" | "notifications" | "pwa" | "complete"
 
 /**
  * This property indicates the current skit that is being played
@@ -28,3 +28,5 @@ export type appDataContextType = {
 export type buttonClassTypes = "filled" | "outlined" | "text" | "disabled"
 export type buttonTypes = undefined | "button" | "submit" | "reset"
 export type buttonIcons = "arrowRight"
+export type platform = 'android' | 'ios' | 'macos' | 'windows' | 'linux' | 'chromeos' | 'unknown';
+export type supportedBrowsers = "Google Chrome" | "Safari" | "Microsoft Edge" | "Brave"

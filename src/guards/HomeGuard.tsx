@@ -7,11 +7,15 @@ import Home from "../pages/Home";
 //Framer
 import { motion } from "framer-motion";
 
-//React Hooks
-import { useCallback } from "react";
+//Pages
+import Onboarding from "../pages/Onboarding";
+
+//Import React Router Hooks
+import { Navigate } from "react-router-dom";
 
 
 export const HomeGuard = () => {
+    const { isUserTypeSet } = useIsUserTypeSet()
 
     return (
         <motion.div
@@ -20,7 +24,7 @@ export const HomeGuard = () => {
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0, x: 50 }}
         >
-            <Home />
+            {isUserTypeSet ? <Home /> : <Navigate to={"/"} />}
         </motion.div>
     )
 }

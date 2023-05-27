@@ -19,6 +19,9 @@ const emptyUserData: userData = {
     userToken: "",
     onboardingState: emptyOnboardingState,
     areNotificationEnabled: false,
+    browserType: "",
+    doesUserHavePwaSupport: false,
+    userPlatform: "unknown",
     hasUserInstalledAppAsPwa: false,
     firstOpened: new Date(),
 }

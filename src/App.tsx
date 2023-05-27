@@ -19,10 +19,13 @@ import { OnboardingGuard } from './guards/OnboardingGuard'
 import { HomeGuard } from './guards/HomeGuard'
 import { AdminGuard } from './guards/AdminGuard'
 import { LoginGuard } from './guards/LoginGuard'
+import { useEffect, useState } from 'react';
+import { beforeInstallPromptEvent } from './interfaces/datainterfaces';
 
 function App() {
 
   const currentPath = useLocation().pathname
+
 
   return (
 
@@ -30,7 +33,7 @@ function App() {
       id="rootContent"
       className='flex flex-col scroll-smooth h-screen w-screen'>
 
-      {currentPath === "/home" ? <Dialog /> : null}
+      {/* {currentPath === "/home" ? <Dialog /> : null} */}
 
       <div id="mainArea" className="relative flex gap-8 flex-col ">
         <div className='absolute'>

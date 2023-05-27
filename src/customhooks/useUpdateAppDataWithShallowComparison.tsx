@@ -35,11 +35,20 @@ export const useUpdateAppDataWithShallowComparisonIgnoringTime = () => {
         };
 
         let areTheAppDataValuesTheSame =
-            _.isEqual(AppDataInLocalStorageIgnoringTime.userData.userType, reactAppDataIgnoringTime.userData.userType);
+            _.isEqual(AppDataInLocalStorageIgnoringTime, reactAppDataIgnoringTime);
 
 
         if (!areTheAppDataValuesTheSame) {
+            (import.meta.env.VITE_ENV === "dev" ? console.log("Data updated because data wasn't the same") : "");
             (newData ? setAppDataInLocalStorage(newData) : null)
+        }
+
+        if (areTheAppDataValuesTheSame) {
+            (import.meta.env.VITE_ENV === "dev"
+                ? console.log(
+                    "Data was not updated. Debug data is below",
+                    `{'NewData' : ${JSON.stringify(reactAppDataIgnoringTime)},  'OldData': ${JSON.stringify(AppDataInLocalStorageIgnoringTime)}}`
+                ) : "");
         }
     }, [])
 

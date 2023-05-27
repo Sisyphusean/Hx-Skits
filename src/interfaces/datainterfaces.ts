@@ -1,6 +1,6 @@
 
 //Types
-import { userType, onboardingState, currentSkit } from "../types/types"
+import { userType, onboardingState, currentSkit, platform } from "../types/types"
 
 /**
  *  This interface describes the type of information that is used to describe the user entity
@@ -17,6 +17,12 @@ export interface userData {
     onboardingState: onboardingState,
     //This property is used to specify if the user has enabled notifications after they were asked to
     areNotificationEnabled: boolean,
+    //This property is used to specify the user's browser type
+    browserType: string,
+    //This property is used to specify if the user's browser currently has support for PWA
+    doesUserHavePwaSupport: boolean,
+    //This property is used to specify the user's platform be it iOS, Android, Windows, Mac or Linux
+    userPlatform: platform,
     //This property specifies if the application has been installed succesfully as a PWA
     hasUserInstalledAppAsPwa: boolean,
     //This property stores the date the user first opened the application
@@ -69,3 +75,17 @@ export interface appData {
     liveData: liveData,
 }
 
+/** This is the type for the non-standard beforeInstallPrompt event */
+export interface beforeInstallPromptEvent extends Event {
+    readonly platforms: Array<string>;
+    readonly userChoice: Promise<{
+        outcome: 'accepted' | 'dismissed';
+        platform: platform;
+    }>;
+    prompt(): Promise<userPWAInstallResultInterface>;
+}
+
+export interface userPWAInstallResultInterface {
+    outcome: 'accepted' | 'dismissed';
+    platform: platform;
+}

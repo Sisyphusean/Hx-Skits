@@ -7,7 +7,7 @@ import { appData as appDataInterface } from "../interfaces/datainterfaces";
 //Import setAppData from appDataContext
 import { AppDataContext } from "../contexts/appdatacontext";
 
-import { useUpdateAppDataWithShallowComparisonIgnoringTime } from "./updateAppDataWithShallowComparison";
+import { useUpdateAppDataWithShallowComparisonIgnoringTime } from "./useUpdateAppDataWithShallowComparison";
 
 /**
  * This hook returns a function that can set the app's data in react's memory and in local storage

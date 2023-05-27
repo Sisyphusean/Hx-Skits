@@ -8,8 +8,9 @@ export default {
     extend: {
       screens: {
         xxs: "1px",
-        xs: "319px",
-        s: "360px"
+        xs: "360px",
+        ss: "375px",
+        s: "380px"
       },
       animation: {
         'translate-y-down-to-up': 'translateYDownToUp 0.15s ease-in-out',

@@ -11,7 +11,7 @@ import { useContext } from "react";
 //Import App data context
 import { AppDataContext } from "../contexts/appdatacontext";
 import { appData } from "../interfaces/datainterfaces";
-import { userType } from "../types/types";
+import { platform, userType } from "../types/types";
 
 //Import custom hooks
 import { useSetAppData } from "../customhooks/useSetAppData";
@@ -22,9 +22,16 @@ import { toastHandler } from "../utilities/toastHandler";
 //React-Router Hooks
 import { useNavigate } from "react-router-dom";
 
+//Utilities
+import getUserBrowsersDetails from "../utilities/getUserBrowsersDetails"
+import { checkIfBrowserSupportsPwa } from "../utilities/checkifbrowsersupportspwa";
+import { getPlatform } from "../utilities/getplatformdetails";
+
 export default function Onboarding() {
     const { register, watch, handleSubmit, formState: { errors, isDirty } } = useForm()
+    const { browserName, doesBrowserSupportPwa } = getUserBrowsersDetails()
     const selectedUserType = watch("rawUserType")
+    const platform: platform = getPlatform()
 
     const { appData } = useContext(AppDataContext)
     const navigate = useNavigate()
@@ -32,12 +39,14 @@ export default function Onboarding() {
 
     const setUserTypeOnOnboardingFormSubmit = (rawFormData: any) => {
         let newUserType = rawFormData.rawUserType === "admin" || rawFormData.rawUserType === "mod" ? "admin" : "limited"
-
         //Make API call and then when the call is successful, update the app data
         let newData: appData = {
             ...appData,
             userData: {
                 ...appData.userData,
+                browserType: browserName,
+                doesUserHavePwaSupport: doesBrowserSupportPwa,
+                userPlatform: platform,
                 userType: newUserType as userType
             }
         }

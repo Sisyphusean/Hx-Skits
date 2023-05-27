@@ -1,5 +1,5 @@
 //React
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //Components
 import Navbar from '../components/Navbar';
@@ -13,15 +13,21 @@ import { AppDataContext } from '../contexts/appdatacontext';
 
 //React Hooks
 import { useContext } from "react";
+import Dialog from '../components/Dialog';
+
 
 
 export default function Home() {
 
     const { appData } = useContext(AppDataContext)
 
+
+
+
     return (
         <div id="home" className="px-4 ">
             <Navbar />
+            <Dialog />
             <div className='flex flex-row flex-wrap px-4 gap-8 h-4/6
              sm:px-32
              lg:px-52'>
