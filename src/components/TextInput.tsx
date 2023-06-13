@@ -1,7 +1,7 @@
 //Interfaces
 import { textInputProps } from "../interfaces/propinterfaces";
 
-export default function Input(props: textInputProps) {
+export default function Input({ register, ...props }: textInputProps) {
     const { label, placeholder, type, id, helpText, errorMessage } = props
     return (
         <div className="m-0 w-full h-full">
@@ -21,6 +21,7 @@ export default function Input(props: textInputProps) {
                     active:border active:border-belizeHole-500 
                     focus:border focus:border-belizeHole-500}`}
                 type={type} placeholder={placeholder}
+                {...register(id, { required: true })}
             />
 
 

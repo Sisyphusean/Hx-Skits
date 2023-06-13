@@ -17,6 +17,8 @@ const emptyCurrentSkit: customTypes.currentSkit = "none";
 const emptyUserData: userData = {
     userType: emptyUserType,
     userToken: "",
+    username: "",
+    userId: "",
     onboardingState: emptyOnboardingState,
     areNotificationEnabled: false,
     browserType: "",

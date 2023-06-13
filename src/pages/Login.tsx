@@ -2,7 +2,79 @@
 import Input from "../components/TextInput"
 import Navbar from "../components/Navbar"
 
+//Services
+import { getter, poster } from "../services/apirequests"
+
+//RHF
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+
+//Interfaces
+import { toastHandler } from "../utilities/toastHandler";
+import { loginResponse } from "../interfaces/apiinterfaces";
+
+//Import custom hooks
+import { useSetAppData } from "../customhooks/useSetAppData";
+
+//AppData Context
+import { AppDataContext } from "../contexts/appdatacontext";
+import { appData as appDataType } from "../interfaces/datainterfaces";
+
+//React Hooks
+import { useContext } from "react";
+
+//React Router Hooks
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
+    const { register, watch, handleSubmit, formState: { errors } } = useForm()
+    const { appData } = useContext(AppDataContext)
+    const navigate = useNavigate()
+    const customSetAppData = useSetAppData()
+    let usernameErrorMessage = null
+    let passwordErrorMessage = null
+
+    //HandleLogin
+    const handleLogin = async (formData: any) => {
+        if (!errors.password && !errors.username) {
+            poster(import.meta.env.VITE_LOGIN_PATH, formData).then(
+                (apiResponse) => {
+                    if (apiResponse.status == 400) {
+                        toastHandler.showErrorToast("You've entered an invalid username or password. Please try again", "top-right")
+                        return
+                    }
+
+                    toastHandler.showSuccessToast("You've successfully logged in", "top-right")
+                    let { id, username, token } = apiResponse.data as loginResponse
+                    let newData: appDataType = {
+                        ...appData,
+                        userData: {
+                            ...appData.userData,
+                            userId: id,
+                            username: username,
+                            userToken: token,
+                            userType: "admin"
+                        }
+                    }
+
+                    //Update user data to reflect the new user data
+                    customSetAppData(newData)
+                    setTimeout(() => {
+                        navigate("/admin")
+                    }, 2000)
+                }
+            )
+        }
+    }
+
+    //Error validation for form
+    if (errors.username?.type === "required") {
+        usernameErrorMessage = "Please enter your username"
+    }
+    if (errors.password?.type === "required") {
+        passwordErrorMessage = "Please enter your password"
+    }
+
+
     return (
         <div className="flex flex-col h-full px-4 md:pt-0 w-full ">
             <Navbar />
@@ -19,24 +91,27 @@ export default function Login() {
 
                         <div className="pt-4">
                             <form action=""
+                                onSubmit={handleSubmit(handleLogin)}
                                 className="text-charlestoneGreen flex flex-col flex-wrap gap-4">
 
                                 <Input
                                     id="username"
-                                    errorMessage={null}
+                                    errorMessage={usernameErrorMessage}
                                     helpText={null}
                                     label="Username"
                                     type="text"
                                     placeholder="Enter your username"
+                                    register={register}
                                 />
 
                                 <Input
-                                    id="userPassword"
-                                    errorMessage={null}
+                                    id="password"
+                                    errorMessage={passwordErrorMessage}
                                     helpText={null}
                                     label="Password"
                                     type="password"
                                     placeholder="Enter your password"
+                                    register={register}
                                 />
 
                                 <button type="submit"

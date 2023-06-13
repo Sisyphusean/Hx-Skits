@@ -7,7 +7,11 @@ import { userType, onboardingState, currentSkit, platform } from "../types/types
  */
 export interface userData {
     //This is the user's type which can either be admin or limited
-    userType: userType
+    userType: userType,
+    //This is the user's username
+    username: string,
+    //This is the user's id
+    userId: string,
     //This is the user's token that is used to authenticate the user
     userToken: string,
     /** This property is used to specify if the user has been onboarded or not. It can either be incomplete 

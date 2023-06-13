@@ -7,6 +7,9 @@ import Input from "../TextInput";
 //Interfaces
 import { nameSkitRadioStates } from "../../interfaces/propinterfaces";
 
+//React Hook Form
+import { useForm } from "react-hook-form";
+
 export default function AdminPageNameSkitActivity() {
     let possibleRadioStates: nameSkitRadioStates = { sayName: "sayName", gaslightMark: "gaslightThem" }
 
@@ -15,6 +18,8 @@ export default function AdminPageNameSkitActivity() {
     active:text-black active:bg-deepBlue-200 active:font-medium active:scale-95\
     sm:text-left
     xxs:text-center`
+
+    const { register, watch, handleSubmit, formState: { errors } } = useForm()
 
     return (
         <div
@@ -49,6 +54,7 @@ export default function AdminPageNameSkitActivity() {
                         id="currentPersonsName"
                         helpText=""
                         errorMessage=""
+                        register={register}
                     />
 
                     <fieldset
@@ -60,14 +66,14 @@ export default function AdminPageNameSkitActivity() {
                         <label
                             className={radioStyle}
                             htmlFor="sayName">Say the person's name 🗣️
-                            <input  type="radio" id="sayName" name="gaslightOption" value="sayName" />
+                            <input type="radio" id="sayName" name="gaslightOption" value="sayName" />
                         </label>
 
 
                         <label
                             className={radioStyle}
                             htmlFor="gaslightThem">Gaslight them 😈
-                            <input  type="radio" id="gaslightThem" name="gaslightOption" value="gaslightThem" />
+                            <input type="radio" id="gaslightThem" name="gaslightOption" value="gaslightThem" />
                         </label>
 
                     </fieldset>

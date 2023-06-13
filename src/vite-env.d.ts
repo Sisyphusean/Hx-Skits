@@ -11,7 +11,11 @@ interface ImportMetaEnv {
     /**This is the link to Hyphonix's Youtube */
     VITE_HYPHONIX_YOUTUBE: string,
     /**This is the link to Hyphonix's Twitch Channel */
-    VITE_HYPHONIX_TWITCH: string
+    VITE_HYPHONIX_TWITCH: string,
     /**This is used to check if the environment is set to dev or prod */
-    VITE_ENV: string
+    VITE_ENV: string,
+    /**This string specifies the prod Backend URL */
+    BE_BASE_URL: string,
+    /**This string specifies the dev Backend URL */
+    DEV_BE_BASE_URL: string,
 }

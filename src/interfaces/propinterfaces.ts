@@ -2,6 +2,9 @@
 import { UseFormRegister } from "react-hook-form/dist/types/form"
 import { buttonClassTypes, buttonIcons, buttonTypes, userType } from "../types/types"
 
+//IMport Login Form
+import { loginForm } from "./forminterfaces"
+
 //RHF type import
 import { FieldValues } from "react-hook-form"
 
@@ -21,6 +24,8 @@ export interface textInputProps {
     helpText: string | null,
     //This is the error message of the input field that renders below the input field
     errorMessage: string | null,
+    //This is the callback to the RHF register
+    register: UseFormRegister<FieldValues> 
 }
 
 /**

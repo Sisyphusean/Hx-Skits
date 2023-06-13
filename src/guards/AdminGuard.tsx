@@ -9,9 +9,11 @@ import { Navigate } from "react-router-dom";
 
 //Custom Hooks
 import { useIsUserTypeSet } from "../customhooks/useOnboardingGuardHook";
+import { useIsUserLoggedIn } from "../customhooks/useIsUserLoggedIn";
 
 export const AdminGuard = () => {
     const { isUserTypeSet, userType } = useIsUserTypeSet()
+    const { isUserLoggedIn } = useIsUserLoggedIn()
 
     return (
         <motion.div
@@ -20,7 +22,13 @@ export const AdminGuard = () => {
             transition={{ duration: 0.5 }}
             exit={{ opacity: 0, x: 50 }}
         >
-            {isUserTypeSet && userType === "admin" ? <Admin /> : <Navigate to={"/home"} />}
+            {
+                (
+                    (isUserTypeSet && userType === "admin")
+                    && isUserLoggedIn
+                )
+                    ? <Admin /> : <Navigate to={"/home"} />
+            }
         </motion.div>
     )
 }

@@ -1,6 +1,11 @@
 import Input from "../TextInput";
 
+//Import RHF 
+import { useForm } from "react-hook-form";
+
 export default function AdminPageSetTags() {
+    const { register, watch, handleSubmit, formState: { errors } } = useForm()
+
     return (
         <div className="bg-white h-auto text-charlestoneGreen p-6 rounded-lg
             xxs:w-full
@@ -25,6 +30,7 @@ export default function AdminPageSetTags() {
                     id="tags"
                     helpText="Separate each tag with commas."
                     errorMessage=""
+                    register={register}
                 />
 
                 <button

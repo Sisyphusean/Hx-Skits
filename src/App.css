@@ -117,3 +117,7 @@
 input[type="radio"] {
     display: none;
 }
+
+input:invalid {
+    outline: none;
+}
