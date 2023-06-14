@@ -1,5 +1,5 @@
 // React Imports
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 //React Router
 import { useLocation, useNavigate, Link } from "react-router-dom"
@@ -30,6 +30,10 @@ export default function Navbar() {
     const toggleMenu = () => {
         setVisibility(!isVisible)
     }
+
+    useEffect(() => {
+        setVisibility(false)
+    }, [location])
 
 
     const navigate = useNavigate()
