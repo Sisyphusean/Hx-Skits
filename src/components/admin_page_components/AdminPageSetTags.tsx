@@ -36,7 +36,7 @@ export default function AdminPageSetTags() {
                 <button
                     className="bg-deepBlue-500 text-white rounded-md 
                 h-14 flex flex-row justify-center items-center px-4 gap-4
-                xxs:w-5/12
+                xxs:w-full
                 sm:w-3/12
                 md:w-4/12"
                     type="submit">

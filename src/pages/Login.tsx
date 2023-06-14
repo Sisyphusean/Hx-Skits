@@ -101,7 +101,7 @@ export default function Login() {
 
                     <div className="bg-white px-8 py-14 rounded-md">
                         <h5 className="text-charlestoneGreen font-bold">
-                            Login to your account
+                            Login to your Mod account
                         </h5>
 
                         <div className="pt-4">
@@ -130,14 +130,17 @@ export default function Login() {
                                 />
 
                                 <button type="submit"
-                                    className="flex flex-row gap-2 align-middle items-center border-2 text-white bg-deepBlue-500
-                                    rounded-lg py-4 px-8 transition font-medium ml-auto mt-4	
+                                    className="flex flex-row gap-2 align-middle items-center justify-center
+                                     border-2 text-white bg-deepBlue-500
+                                    rounded-lg py-4 px-8 transition font-medium ml-auto mt-4
+                                    xxs:w-full
+                                    sm:w-auto	
                                     hover:font-medium hover:bg-belizeHole-500 hover:scale-105
                                     active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95">
 
                                     {isApiLoading ? "Logging you in" : "Login"}
 
-                                    
+
                                     <motion.div
                                         className="m-0 p-0 flex flex-row"
                                         animate={isApiLoading ? { rotate: [0, 360] } : { rotate: 0 }}
