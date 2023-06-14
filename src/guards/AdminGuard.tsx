@@ -1,6 +1,3 @@
-//Framer
-import { motion } from "framer-motion";
-
 //Pages
 import Admin from "../pages/Admin";
 
@@ -11,24 +8,32 @@ import { Navigate } from "react-router-dom";
 import { useIsUserTypeSet } from "../customhooks/useOnboardingGuardHook";
 import { useIsUserLoggedIn } from "../customhooks/useIsUserLoggedIn";
 
+//Framer
+import { motion } from "framer-motion";
+
+//Animations
+import { pageAnimations } from "../constants/animation";
+
 export const AdminGuard = () => {
     const { isUserTypeSet, userType } = useIsUserTypeSet()
     const { isUserLoggedIn } = useIsUserLoggedIn()
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            exit={{ opacity: 0, x: 50 }}
+            key="admin"
+            layout
+            {...pageAnimations}
         >
-            {
-                (
-                    (isUserTypeSet && userType === "admin")
-                    && isUserLoggedIn
-                )
-                    ? <Admin /> : <Navigate to={"/home"} />
-            }
+            <div>
+                {
+                    (
+                        (isUserTypeSet && userType === "admin")
+                        && isUserLoggedIn
+                    )
+                        ? <Admin /> : <Navigate to={"/home"} />
+                }
+            </div>
+
         </motion.div>
     )
 }

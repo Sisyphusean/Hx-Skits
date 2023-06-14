@@ -22,5 +22,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <App />
       </AppDataContextProvider>
     </BrowserRouter>
-  </AnimatePresence>,
+  </AnimatePresence>
 )

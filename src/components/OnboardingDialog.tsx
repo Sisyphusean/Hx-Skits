@@ -22,7 +22,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
 })
 
 
-export default function Dialog() {
+export default function OnboardingDialog() {
     const notificationStateIndicators = { enabled: "✅", disabled: "🟠" }
     const [currentPage, setCurrentPage] = useState(1)
     const [isDialogOpen, toggleDialogOpen] = useState(true)
@@ -474,7 +474,7 @@ export default function Dialog() {
      */
     return (
         <div className={` transition-all duration-300 absolute top-0 p-0 m-0 h-screen bg-opacity-80 bg-charlestoneGreen text-white 
-        inset-0 flex flex-col items-center justify-center z-50 overflow-hidden 
+        inset-0 flex flex-col items-center justify-center z-50 overflow-hidden
         ${isDialogOpen ? 'opacity-100' : 'opacity-0 -translate-y-40 pointer-events-none'} `}>
             {isUserBrowserSupported ? pageToDisplay : unsupportedBrowserPage}
         </div>

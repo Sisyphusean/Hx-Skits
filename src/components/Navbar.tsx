@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from "react"
 
 //React Router
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, Link } from "react-router-dom"
 
 //React Hooks
 import { useContext } from "react"
@@ -35,7 +35,7 @@ export default function Navbar() {
     const navigate = useNavigate()
 
     return (
-        <nav className="sticky top-0 bg-charlestoneGreen p-2
+        <nav className="sticky top-0 bg-charlestoneGreen p-2 z-10 mb-4
         md:flex md:flex-row md:flex-wrap md:justify-between md:pt-0">
 
             <div className="flex flex-row flex-wrap justify-between font-medium m-0 border-box content-center">
@@ -56,19 +56,17 @@ export default function Navbar() {
                     xxs:flex-col xxs:gap-2
                     sm:flex-row sm:gap-6">
 
-                    {((location !== "/home" && location !== "/") && isUserLoggedIn) ?
-                        <button
-                            onClick={(event) => {
-                                event.preventDefault()
-                                navigate("/home")
-                            }}
-                            type="button"
-                            className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
+                    {((location !== "/home" && location !== "/")) ?
+                        <Link to={"home"}>
+                            <button
+                                type="button"
+                                className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
                     text-base m-0 items-center border-2 border-charlestoneGreen rounded p-2 py-0.25 mb-6
                     hover:bg-silver hover:scale-105 hover:text-charlestoneGreen
                     md:m-0 md:text-white md:border-white md:p-2 md:bg-transparent">
-                            Switch to Community mode
-                        </button> : ""
+                                Switch to Community mode
+                            </button>
+                        </Link> : ""
                     }
 
                     {
@@ -87,7 +85,7 @@ export default function Navbar() {
                             </button> : ""
                     }
 
-                    {(appData.userData.userType === "admin" && (location === "/admin")) ?
+                    {(appData.userData.userType === "admin" && isUserLoggedIn) ?
                         <button
                             onClick={(event) => {
                                 event.preventDefault()
@@ -100,22 +98,6 @@ export default function Navbar() {
                     md:m-0 md:text-white md:border-white md:p-2 md:bg-transparent">
                             Log out
                         </button> : ""
-                    }
-
-                    {
-                        (appData.userData.userType === "limited" && location !== "/login") ?
-                            <a
-                                onClick={(event) => {
-                                    event.preventDefault()
-                                    navigate("/login")
-                                }}
-                                href=""
-                                className="text-charlestoneGreen transition ease-in-out text-base m-0 flex items-center 
-                                justify-center
-                                md:text-white
-                                hover:scale-105 hover:underline">
-                                Are you a mod?
-                            </a> : ""
                     }
 
 

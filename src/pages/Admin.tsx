@@ -6,6 +6,12 @@ import AdminPageSkitSelector from "../components/admin_page_components/AdminPage
 import AdminPageSetTags from "../components/admin_page_components/AdminPageSetTags";
 import Navbar from "../components/Navbar";
 
+//Framer
+import { motion } from "framer-motion";
+
+//Animations
+import { pageAnimations } from "../constants/animation";
+
 
 export default function Admin() {
     const possibleComponents = { selector: "selector", nameSkit: "nameSkit" }
@@ -15,11 +21,12 @@ export default function Admin() {
         <div
             id="adminPage"
             className="h-full justify-center items-center w-full rounded-lg mb-2">
-            <Navbar />
+
 
             <div
                 className="flex flex-col w-full items-center justify-center h-full">
-                {currentComponent === possibleComponents.selector ? <AdminPageSkitSelector />
+                {currentComponent === possibleComponents.selector
+                    ? <AdminPageSkitSelector />
                     : (
                         <div className="flex flex-col w-full items-center gap-8">
                             <AdminPageSetTags />
@@ -27,7 +34,6 @@ export default function Admin() {
                         </div>)
                 }
             </div>
-
         </div>
     )
 }

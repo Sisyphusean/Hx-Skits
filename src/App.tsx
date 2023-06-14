@@ -10,22 +10,25 @@ import 'react-toastify/dist/ReactToastify.css';
 //Components
 import { ToastContainer } from 'react-toastify'
 import Footer from './components/Footer'
-import Dialog from './components/Dialog'
+import OnboardingDialog from './components/OnboardingDialog'
+import Navbar from './components/Navbar';
 
 //Guards
 import { OnboardingGuard } from './guards/OnboardingGuard'
-
-//Framer Motion
 import { HomeGuard } from './guards/HomeGuard'
 import { AdminGuard } from './guards/AdminGuard'
 import { LoginGuard } from './guards/LoginGuard'
-import { useEffect, useState } from 'react';
-import { beforeInstallPromptEvent } from './interfaces/datainterfaces';
+
+//Custom Hooks
+import { useIsUserTypeSet } from "./customhooks/useOnboardingGuardHook";
+import { useIsUserLoggedIn } from './customhooks/useIsUserLoggedIn';
+
 
 function App() {
 
-  const currentPath = useLocation().pathname
-
+  const location = useLocation()
+  const { userType } = useIsUserTypeSet()
+  const { isUserLoggedIn } = useIsUserLoggedIn()
 
   return (
 
@@ -34,12 +37,16 @@ function App() {
       className='flex flex-col scroll-smooth h-screen w-screen'>
 
       {/* {currentPath === "/home" ? <Dialog /> : null} */}
+      {location.pathname !== "/" ? <Navbar /> : null}
+
+      {/**Render the Onboarding dialog only if the user is not logged in */}
+      {userType !== "unset" && !isUserLoggedIn ? <OnboardingDialog /> : ""}
 
       <div id="mainArea" className="relative flex gap-8 flex-col ">
         <div className='absolute'>
           <ToastContainer limit={1} />
         </div>
-        <Routes>
+        <Routes location={location} key={location.pathname}>
           <Route path="/" element={OnboardingGuard()} />
           <Route path="/login" element={LoginGuard()} />
           <Route path="/home" element={HomeGuard()} />

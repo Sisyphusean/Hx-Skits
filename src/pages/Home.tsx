@@ -1,6 +1,3 @@
-//React
-import React, { useEffect } from 'react';
-
 //Components
 import Navbar from '../components/Navbar';
 import HomepageSkitComponent from '../components/home_page_components/HomePageSkitComponent';
@@ -13,22 +10,18 @@ import { AppDataContext } from '../contexts/appdatacontext';
 
 //React Hooks
 import { useContext } from "react";
-import Dialog from '../components/Dialog';
 
-//Custom Hooks
-import { useIsUserLoggedIn } from '../customhooks/useIsUserLoggedIn';
+//Animations
+import { pageAnimations } from '../constants/animation';
 
 
 export default function Home() {
 
     const { appData } = useContext(AppDataContext)
-    const { isUserLoggedIn } = useIsUserLoggedIn()
 
     return (
+
         <div id="home" className="px-4 ">
-            <Navbar />
-            {/**Render the dialog only if the user is not logged in */}
-            {isUserLoggedIn ? "" : <Dialog />}
             <div className='flex flex-row flex-wrap px-4 gap-8 h-4/6
              sm:px-32
              lg:px-52'>
@@ -59,6 +52,7 @@ export default function Home() {
                 </div>
 
             </div>
-        </div>
+        </div >
+
     )
 }
