@@ -233,7 +233,7 @@ export default function OnboardingDialog() {
             }
         }
 
-    }, [appData.userData.areNotificationEnabled])
+    }, [appData])
 
     const getClassNameDependingOnPage = useCallback((currentPage: number, pageToCheckAgainst = 1) => {
         return (`transition-all transform duration-500 w-8/12 h-full flex flex-wrap 

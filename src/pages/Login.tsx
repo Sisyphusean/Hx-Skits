@@ -19,7 +19,7 @@ import { AppDataContext } from "../contexts/appdatacontext";
 import { appData as appDataType } from "../interfaces/datainterfaces";
 
 //React Hooks
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 
 //React Router Hooks
 import { useNavigate } from "react-router-dom";
