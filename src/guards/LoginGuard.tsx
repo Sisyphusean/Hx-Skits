@@ -10,6 +10,9 @@ import { useIsUserLoggedIn } from "../customhooks/useIsUserLoggedIn";
 //Import React Router Hooks
 import { Navigate } from "react-router-dom";
 
+//Import Page Animations
+import { pageAnimations } from "../constants/animation";
+
 export const LoginGuard = () => {
 
     const { isUserLoggedIn } = useIsUserLoggedIn()
@@ -26,10 +29,7 @@ export const LoginGuard = () => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            exit={{ opacity: 0, x: 50 }}
+            {...pageAnimations}
         >
             {page}
         </motion.div>

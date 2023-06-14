@@ -1,12 +1,11 @@
 // Components
 import Input from "../components/TextInput"
-import Navbar from "../components/Navbar"
 
 //Services
-import { getter, poster } from "../services/apirequests"
+import { poster } from "../services/apirequests"
 
 //RHF
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 //Interfaces
 import { toastHandler } from "../utilities/toastHandler";
@@ -20,49 +19,66 @@ import { AppDataContext } from "../contexts/appdatacontext";
 import { appData as appDataType } from "../interfaces/datainterfaces";
 
 //React Hooks
-import { useContext } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 //React Router Hooks
 import { useNavigate } from "react-router-dom";
 
+//Framer Motion Imports
+import { motion, useAnimate } from "framer-motion"
+
 export default function Login() {
-    const { register, watch, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const { appData } = useContext(AppDataContext)
+    const [isApiLoading, setApiLoadingState] = useState(false)
+    const [scope, animate] = useAnimate()
     const navigate = useNavigate()
     const customSetAppData = useSetAppData()
     let usernameErrorMessage = null
     let passwordErrorMessage = null
 
+
+    const onLoading = (isRequestLoading: boolean) => {
+        if (isRequestLoading) {
+            setApiLoadingState(true)
+        } else {
+            setApiLoadingState(false)
+        }
+    }
+
     //HandleLogin
     const handleLogin = async (formData: any) => {
         if (!errors.password && !errors.username) {
-            poster(import.meta.env.VITE_LOGIN_PATH, formData).then(
-                (apiResponse) => {
-                    if (apiResponse.status == 400) {
-                        toastHandler.showErrorToast("You've entered an invalid username or password. Please try again", "top-right")
-                        return
-                    }
-
-                    toastHandler.showSuccessToast("You've successfully logged in", "top-right")
-                    let { id, username, token } = apiResponse.data as loginResponse
-                    let newData: appDataType = {
-                        ...appData,
-                        userData: {
-                            ...appData.userData,
-                            userId: id,
-                            username: username,
-                            userToken: token,
-                            userType: "admin"
+            poster(
+                import.meta.env.VITE_LOGIN_PATH,
+                formData,
+                onLoading).then(
+                    (apiResponse) => {
+                        if (apiResponse.status == 400) {
+                            toastHandler.showErrorToast("You've entered an invalid username or password. Please try again", "top-right")
+                            return
                         }
-                    }
 
-                    //Update user data to reflect the new user data
-                    customSetAppData(newData)
-                    setTimeout(() => {
-                        navigate("/admin")
-                    }, 2000)
-                }
-            )
+                        toastHandler.showSuccessToast("You've successfully logged in", "top-right")
+                        let { id, username, token } = apiResponse.data as loginResponse
+                        let newData: appDataType = {
+                            ...appData,
+                            userData: {
+                                ...appData.userData,
+                                userId: id,
+                                username: username,
+                                userToken: token,
+                                userType: "admin"
+                            }
+                        }
+
+                        //Update user data to reflect the new user data
+                        customSetAppData(newData)
+                        setTimeout(() => {
+                            navigate("/admin")
+                        }, 2000)
+                    }
+                )
         }
     }
 
@@ -114,12 +130,32 @@ export default function Login() {
                                 />
 
                                 <button type="submit"
-                                    className="gap-2 content-center border-2 text-white bg-deepBlue-500
+                                    className="flex flex-row gap-2 align-middle items-center border-2 text-white bg-deepBlue-500
                                     rounded-lg py-4 px-8 transition font-medium ml-auto mt-4	
                                     hover:font-medium hover:bg-belizeHole-500 hover:scale-105
                                     active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95">
-                                    Login
-                                    <img title="" alt="Right arrow" className="inline-block pl-1" src="./assets/arrowRight.svg" />
+
+                                    {isApiLoading ? "Logging you in" : "Login"}
+
+                                    
+                                    <motion.div
+                                        className="m-0 p-0 flex flex-row"
+                                        animate={isApiLoading ? { rotate: [0, 360] } : { rotate: 0 }}
+                                        transition={isApiLoading
+                                            ? {
+                                                ease: "linear",
+                                                duration: 1.5,
+                                                flip: Infinity,
+                                                repeat: Infinity
+                                            } : { duration: 0, flip: 0, repeat: 0 }}
+                                    >
+                                        <img
+                                            ref={scope}
+                                            title=""
+                                            alt={isApiLoading ? "Loading Spinner" : "Right arrow"}
+                                            className={`inline-block ${isApiLoading ? "ml-2" : "pl-1"}`}
+                                            src={isApiLoading ? "./assets/spinner-third.svg" : "./assets/arrowRight.svg"} />
+                                    </motion.div>
                                 </button>
                             </form>
                         </div>
@@ -129,6 +165,6 @@ export default function Login() {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }

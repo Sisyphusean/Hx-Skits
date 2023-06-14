@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { apiResponse } from '../interfaces/apiinterfaces';
 
 const environment = import.meta.env.VITE_ENV
@@ -35,17 +35,33 @@ export const getter = async (path: string): Promise<apiResponse> => {
  * @param JWT This is the JWT that is sent to the backend in order to authenticate the user
  * @returns The response from the path if successful
  */
-export const poster = async (path: string, data: Object, JWT: string | null = null): Promise<apiResponse> => {
+export const poster = async (
+    path: string,
+    data: Object,
+    onLoading?: Function,
+    JWT: string | null = null): Promise<apiResponse> => {
     try {
 
         if (JWT) {
             axiosInstance.defaults.headers['Authorization'] = `Bearer ${JWT}`
         }
 
+        if (onLoading) {
+            onLoading(true)
+        }
+
         const response = await axiosInstance.post(path, data)
+        if (onLoading) {
+            console.log("Loading is supposed to be done")
+            onLoading(false)
+        }
         return response.data as apiResponse
 
     } catch (error) {
+        if (onLoading) {
+            onLoading(false)
+        }
+
         if (axios.isAxiosError(error)) {
             return error.response?.data as apiResponse
         } else {
