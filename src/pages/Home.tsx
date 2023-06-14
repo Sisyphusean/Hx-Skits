@@ -15,19 +15,20 @@ import { AppDataContext } from '../contexts/appdatacontext';
 import { useContext } from "react";
 import Dialog from '../components/Dialog';
 
+//Custom Hooks
+import { useIsUserLoggedIn } from '../customhooks/useIsUserLoggedIn';
 
 
 export default function Home() {
 
     const { appData } = useContext(AppDataContext)
-
-
-
+    const { isUserLoggedIn } = useIsUserLoggedIn()
 
     return (
         <div id="home" className="px-4 ">
             <Navbar />
-            <Dialog />
+            {/**Render the dialog only if the user is not logged in */}
+            {isUserLoggedIn ? "" : <Dialog />}
             <div className='flex flex-row flex-wrap px-4 gap-8 h-4/6
              sm:px-32
              lg:px-52'>
