@@ -62,6 +62,7 @@ export default function Navbar() {
                                 type="button"
                                 className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
                     text-base m-0 items-center border-2 border-charlestoneGreen rounded p-2 py-0.25 mb-6
+                    xxs:w-full
                     hover:bg-silver hover:scale-105 hover:text-charlestoneGreen
                     md:m-0 md:text-white md:border-white md:p-2 md:bg-transparent">
                                 Switch to Community mode
