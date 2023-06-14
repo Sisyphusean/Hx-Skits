@@ -29,12 +29,8 @@ export const HomeGuard = () => {
         page = <Navigate to={"/"} />
     }
 
-    if (isUserTypeSet && !isUserLoggedIn) {
+    if (isUserTypeSet) {
         page = <Home />
-    }
-
-    if (isUserTypeSet && isUserLoggedIn) {
-        page = <Admin />
     }
 
     return (

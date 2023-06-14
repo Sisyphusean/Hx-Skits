@@ -1,10 +1,6 @@
 // React Imports
 import React, { useCallback, useState } from "react"
 
-//Components
-import { ReactComponent as Hamburger } from "../assets/hamburgerMenu.svg"
-
-
 //React Router
 import { useLocation, useNavigate } from "react-router-dom"
 
@@ -14,6 +10,9 @@ import { useContext } from "react"
 //Import App data context
 import { AppDataContext } from "../contexts/appdatacontext"
 
+//Hook
+import { useIsUserLoggedIn } from "../customhooks/useIsUserLoggedIn"
+
 /**
  * This is the component that renders the Navbar and controls it behavior
  * @returns Navbar React Component
@@ -22,9 +21,7 @@ export default function Navbar() {
     const [isVisible, setVisibility] = useState(false)
 
     const location = useLocation().pathname
-
-
-
+    const { isUserLoggedIn } = useIsUserLoggedIn()
     const { appData } = useContext(AppDataContext)
 
     /**
@@ -55,9 +52,11 @@ export default function Navbar() {
             md:flex md:flex-row md:gap-8 md:bg-transparent md:text-white md:visible md:relative md:w-auto
             ${!isVisible ? "invisible animate-y-down" : "visible animate-y-up"}`}>
                 <div
-                    className="w-full flex flex-col">
+                    className="w-full flex
+                    xxs:flex-col xxs:gap-2
+                    sm:flex-row sm:gap-6">
 
-                    {((location !== "/home" && location !== "/")) ?
+                    {((location !== "/home" && location !== "/") && isUserLoggedIn) ?
                         <button
                             onClick={(event) => {
                                 event.preventDefault()
@@ -72,19 +71,20 @@ export default function Navbar() {
                         </button> : ""
                     }
 
-                    {(appData.userData.userType === "admin" && (location !== "/login" && location !== "/admin")) ?
-                        <button
-                            onClick={(event) => {
-                                event.preventDefault()
-                                navigate("/login")
-                            }}
-                            type="button"
-                            className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
+                    {
+                        (((location !== "/login" && location !== "/admin")))
+                            ? <button
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    navigate("/login")
+                                }}
+                                type="button"
+                                className="inline-block transition ease-in-out delay-150 text-charlestoneGreen
                     text-base m-0 items-center border-2 border-charlestoneGreen rounded p-2 py-0.25 mb-6
                     hover:bg-silver hover:scale-105 hover:text-charlestoneGreen
                     md:m-0 md:text-white md:border-white md:p-2 md:bg-transparent">
-                            Login to the Skit Tool
-                        </button> : ""
+                                {isUserLoggedIn ? "Switch to Mod mode" : "Login to the Skit Tool"}
+                            </button> : ""
                     }
 
                     {(appData.userData.userType === "admin" && (location === "/admin")) ?
