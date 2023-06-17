@@ -10,8 +10,15 @@ import { useContext } from "react"
 //Import App data context
 import { AppDataContext } from "../contexts/appdatacontext"
 
+//Custom Hooks
+import { useSetAppData } from "../customhooks/useSetAppData"
+
 //Hook
 import { useIsUserLoggedIn } from "../customhooks/useIsUserLoggedIn"
+
+//Utils
+import { logUserOutLocally } from "../utilities/loguseroutlocally"
+import { toastHandler } from "../utilities/toastHandler"
 
 /**
  * This is the component that renders the Navbar and controls it behavior
@@ -23,6 +30,12 @@ export default function Navbar() {
     const location = useLocation().pathname
     const { isUserLoggedIn } = useIsUserLoggedIn()
     const { appData } = useContext(AppDataContext)
+    const setAppData = useSetAppData()
+    const logOut = () => {
+        let loggedOutAppData = logUserOutLocally(appData)
+        setAppData(loggedOutAppData)
+        toastHandler.showSuccessToast("You've successfully logged out", "top-right")
+    }
 
     /**
      * This function toggles the visibility of the navbar
@@ -92,8 +105,9 @@ export default function Navbar() {
 
                     {(appData.userData.userType === "admin" && isUserLoggedIn) ?
                         <button
-                            onClick={(event) => {
+                            onClick={async (event) => {
                                 event.preventDefault()
+                                await logOut()
                                 navigate("/home")
                             }}
                             type="button"

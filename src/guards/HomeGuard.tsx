@@ -22,7 +22,6 @@ import { pageAnimations } from "../constants/animation";
 
 export const HomeGuard = () => {
     const { isUserTypeSet } = useIsUserTypeSet()
-    const { isUserLoggedIn } = useIsUserLoggedIn()
     let page;
 
     if (!isUserTypeSet) {

@@ -18,8 +18,11 @@ const axiosInstance = axios.create({
  * @param path This is the sub path of the url that you want to fetch data from
  * @returns The response from the path if successful
  */
-export const getter = async (path: string): Promise<apiResponse> => {
+export const getter = async (path: string, JWT: string | null = null): Promise<apiResponse> => {
     try {
+        if (JWT) {
+            axiosInstance.defaults.headers['Authorization'] = `Bearer ${JWT}`
+        }
         const response = await axiosInstance.get(path)
         return response.data as apiResponse
     } catch (error) {
@@ -52,7 +55,6 @@ export const poster = async (
 
         const response = await axiosInstance.post(path, data)
         if (onLoading) {
-            console.log("Loading is supposed to be done")
             onLoading(false)
         }
         return response.data as apiResponse

@@ -12,11 +12,11 @@ const checkBrowserBrandName = (brandName: supportedBrowsers) => {
         return brandDataArray.map((brandObject: any) => {
 
             if (brandObject.brand === brandName) {
-                (
-                    import.meta.env.VITE_ENV === "dev" ?
-                        console.log(`Is ${brandObject.brand} equal to ${brandName}: ${brandObject.brand === brandName}`)
-                        : ""
-                )
+                // (
+                //     import.meta.env.VITE_ENV === "dev" ?
+                //         console.log(`Is ${brandObject.brand} equal to ${brandName}: ${brandObject.brand === brandName}`)
+                //         : ""
+                // )
                 return true
             }
 

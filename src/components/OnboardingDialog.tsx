@@ -95,7 +95,7 @@ export default function OnboardingDialog() {
             if (defferedPrompt === null && appData.userData.userPlatform === "ios") {
 
                 let isPwaInstalled = isIosPwaInstalled()
-                console.log(isPwaInstalled)
+                // console.log(isPwaInstalled)
                 if (isPwaInstalled) {
                     setAppData(
                         {
@@ -201,7 +201,7 @@ export default function OnboardingDialog() {
             // instead.
             if (error instanceof TypeError) {
                 Notification.requestPermission((permission) => {
-                    console.log("Notifications are not enabled")
+                    // console.log("Notifications are not enabled")
 
                     //This will try to get the user to grant notification permission, if such a permission
                     // is not granted prior. It would also update the AppData to reflect the user's choice

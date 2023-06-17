@@ -30,7 +30,9 @@ export interface userData {
     //This property specifies if the application has been installed succesfully as a PWA
     hasUserInstalledAppAsPwa: boolean,
     //This property stores the date the user first opened the application
-    firstOpened: Date | string
+    firstOpened: Date | string,
+    //This property is used to identify if the user is logged in
+    isUserLoggedIn: boolean | string
 }
 
 /**
@@ -92,4 +94,11 @@ export interface beforeInstallPromptEvent extends Event {
 export interface userPWAInstallResultInterface {
     outcome: 'accepted' | 'dismissed';
     platform: platform;
+}
+
+export interface jwtDecodedInterface {
+    id: string,
+    username: string,
+    iat: number,
+    exp: number
 }

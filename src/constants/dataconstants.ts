@@ -26,6 +26,7 @@ const emptyUserData: userData = {
     userPlatform: "unknown",
     hasUserInstalledAppAsPwa: false,
     firstOpened: new Date(),
+    isUserLoggedIn: false
 }
 
 const emptyNameSkitData: nameSkitData = {

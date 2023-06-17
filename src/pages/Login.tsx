@@ -68,7 +68,8 @@ export default function Login() {
                                 userId: id,
                                 username: username,
                                 userToken: token,
-                                userType: "admin"
+                                userType: "admin",
+                                isUserLoggedIn: true
                             }
                         }
 

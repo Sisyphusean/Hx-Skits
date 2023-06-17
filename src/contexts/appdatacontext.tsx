@@ -11,7 +11,7 @@ import { appDataContextType } from "../types/types";
 //Store of the entire app's data
 export const AppDataContext = createContext<appDataContextType>({
     appData: emptyAppData,
-    setAppData: () => { }
+    setAppData: () => { console.log("Function still empty") }
 });
 
 //Define the app's data context provider
@@ -23,12 +23,14 @@ export function AppDataContextProvider({ children }: { children: React.ReactNode
             let appDataResult = await getAppDataInLocalStorage()
 
             if (!appDataResult) {
+                console.log("initializing app data")
                 //Data doesn't exist and is set to false
                 setAppDataInLocalStorage(appData)
             }
 
             if (appDataResult) {
                 //Data exists
+                console.log("Setting app data from local storage")
                 setAppData(appDataResult)
             }
         }

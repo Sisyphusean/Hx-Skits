@@ -9,15 +9,43 @@ import HomePageTutorialCard from '../components/home_page_components/HomePageTut
 import { AppDataContext } from '../contexts/appdatacontext';
 
 //React Hooks
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 //Animations
 import { pageAnimations } from '../constants/animation';
+import { checkUserTokenValidity } from '../utilities/checkusertokenvalidity';
+import { toastHandler } from '../utilities/toastHandler';
+import { logUserOutLocally } from '../utilities/loguseroutlocally';
 
+//Custom Hook
+import { useSetAppData } from '../customhooks/useSetAppData';
 
 export default function Home() {
 
     const { appData } = useContext(AppDataContext)
+    const setAppData = useSetAppData()
+
+    useEffect(() => {
+
+        const checkUserTokenValidityAndLogUserOutIfInvalid = async () => {
+            if (appData.userData.userToken
+                && appData.userData.username) {
+                let isJWTValid = await checkUserTokenValidity(appData.userData.userToken, appData.userData.username)
+                // console.log("User token is: ", isJWTValid ? "valid" : "invalid")
+
+                if (!isJWTValid) {
+                    let newData = logUserOutLocally(appData)
+                    toastHandler.showErrorToast("Your session has expired. Please login again.", "top-right")
+                    setAppData(newData)
+                }
+
+            }
+        }
+
+        checkUserTokenValidityAndLogUserOutIfInvalid()
+
+    }, [])
+
 
     return (
 

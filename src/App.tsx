@@ -1,6 +1,5 @@
 import './App.css'
 
-
 //React Router
 import { Routes, Route, useLocation } from "react-router-dom"
 
@@ -22,13 +21,24 @@ import { LoginGuard } from './guards/LoginGuard'
 //Custom Hooks
 import { useIsUserTypeSet } from "./customhooks/useOnboardingGuardHook";
 import { useIsUserLoggedIn } from './customhooks/useIsUserLoggedIn';
+import { useUsersJWT } from './customhooks/useUsersJWT';
+import { useGetUsername } from './customhooks/useGetUsername';
+
+//React Hooks
+import { useEffect, useContext } from 'react';
+
+//Utils
+import { checkUserTokenValidity } from './utilities/checkusertokenvalidity';
+import { AppDataContext } from './contexts/appdatacontext';
+import { toastHandler } from './utilities/toastHandler';
 
 
 function App() {
-
   const location = useLocation()
   const { userType } = useIsUserTypeSet()
-  const { isUserLoggedIn } = useIsUserLoggedIn()
+
+  const { appData, setAppData } = useContext(AppDataContext)
+
 
   return (
 
@@ -40,7 +50,10 @@ function App() {
       {location.pathname !== "/" ? <Navbar /> : null}
 
       {/**Render the Onboarding dialog only if the user is not logged in */}
-      {userType !== "unset" && !isUserLoggedIn ? <OnboardingDialog /> : ""}
+      {userType !== "unset"
+        && !appData.userData.isUserLoggedIn
+        && appData.userData.onboardingState === "incomplete"
+        ? <OnboardingDialog /> : ""}
 
       <div id="mainArea" className="relative flex gap-8 flex-col ">
         <div className='absolute'>

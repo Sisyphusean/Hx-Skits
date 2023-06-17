@@ -18,4 +18,10 @@ interface ImportMetaEnv {
     BE_BASE_URL: string,
     /**This string specifies the dev Backend URL */
     DEV_BE_BASE_URL: string,
+    /** This string specifies the login path URL */
+    VITE_LOGIN_PATH: string,
+    /** This string specifies the path used to authenticate the JWT */
+    VITE_JWT_VALIDATION_PATH: string,
+    /**This is the secret key used in encrypting the JWT */
+    VITE_JWT_SECRET: string,
 }
