@@ -43,7 +43,6 @@ export const getAppDataInLocalStorage = async (): Promise<appData | false> => {
  * @returns 
  */
 export const setAppDataInLocalStorage = async (appData: appData) => {
-    console.log(appData)
     let encryptedData = encryptAppDataToBeStoredInLocalStorage(appData)
     try {
         if (encryptedData) {
