@@ -25,14 +25,15 @@ export default function Admin() {
 
             <div
                 className="flex flex-col w-full items-center justify-center h-full">
-                {currentComponent === possibleComponents.selector
+                {/* {currentComponent === possibleComponents.selector
                     ? <AdminPageSkitSelector />
                     : (
                         <div className="flex flex-col w-full items-center gap-8">
                             <AdminPageSetTags />
                             <AdminPageNameSkitActivity />
                         </div>)
-                }
+                } */}
+                <AdminPageSkitSelector />
             </div>
         </div>
     )

@@ -1,5 +1,15 @@
+//React Hook Forms
+import { useForm } from "react-hook-form";
+
+//Types
+import { skitTypes } from "../../types/types";
+
+//Select Component
+import Select from "../SelectInput";
+
 export default function AdminPageSkitSelector() {
-    const skitTypes = ['Name skit']
+    const { register, handleSubmit, formState: { errors } } = useForm()
+    const skitTypes: skitTypes[] = ['none', 'nameSkit']
 
     return (
         <div
@@ -13,32 +23,15 @@ export default function AdminPageSkitSelector() {
 
             <div className="mt-4 w-full">
 
-                <label>
-                    What community skit is Hyphonix currently running?
-                </label>
-
-                <select
-                    className="transition border-silver border-2 cursor-pointer rounded-lg px-4 py-3 mt-2 w-full
-                hover:border-deepBlue-500 hover:font-medium hover:bg-gray-100"
-                    name="skitSelector" id="">
-
-                    <option
-                        className="p-4"
-                        value="">Select a skit
-                    </option>
-
-                    {skitTypes.map((skitType) => {
-                        return (
-                            <option
-                                className="p-4"
-                                value={skitType}
-                            >
-                                {skitType}
-                            </option>
-                        )
-                    })}
-
-                </select>
+                <Select
+                    id="skitType"
+                    label="What community skit is Hyphonix currently running?"
+                    helpText="Test"
+                    title="Skit selector"
+                    errorMessage=""
+                    options={skitTypes}
+                    register={register}
+                />
 
                 <div
                     className="w-full flex flex-row justify-end mt-8">

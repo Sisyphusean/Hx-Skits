@@ -20,25 +20,21 @@ import { LoginGuard } from './guards/LoginGuard'
 
 //Custom Hooks
 import { useIsUserTypeSet } from "./customhooks/useOnboardingGuardHook";
-import { useIsUserLoggedIn } from './customhooks/useIsUserLoggedIn';
-import { useUsersJWT } from './customhooks/useUsersJWT';
-import { useGetUsername } from './customhooks/useGetUsername';
 
 //React Hooks
-import { useEffect, useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 //Utils
-import { checkUserTokenValidity } from './utilities/checkusertokenvalidity';
 import { AppDataContext } from './contexts/appdatacontext';
+
+//Services
 import { toastHandler } from './utilities/toastHandler';
 
 
 function App() {
   const location = useLocation()
   const { userType } = useIsUserTypeSet()
-
   const { appData, setAppData } = useContext(AppDataContext)
-
 
   return (
 

@@ -25,8 +25,28 @@ export interface textInputProps {
     //This is the error message of the input field that renders below the input field
     errorMessage: string | null,
     //This is the callback to the RHF register
-    register: UseFormRegister<FieldValues> 
+    register: UseFormRegister<FieldValues>
 }
+
+export interface selectInputProps {
+    //This is the label of the select field
+    label: string,
+    //This is the id of the select field
+    id: string,
+    //This is the help text of the select field that renders on the right
+    helpText: string | null,
+    //This is the title of the select field
+    title: string,
+    //This is the error message of the select field that renders below the input field
+    errorMessage: string | null,
+    //This is the options of the select field
+    options: string[],
+    //This is the callback to the RHF register
+    register: UseFormRegister<FieldValues>
+}
+
+
+
 
 /**
  * These are props that are passed to the skitName component

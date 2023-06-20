@@ -30,3 +30,4 @@ export type buttonTypes = undefined | "button" | "submit" | "reset"
 export type buttonIcons = "arrowRight"
 export type platform = 'android' | 'ios' | 'macos' | 'windows' | 'linux' | 'chromeos' | 'unknown';
 export type supportedBrowsers = "Google Chrome" | "Safari" | "Microsoft Edge" | "Brave"
+export type skitTypes = "nameSkit" | "none"
