@@ -12,7 +12,7 @@ import * as customTypes from "../types/types";
 
 const emptyUserType: customTypes.userType = "unset";
 const emptyOnboardingState: customTypes.onboardingState = "incomplete";
-const emptyCurrentSkit: customTypes.currentSkit = "none";
+const emptyCurrentSkit: customTypes.currentSkit = undefined;
 
 const emptyUserData: userData = {
     userType: emptyUserType,

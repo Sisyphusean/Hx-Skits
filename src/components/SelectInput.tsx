@@ -2,7 +2,7 @@
 import { selectInputProps } from "../interfaces/propinterfaces";
 
 export default function Select({ register, ...props }: selectInputProps) {
-    const { label, id, helpText, errorMessage, title, options } = props
+    const { label, id, helpText, errorMessage, title, options, placeholder } = props
 
     const getSkitTypes = () => {
         return options.map((skitType, index) => {
@@ -10,7 +10,7 @@ export default function Select({ register, ...props }: selectInputProps) {
             let displayedSkitName = ""
 
             if (skitType === "nameSkit") displayedSkitName = "Name Skit"
-            if (skitType === "none") displayedSkitName = "Select a skit"
+            if (skitType === "none") displayedSkitName = "None (John is just livestreaming)"
 
             return (
                 <option
@@ -24,10 +24,8 @@ export default function Select({ register, ...props }: selectInputProps) {
         })
     }
 
-
     return (
         <div className=" w-full">
-
             <label
             >
                 <span
@@ -40,21 +38,28 @@ export default function Select({ register, ...props }: selectInputProps) {
                     {helpText && <span className="leading-none text-xs text-gray-500 md:text-s">{helpText}</span>}
                 </span>
             </label>
-
             <select
-                defaultValue={options[1]}
                 title={title}
-                className="transition border-silver border-2 cursor-pointer rounded-lg px-4 py-3 mt-2 w-full
-        hover:border-deepBlue-500 hover:font-medium hover:bg-gray-100"
+                className={`transition border-2 ${(errorMessage !== undefined && errorMessage !== null) ? "border-pomegranate-500" : "border-silver"}
+                cursor-pointer rounded-lg px-4 py-3 mt-2 w-full
+                hover:border-deepBlue-500 hover:font-medium hover:bg-gray-100`}
                 id={id}
                 {...register(id, { required: true })}
             >
-
+                <option
+                    disabled
+                    value="default"
+                >
+                    {placeholder}
+                </option>
                 {getSkitTypes()}
 
             </select>
 
-            {errorMessage && <span className="text-pomegranate-500 font-medium text-xs md:text-s">{errorMessage} </span>}
+            {(errorMessage !== undefined && errorMessage !== null)
+                ? <span className="text-pomegranate-500 font-medium text-xs md:text-s">
+                    {errorMessage}
+                </span> : ""}
         </div>
     )
 }

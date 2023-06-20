@@ -38,9 +38,11 @@ export interface selectInputProps {
     //This is the title of the select field
     title: string,
     //This is the error message of the select field that renders below the input field
-    errorMessage: string | null,
+    errorMessage: string | null | undefined,
     //This is the options of the select field
     options: string[],
+    //This is the placeholder of the select field
+    placeholder: string,
     //This is the callback to the RHF register
     register: UseFormRegister<FieldValues>
 }
