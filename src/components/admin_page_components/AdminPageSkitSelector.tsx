@@ -22,6 +22,7 @@ export default function AdminPageSkitSelector() {
     const { register, handleSubmit, watch, setError, formState: { errors, isDirty } } = useForm()
     const skitTypes: skitTypes[] = ['none', 'nameSkit', 'raid']
     const setAppData = useSetAppData()
+    const displayOptions = ["None (John is just livestreaming random stuff)", "Community name skit", "Raid Shadow Legends"]
     const { appData } = useGetAppData()
 
     const setSkit = (formData: any) => {
@@ -64,6 +65,7 @@ export default function AdminPageSkitSelector() {
                         errorMessage={errors.skitType && errors.skitType.message as string}
                         placeholder="Select a skit"
                         options={skitTypes}
+                        displayedOptions={displayOptions}
                         register={register}
                     />
 
