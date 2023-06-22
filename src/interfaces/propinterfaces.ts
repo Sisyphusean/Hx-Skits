@@ -7,6 +7,7 @@ import { loginForm } from "./forminterfaces"
 
 //RHF type import
 import { FieldValues } from "react-hook-form"
+import { MouseEventHandler } from "react"
 
 /**
  * These are props that are passed to the Input component
@@ -23,7 +24,7 @@ export interface textInputProps {
     //This is the help text of the input field that renders on the right
     helpText: string | null,
     //This is the error message of the input field that renders below the input field
-    errorMessage: string | null,
+    errorMessage: string | null | undefined,
     //This is the callback to the RHF register
     register: UseFormRegister<FieldValues>
 }
@@ -39,8 +40,10 @@ export interface selectInputProps {
     title: string,
     //This is the error message of the select field that renders below the input field
     errorMessage: string | null | undefined,
-    //This is the options of the select field
+    //This is the option values of the select field
     options: string[],
+    //These are the options that are displayed to the user
+    displayedOptions: string[],
     //This is the placeholder of the select field
     placeholder: string,
     //This is the callback to the RHF register
@@ -116,6 +119,10 @@ export interface radioProps {
     setActiveRadio?: React.Dispatch<React.SetStateAction<null>>,
     /** This is the active user Type that has been selected */
     selectedUserType?: string,
+    //Override classes
+    overrideClasses?: string,
+    //Addiitonal variables
+    additionalVariables?: { platform?: string }
     /** This is the callback to the RHF register*/
     register: UseFormRegister<FieldValues>
 }
@@ -135,6 +142,10 @@ export interface buttonProps {
     buttonIcon?: buttonIcons,
     //These are override classes that are used to override the default classes
     overrideClasses?: string,
+    //This is the custom svg that should be added to the button
+    customSVG?: React.ReactNode,
+    //This is the callback to the onClick handler
+    onClick?: MouseEventHandler<HTMLButtonElement>,
 
 }
 
@@ -147,4 +158,12 @@ export interface homePageLiveIndicatorProps {
     isHyphonixLiveOnYoutube: boolean,
     //This is the link to Hyphonix's live Youtube stream
     linkToHyphonixYoutube?: string,
+}
+
+export interface adminPageNameSkitActivityProps {
+}
+
+export interface adminLiveStreamSelectorProps {
+    //This is used to indicate whether the component should display minified
+    minified: boolean,
 }

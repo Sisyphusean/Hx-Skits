@@ -114,9 +114,9 @@
 }
 
 /* Component classes */
-input[type="radio"] {
+/* input[type="radio"] {
     display: none;
-}
+} */
 
 input:invalid {
     outline: none;

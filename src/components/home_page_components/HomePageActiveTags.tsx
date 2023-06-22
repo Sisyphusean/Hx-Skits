@@ -16,11 +16,13 @@ export default function ActiveTags(props: activeTagsProps) {
             return (
                 <span
                     title={`Additional tags are ${remainingTags.map((tag, index, mappedArray) => {
-                        if (index < mappedArray.length - 1) {
-                            return tag[0].toUpperCase() + tag.slice(1) + ", "
-                        }
-                        if (index === mappedArray.length - 1) {
-                            return tag[0].toUpperCase() + tag.slice(1)
+                        if (tag !== "") {
+                            if (index < mappedArray.length - 1) {
+                                return tag[0].toUpperCase() + tag.slice(1) + ", "
+                            }
+                            if (index === mappedArray.length - 1) {
+                                return tag[0].toUpperCase() + tag.slice(1)
+                            }
                         }
                     }).join('')}`}
 
@@ -41,12 +43,14 @@ export default function ActiveTags(props: activeTagsProps) {
     //This function is used to copy all the tags to the clipboard
     async function copyTags() {
         let formattedTags = tags.map((tag, index, tagArray) => {
-            if (index !== tagArray.length - 2) {
-                return (tag[0].toUpperCase() + tag.slice(1) + ", ")
-            }
+            if (tag !== "") {
+                if (index !== tagArray.length - 2) {
+                    return (tag[0].toUpperCase() + tag.slice(1) + ", ")
+                }
 
-            if (index !== tagArray.length - 1) {
-                return (tag[0].toUpperCase() + tag.slice(1) + ", ")
+                if (index !== tagArray.length - 1) {
+                    return (tag[0].toUpperCase() + tag.slice(1) + ", ")
+                }
             }
         }).join("")
 
@@ -85,7 +89,7 @@ export default function ActiveTags(props: activeTagsProps) {
 
                             if (index <= tagArray.length - 1 && tagArray.length > 0 && index < maxTags && index !== 0) {
                                 return (
-                                    <span key={index}  className="pr-1 font-medium
+                                    <span key={index} className="pr-1 font-medium
                         bg-deepBlue-100 ml-1 p-1 border rounded-md">
                                         {tag[0].toUpperCase() + tag.slice(1)}
                                     </span>

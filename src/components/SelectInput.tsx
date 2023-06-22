@@ -2,15 +2,10 @@
 import { selectInputProps } from "../interfaces/propinterfaces";
 
 export default function Select({ register, ...props }: selectInputProps) {
-    const { label, id, helpText, errorMessage, title, options, placeholder } = props
+    const { label, id, helpText, errorMessage, title, options, placeholder, displayedOptions } = props
 
-    const getSkitTypes = () => {
+    const getDisplayedUserValues = () => {
         return options.map((skitType, index) => {
-
-            let displayedSkitName = ""
-
-            if (skitType === "nameSkit") displayedSkitName = "Name Skit"
-            if (skitType === "none") displayedSkitName = "None (John is just livestreaming)"
 
             return (
                 <option
@@ -18,7 +13,7 @@ export default function Select({ register, ...props }: selectInputProps) {
                     className="inline"
                     value={skitType}
                 >
-                    {displayedSkitName}
+                    {displayedOptions[index]}
                 </option>
             )
         })
@@ -38,6 +33,7 @@ export default function Select({ register, ...props }: selectInputProps) {
                     {helpText && <span className="leading-none text-xs text-gray-500 md:text-s">{helpText}</span>}
                 </span>
             </label>
+
             <select
                 title={title}
                 className={`transition border-2 ${(errorMessage !== undefined && errorMessage !== null) ? "border-pomegranate-500" : "border-silver"}
@@ -52,7 +48,8 @@ export default function Select({ register, ...props }: selectInputProps) {
                 >
                     {placeholder}
                 </option>
-                {getSkitTypes()}
+                
+                {getDisplayedUserValues()}
 
             </select>
 

@@ -1,6 +1,9 @@
 //Interfaces
 import { textInputProps } from "../interfaces/propinterfaces";
 
+//Button Component
+import Button from "./Button";
+
 export default function Input({ register, ...props }: textInputProps) {
     const { label, placeholder, type, id, helpText, errorMessage } = props
     return (
@@ -15,15 +18,19 @@ export default function Input({ register, ...props }: textInputProps) {
                 {helpText && <span className="leading-none text-xs text-gray-500 md:text-s">{helpText}</span>}
             </label>
 
-            <input
-                id={id}
-                className={`border-2 rounded-md ${errorMessage ? "border-pomegranate-500" : "border-silver"} h-13 p-4 m-0 w-full
+            <div
+                className="flex flex-row gap-4"
+            >
+                <input
+                    id={id}
+                    className={`border-2 rounded-md ${errorMessage ? "border-pomegranate-500" : "border-silver"} h-13 p-4 m-0 w-full
                     active:border active:border-belizeHole-500 
                     focus:border focus:border-belizeHole-500}`}
-                type={type} placeholder={placeholder}
-                {...register(id, { required: true })}
-            />
+                    type={type} placeholder={placeholder}
+                    {...register(id, { required: true })}
+                />
 
+            </div>
 
             {errorMessage && <span className="text-pomegranate-500 font-medium text-xs md:text-s">{errorMessage} </span>}
 

@@ -1,39 +1,102 @@
 
 //Components
-import { useState } from "react";
 import AdminPageNameSkitActivity from "../components/admin_page_components/AdminPageNameSkit";
-import AdminPageSkitSelector from "../components/admin_page_components/AdminPageSkitSelector";
 import AdminPageSetTags from "../components/admin_page_components/AdminPageSetTags";
-import Navbar from "../components/Navbar";
+import AdminLiveStreamSelector from "../components/admin_page_components/AdminLiveStreamSelector";
+
+//React hooks
+import { useState, useEffect, useCallback } from "react";
+
+//Custom hooks
+import { useGetAppData } from "../customhooks/useGetAppData";
 
 //Framer
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-//Animations
-import { pageAnimations } from "../constants/animation";
-
+import { possibleComponents } from "../constants/dataconstants";
 
 export default function Admin() {
-    const possibleComponents = { selector: "selector", nameSkit: "nameSkit" }
+    const { appData } = useGetAppData()
     const [currentComponent, setCurrentComponent] = useState(possibleComponents.nameSkit)
+
+    useEffect(() => {
+        console.log("appData.skitData.currentSkit", appData.skitData.currentSkit)
+        if (!appData.skitData.currentSkit) {
+            setCurrentComponent(possibleComponents.selector)
+        }
+
+        if (appData.skitData.currentSkit === "nameSkit") {
+            setCurrentComponent(possibleComponents.nameSkit)
+        }
+
+        if (appData.skitData.currentSkit === "none") {
+            setCurrentComponent(possibleComponents.livestream)
+        }
+    }, [appData])
+
+    const getCurrentNameSkit = useCallback(() => {
+
+        if (appData.skitData.currentSkit === "nameSkit") {
+            return (
+                <div className="flex flex-col m-0 p-0 gap-6">
+                    <AdminPageSetTags />
+                    <AdminPageNameSkitActivity />
+                </div>
+            )
+        } else {
+            return (
+                <div className="bg-white h-auto text-charlestoneGreen p-6 rounded-lg
+            xxs:w-full">
+                    <p
+                        className="text-charlestoneGreen opacity-60"
+                    >
+                        Please set the Hyphonix's current activity to "Community name skit" to control the community name skit updates
+                    </p>
+                </div>
+            )
+        }
+
+    }, [appData.skitData.currentSkit])
+
+    const getCurrentComponents = useCallback(() => {
+        return (
+            <motion.div
+                key="nameSkit"
+                layout
+            >
+                <div className="flex flex-col w-full items-center gap-12">
+                    <div
+                        className="flex flex-col m-0 p-0 w-full gap-6"
+                    >
+                        <h3
+                            className="text-white text-lg font-semibold"
+                        >Live stream settings</h3>
+                        <AdminLiveStreamSelector minified={true} />
+                    </div>
+
+                    <div
+                        className="flex flex-col gap-6">
+                        <h3
+                            className="text-white text-lg font-semibold"
+                        >Community name skit settings</h3>
+
+                        {getCurrentNameSkit()}
+                    </div>
+                </div>
+            </motion.div>
+        )
+    }, [currentComponent])
+
 
     return (
         <div
             id="adminPage"
-            className="h-full justify-center items-center w-full rounded-lg mb-2">
-
-
+            className="h-full justify-center items-center sm:w-6/12 xxs:10/12 mx-auto rounded-lg mb-2 p-4">
             <div
-                className="flex flex-col w-full items-center justify-center h-full">
-                {/* {currentComponent === possibleComponents.selector
-                    ? <AdminPageSkitSelector />
-                    : (
-                        <div className="flex flex-col w-full items-center gap-8">
-                            <AdminPageSetTags />
-                            <AdminPageNameSkitActivity />
-                        </div>)
-                } */}
-                <AdminPageSkitSelector />
+                className="flex flex-col  w-full items-center justify-center relative">
+                <AnimatePresence>
+                    {getCurrentComponents()}
+                </AnimatePresence>
             </div>
         </div>
     )

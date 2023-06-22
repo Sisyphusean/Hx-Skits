@@ -12,7 +12,7 @@ import * as customTypes from "../types/types";
 
 const emptyUserType: customTypes.userType = "unset";
 const emptyOnboardingState: customTypes.onboardingState = "incomplete";
-const emptyCurrentSkit: customTypes.currentSkit = undefined;
+const emptyCurrentSkit: customTypes.currentSkit = "none";
 
 const emptyUserData: userData = {
     userType: emptyUserType,
@@ -53,3 +53,5 @@ export const emptyAppData: appData = {
     skitData: emptySkitData,
     liveData: emptyLiveData
 }
+
+export const possibleComponents = { selector: "selector", nameSkit: "nameSkit", livestream: "none" }

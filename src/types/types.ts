@@ -10,10 +10,7 @@ export type userType = "admin" | "limited" | "unset"
 */
 export type onboardingState = "incomplete" | "notifications" | "pwa" | "complete"
 
-/**
- * This property indicates the current skit that is being played
- */
-export type currentSkit = "none" | "nameSkit"
+
 
 /**
  * This is used to specify the type of the context used to create the master store of the entire application
@@ -30,4 +27,9 @@ export type buttonTypes = undefined | "button" | "submit" | "reset"
 export type buttonIcons = "arrowRight"
 export type platform = 'android' | 'ios' | 'macos' | 'windows' | 'linux' | 'chromeos' | 'unknown';
 export type supportedBrowsers = "Google Chrome" | "Safari" | "Microsoft Edge" | "Brave"
-export type skitTypes = "nameSkit" | "none"
+
+/**
+ * This property indicates the current skit that is being played
+ */
+export type currentSkit = "none" | "nameSkit" | "raid" 
+export type skitTypes = "nameSkit" | "none" | "raid" 

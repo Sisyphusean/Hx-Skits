@@ -14,10 +14,13 @@ import Select from "../SelectInput";
 import { useSetAppData } from "../../customhooks/useSetAppData";
 import { useGetAppData } from "../../customhooks/useGetAppData";
 
-
+/**
+ * This allows the admin to set what activity John is currently doing
+ * @returns {JSX.Element} 
+ */
 export default function AdminPageSkitSelector() {
     const { register, handleSubmit, watch, setError, formState: { errors, isDirty } } = useForm()
-    const skitTypes: skitTypes[] = ['none', 'nameSkit']
+    const skitTypes: skitTypes[] = ['none', 'nameSkit', 'raid']
     const setAppData = useSetAppData()
     const { appData } = useGetAppData()
 
@@ -38,15 +41,15 @@ export default function AdminPageSkitSelector() {
         }
     }
 
+    if(errors.skitType && isDirty) {
+        console.log("Error")
+    }
+
     return (
         <div
             className="flex flex-col h-auto items-start bg-white text-charlestoneGreen p-8 rounded-md
-            xxs:w-full
-            s:w-9/12
-            md:w-8/12
-            lg:w-5/12
-            2xl:w-3/12">
-            <small>Set the current skit</small>
+            xxs:w-full">
+            <small>Hx's stream activity</small>
 
             <div className="mt-4 w-full">
 
@@ -55,7 +58,7 @@ export default function AdminPageSkitSelector() {
                 >
                     <Select
                         id="skitType"
-                        label="What community skit is Hyphonix currently running?"
+                        label="What is Hyphonix currently doing?"
                         helpText={null}
                         title="Skit selector"
                         errorMessage={errors.skitType && errors.skitType.message as string}
@@ -76,7 +79,7 @@ export default function AdminPageSkitSelector() {
                             hover:text-white hover:font-bold hover:bg-deepBlue-400 hover:scale-105
                             active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95`}>
 
-                            Set the skit
+                            Save activity
 
                             <img
                                 title="arrow-s"
