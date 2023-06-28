@@ -9,6 +9,7 @@ import svgr from 'vite-plugin-svgr'
 import mkcert from 'vite-plugin-mkcert'
 //Additional support for Legacy browsers
 import legacy from '@vitejs/plugin-legacy'
+//Support for custom service worker
 
 export default defineConfig({
   server: {

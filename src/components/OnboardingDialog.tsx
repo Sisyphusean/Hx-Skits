@@ -6,19 +6,17 @@ import { AppDataContext } from "../contexts/appdatacontext"
 
 //Import custom hook
 import { useSetAppData } from "../customhooks/useSetAppData"
-import { appData, beforeInstallPromptEvent, userPWAInstallResultInterface } from "../interfaces/datainterfaces"
+import { appData, beforeInstallPromptEvent } from "../interfaces/datainterfaces"
 
 //Utilities
-import { iOSVersion } from "../utilities/getUserIosVersion"
 import { toastHandler } from "../utilities/toastHandler"
 
 //Declare the deffered prompt outside of the dialog component to ensure it runs 
 //and perists regardless of refresh and whether or not component is mounted
-
 var defferedPrompt: beforeInstallPromptEvent | null = null
 window.addEventListener("beforeinstallprompt", (event) => {
     defferedPrompt = event as beforeInstallPromptEvent
-    { import.meta.env.VITE_ENV === 'dev' ? console.log("Added event listener", defferedPrompt) : null }
+    // { import.meta.env.VITE_ENV === 'dev' ? console.log("Added event listener", defferedPrompt) : null }
 })
 
 
@@ -27,11 +25,12 @@ export default function OnboardingDialog() {
     const [currentPage, setCurrentPage] = useState(1)
     const [isDialogOpen, toggleDialogOpen] = useState(true)
 
-    //App Data instations
+    //App Data instantiations
     const { appData } = useContext(AppDataContext)
     const setAppData = useSetAppData()
     var isUserBrowserSupported: boolean = true
     var pageToDisplay: ReactNode = null
+
 
     const isIosPwaInstalled = (): boolean => {
         const matchMedia =
@@ -133,7 +132,6 @@ export default function OnboardingDialog() {
 
         }
     }, [currentPage])
-
 
     useEffect(() => {
 
@@ -464,7 +462,17 @@ export default function OnboardingDialog() {
         )
     }, [appData.userData.browserType])
 
-    pageToDisplay = currentPage === 1 ? pageOne : pageTwo;
+    pageToDisplay = useMemo(() => {
+        if (currentPage === 1) {
+            return pageOne
+        }
+
+        if (currentPage === 2) {
+            return pageTwo
+        }
+        
+
+    }, [currentPage])
 
 
     /** 

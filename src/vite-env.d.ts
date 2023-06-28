@@ -6,7 +6,7 @@ interface ImportMetaEnv {
     VITE_CRYPTO_SALT: string,
     //**This is the key used to identify local storage data */
     VITE_LOCAL_STORAGE_KEY: string,
-    /** This is the link to Sofia's Instagram */s
+    /** This is the link to Sofia's Instagram */
     VITE_SOFIA_INSTAGRAM: string,
     /**This is the link to Hyphonix's Youtube */
     VITE_HYPHONIX_YOUTUBE: string,
@@ -22,6 +22,26 @@ interface ImportMetaEnv {
     VITE_LOGIN_PATH: string,
     /** This string specifies the path used to authenticate the JWT */
     VITE_JWT_VALIDATION_PATH: string,
+    /**This is the path for saving FCM tokens */
+    VITE_FCM_SAVE_TOKEN: string,
+    /**This is the path for validating FCM tokens */
+    VITE_FCM_VALIDATE_TOKEN: string,
+    /**This is the path for upating the FCM token's last received message */
+    VITE_FCM_UPDATE_LAST_MESSAGE_ON: string,
     /**This is the secret key used in encrypting the JWT */
     VITE_JWT_SECRET: string,
+    /**This is the firebase api key */
+    VITE_FIREBASE_API_KEY: string,
+    /**This is the firebase auth domain */
+    VITE_FIREBASE_AUTH_DOMAIN: string,
+    /**This is the firebase project id */
+    VITE_FIREBASE_PROJECT_ID: string,
+    /**This is the firebase storage bucket */
+    VITE_FIREBASE_STORAGE_BUCKET: string,
+    /**This is the firebase messaging sender id */
+    VITE_FIREBASE_MESSAGING_SENDER_ID: string,
+    /**This is the firebase app id */
+    VITE_FIREBASE_APP_ID: string,
+    /**This is the firebase Web Push certificate or Vapid Key*/
+    VITE_FIREBASE_WEB_PUSH_CERTIFICATE: string,
 }

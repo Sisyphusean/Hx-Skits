@@ -20,6 +20,9 @@ import { logUserOutLocally } from '../utilities/loguseroutlocally';
 //Custom Hook
 import { useSetAppData } from '../customhooks/useSetAppData';
 
+//Firebase
+import { getFirebaseCloudMessengerToken } from '../firebase/firebase'
+
 export default function Home() {
 
     const { appData } = useContext(AppDataContext)
@@ -31,7 +34,6 @@ export default function Home() {
             if (appData.userData.userToken
                 && appData.userData.username) {
                 let isJWTValid = await checkUserTokenValidity(appData.userData.userToken, appData.userData.username)
-                // console.log("User token is: ", isJWTValid ? "valid" : "invalid")
 
                 if (!isJWTValid) {
                     let newData = logUserOutLocally(appData)
@@ -45,6 +47,18 @@ export default function Home() {
         checkUserTokenValidityAndLogUserOutIfInvalid()
 
     }, [])
+
+    useEffect(() => {
+
+        let isNotificationEnabled = appData.userData.areNotificationEnabled
+
+        if (isNotificationEnabled) {
+            getFirebaseCloudMessengerToken()
+        } else {
+            console.log("Notifications are disabled")
+        }
+
+    }, [appData.userData.areNotificationEnabled])
 
 
     return (

@@ -72,7 +72,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
     const saveLiveStream = (formData: any) => {
 
         const { streamingOn, streamlink, activityType } = formData
-
+        
         if (validateLink(formData.streamlink) || streamingOn === "none") {
 
             let modifiedLiveData: liveData = {

@@ -32,7 +32,9 @@ export interface userData {
     //This property stores the date the user first opened the application
     firstOpened: Date | string,
     //This property is used to identify if the user is logged in
-    isUserLoggedIn: boolean | string
+    isUserLoggedIn: boolean | string,
+    //This property is used to identify the user's FCM token
+    userFCMToken: null | string,
 }
 
 /**
