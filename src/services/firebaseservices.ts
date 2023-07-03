@@ -42,7 +42,6 @@ export const validateToken = async (token: string) => {
 
     return await poster(path, data).then(
         (response) => {
-            console.log("Validated token successfully", response, typeof response)
             return response
         },
 
@@ -56,8 +55,8 @@ export const validateToken = async (token: string) => {
     })
 }
 
-export const updateToken = async (token: string) => {
-    const messagelastreceivedon = new Date().toDateString()
+export const updateMessageLastReceived = async (token: string) => {
+    const messagelastreceivedon = new Date()
     const data = {
         token,
         messagelastreceivedon

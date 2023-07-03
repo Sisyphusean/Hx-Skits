@@ -1,6 +1,13 @@
 //Firebase
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
+import { onMessage } from "firebase/messaging";
+
+//Custom Firebase services
+import { updateMessageLastReceived } from "../services/firebaseservices"
+
+//Utils
+import { toastHandler } from "../utilities/toastHandler";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,6 +22,7 @@ const vapidKey = import.meta.env.VITE_FIREBASE_WEB_PUSH_CERTIFICATE as string
 
 export const firebaseApp = initializeApp(firebaseConfig)
 export const messaging = getMessaging(firebaseApp)
+var localFirebaseToken: string
 
 export const getFirebaseCloudMessengerToken = async () => {
     //Get Token but pass in Vite's service worker to work with Firebase
@@ -23,6 +31,7 @@ export const getFirebaseCloudMessengerToken = async () => {
         serviceWorkerRegistration: await navigator.serviceWorker.getRegistration()
     }).then(
         (firebaseToken) => {
+            localFirebaseToken = firebaseToken
             return firebaseToken
         },
 
@@ -35,3 +44,16 @@ export const getFirebaseCloudMessengerToken = async () => {
         return false
     })
 }
+
+onMessage(messaging, (payload) => {
+
+    if (payload.notification && payload.notification.title) {
+        const { title } = payload.notification
+        toastHandler.showSuccessToast(title, "top-center")
+
+        if (localFirebaseToken) {
+            updateMessageLastReceived(localFirebaseToken)
+        }
+    }
+
+})

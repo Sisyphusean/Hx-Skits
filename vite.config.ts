@@ -7,29 +7,29 @@ import { VitePWA } from 'vite-plugin-pwa'
 import svgr from 'vite-plugin-svgr'
 //For HTTPS
 import mkcert from 'vite-plugin-mkcert'
-//Additional support for Legacy browsers
-import legacy from '@vitejs/plugin-legacy'
-//Support for custom service worker
+//Support ts transpilation
+import ts from 'vite-plugin-ts';
 
 export default defineConfig({
   server: {
     https: true
   },
   plugins: [
-    legacy({
-      targets: ['defaults', 'not IE 11'],
-    }),
     mkcert(),
     react(),
+    ts(),
     VitePWA({
+      strategies: 'injectManifest',
+      injectRegister: null,
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
 
       devOptions: {
-        enabled: true
+        enabled: true,
+        type: "module"
       },
 
       workbox: {
+        sourcemap: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
           {
@@ -62,7 +62,6 @@ export default defineConfig({
           }
         ]
       },
-
       manifest: {
         name: 'Hx Skits',
         short_name: 'Hx Skits',
@@ -102,6 +101,6 @@ export default defineConfig({
     svgr()
   ],
   build: {
-    target: 'es2015'
+    target: 'es2020'
   }
 })

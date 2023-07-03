@@ -46,6 +46,11 @@ function App() {
 
 
   useEffect(() => {
+
+    window.addEventListener("load", ()=>{
+      navigator.serviceWorker.register("./customsw.js")
+    })
+
     let fcmToken = appData.userData.userFCMToken
     let onboardingState = appData.userData.onboardingState
     let userPlatform = appData.userData.userPlatform
