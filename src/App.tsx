@@ -35,7 +35,7 @@ import { appData } from './interfaces/datainterfaces';
 import { getFirebaseCloudMessengerToken } from './firebase/firebase';
 
 //Services
-import { saveToken, validateToken, updateToken } from './services/firebaseservices'
+import { saveToken, validateToken } from './services/firebaseservices'
 
 
 function App() {
@@ -47,7 +47,7 @@ function App() {
 
   useEffect(() => {
 
-    window.addEventListener("load", ()=>{
+    window.addEventListener("load", () => {
       navigator.serviceWorker.register("./customsw.js")
     })
 

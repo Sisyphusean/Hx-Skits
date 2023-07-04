@@ -22,6 +22,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       injectRegister: null,
       registerType: 'autoUpdate',
+      selfDestroying: true,
 
       devOptions: {
         enabled: true,
