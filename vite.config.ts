@@ -19,7 +19,6 @@ export default defineConfig({
     https: true
   },
   plugins: [
-    nodeResolve(),
     mkcert(),
     react(),
     VitePWA({

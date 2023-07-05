@@ -205,7 +205,8 @@ setCatchHandler(
 self.skipWaiting()
 clientsClaim()
 
-//Firebase config
+//Firebase config. You can init here by pasting the details. Don't worry it's not a security risk
+//as the config is used to connect to the firebase project for listening and not to access the project's admin console
 const firebaseConfig = {
     apiKey: 'AIzaSyC-zD96hZ2FzCnMtLGHaMiD8t2j5WeRtYU',
     authDomain: 'hx-skits-e0bf3.firebaseapp.com',
@@ -215,6 +216,7 @@ const firebaseConfig = {
     appId: '1:115885528287:web:c000cd6e0ec1c84b2b456a',
 }
 
+//Initialize Firebase and get the messaging module
 const firebaseApp = initializeApp(firebaseConfig)
 const messaging = getMessaging(firebaseApp)
 
