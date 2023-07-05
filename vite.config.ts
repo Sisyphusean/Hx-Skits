@@ -7,62 +7,35 @@ import { VitePWA } from 'vite-plugin-pwa'
 import svgr from 'vite-plugin-svgr'
 //For HTTPS
 import mkcert from 'vite-plugin-mkcert'
+//Legacy
+import legacy from '@vitejs/plugin-legacy';
 //Support ts transpilation
 import ts from 'vite-plugin-ts';
+
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default defineConfig({
   server: {
     https: true
   },
   plugins: [
+    nodeResolve(),
     mkcert(),
     react(),
-    ts(),
     VitePWA({
       strategies: 'injectManifest',
-      injectRegister: null,
+      injectManifest: {
+        rollupFormat: 'iife',
+      },
       registerType: 'autoUpdate',
-      selfDestroying: true,
+      srcDir: 'src',
+      filename: 'sw.ts',
 
       devOptions: {
         enabled: true,
         type: "module"
       },
 
-      workbox: {
-        sourcemap: true,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'gstatic-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              },
-            }
-          }
-        ]
-      },
       manifest: {
         name: 'Hx Skits',
         short_name: 'Hx Skits',
@@ -99,9 +72,10 @@ export default defineConfig({
         ]
       }
     }),
-    svgr()
+    svgr(),
+
   ],
   build: {
-    target: 'es2020'
+    target: 'es2015'
   }
 })

@@ -4,10 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run build:sw && vite --host",
-    "build": "npm run build:sw && tsc && vite build",
-    "build:sw": "tsc ./customsw.ts --outDir public --lib webworker",
-    "preview": "vite preview"
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
@@ -28,6 +27,7 @@
     "vite-plugin-svgr": "^2.4.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.1.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/bcrypt": "^5.0.0",
     "@types/crypto-js": "^4.1.1",
