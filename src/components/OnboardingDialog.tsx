@@ -174,7 +174,7 @@ export default function OnboardingDialog() {
                             userData: {
                                 ...appData.userData,
                                 areNotificationEnabled: true,
-                                onboardingState: appData.userData.hasUserInstalledAppAsPwa ? "complete" : "notifications"
+                                onboardingState: "notifications"
                             }
                         }
 
@@ -186,6 +186,17 @@ export default function OnboardingDialog() {
                                     { body: " 🥸 You'll receive Notifications like this from now on. Bababooey!! " })
                             }
                         )
+                    } else if (permission === "denied") {
+                        let newAppDataWithDisabledNotificationsAndOnboardingState: appData = {
+                            ...appData,
+                            userData: {
+                                ...appData.userData,
+                                areNotificationEnabled: false,
+                                onboardingState: "notifications"
+                            }
+                        }
+
+                        setAppData(newAppDataWithDisabledNotificationsAndOnboardingState)
                     }
 
                     setTimeout(() => {
