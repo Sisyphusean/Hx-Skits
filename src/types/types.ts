@@ -31,5 +31,5 @@ export type supportedBrowsers = "Google Chrome" | "Safari" | "Microsoft Edge" | 
 /**
  * This property indicates the current skit that is being played
  */
-export type currentSkit = "none" | "nameSkit" | "raid" 
-export type skitTypes = "nameSkit" | "none" | "raid" 
+export type currentSkit = "none" | "nameskit" | "raid" 
+export type skitTypes = "nameskit" | "none" | "raid" 

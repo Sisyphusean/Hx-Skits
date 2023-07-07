@@ -15,3 +15,9 @@ export interface loginResponse {
     //This is the user's JWT
     token: string
 }
+
+export interface updateLiveStreamDataObject {
+    streamingOn: string,
+    streamingLink?: string,
+    activityType: string
+}

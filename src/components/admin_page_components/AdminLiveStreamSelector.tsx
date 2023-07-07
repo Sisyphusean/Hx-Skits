@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form"
 //Interfaces
 import { adminLiveStreamSelectorProps } from "../../interfaces/propinterfaces"
 import { appData, liveData, skitData } from "../../interfaces/datainterfaces"
+import { updateLiveStreamDataObject } from "../../interfaces/apiinterfaces"
 
 //Types
 import { skitTypes } from "../../types/types"
@@ -26,8 +27,8 @@ import { useEffect, useCallback, useState } from "react"
 //Framer
 import { motion, AnimatePresence } from "framer-motion"
 
-//Constants
-import { opacity } from "../../constants/animation"
+//Services
+import { poster } from "../../services/apirequests"
 
 //Custom Components
 import Select from "../SelectInput"
@@ -39,7 +40,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
     const { appData } = useGetAppData()
     const defaultValues = {
         streamingOn: appData.liveData.isHyphonixLiveOnYoutube ? "youtube" : appData.liveData.isHyphonixLiveOnTwitch ? "twitch" : "none",
-        streamlink: appData.liveData.isHyphonixLiveOnYoutube ? appData.liveData.linkToHyphonixYoutube : appData.liveData.isHyphonixLiveOnTwitch ? appData.liveData.linkToHyphonixTwitch : "",
+        streamLink: appData.liveData.isHyphonixLiveOnYoutube ? appData.liveData.linkToHyphonixYoutube : appData.liveData.isHyphonixLiveOnTwitch ? appData.liveData.linkToHyphonixTwitch : "",
         activityType: appData.skitData.currentSkit ? appData.skitData.currentSkit : "none"
     }
     const [isMinified, toggleMinified] = useState(minified)
@@ -47,7 +48,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
     const setAppData = useSetAppData()
     const watchedStreamingOn: string = watch("streamingOn")
     const [currentStreamPlatform, changeCurrentStreamPlatform] = useState(watchedStreamingOn)
-    const skitTypes: skitTypes[] = ['none', 'nameSkit', 'raid']
+    const skitTypes: skitTypes[] = ['none', 'nameskit', 'raid']
     const displayedUserOptions = ["None (John is just livestreaming random stuff)", "Community Name Skit", "Raid Shadow Legends"]
     let capitalizedCurrentPlatform = currentStreamPlatform ? currentStreamPlatform[0].toUpperCase() + currentStreamPlatform.substring(1) : ""
 
@@ -71,9 +72,22 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
 
     const saveLiveStream = (formData: any) => {
 
-        const { streamingOn, streamlink, activityType } = formData
-        
-        if (validateLink(formData.streamlink) || streamingOn === "none") {
+        const updateLiveStreamDataPath = import.meta.env.VITE_ADMIN_UPDATE_LIVESTREAM as string
+        const { streamingOn, streamLink, activityType } = formData
+
+        const apiObject: updateLiveStreamDataObject = {
+            streamingOn,
+            activityType: "none"
+        }
+
+        console.log(apiObject)
+
+        if (streamingOn !== "none") {
+            apiObject.streamingLink = streamLink as string
+            apiObject.activityType = activityType
+        }
+
+        if (validateLink(formData.streamLink) || streamingOn === "none") {
 
             let modifiedLiveData: liveData = {
                 currentOmegleTags: [],
@@ -92,7 +106,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
                 modifiedLiveData = {
                     ...modifiedLiveData,
                     isHyphonixLiveOnTwitch: true,
-                    linkToHyphonixTwitch: streamlink,
+                    linkToHyphonixTwitch: streamLink,
                     isHyphonixLiveOnYoutube: false,
                     linkToHyphonixYoutube: ""
                 }
@@ -102,16 +116,16 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
                 modifiedLiveData = {
                     ...modifiedLiveData,
                     isHyphonixLiveOnYoutube: true,
-                    linkToHyphonixYoutube: streamlink,
+                    linkToHyphonixYoutube: streamLink,
                     isHyphonixLiveOnTwitch: false,
                     linkToHyphonixTwitch: ""
                 }
             }
 
-            if (activityType === "nameSkit" && streamingOn !== "none") {
+            if (activityType === "nameskit" && streamingOn !== "none") {
                 modifiedCurrentSkit = {
                     ...modifiedCurrentSkit,
-                    currentSkit: "nameSkit"
+                    currentSkit: "nameskit"
                 }
             }
 
@@ -122,12 +136,30 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
 
             }
 
-            toggleMinified(true)
-            setAppData(updatedLiveStreamAppData)
+            poster(
+                updateLiveStreamDataPath,
+                apiObject,
+                undefined,
+                appData.userData.userToken).then(
+                    (response) => {
+                        if (response.status === 200) {
+                            toggleMinified(true)
+                            setAppData(updatedLiveStreamAppData)
+                            toastHandler.showSuccessToast("Successfully updated the livestream", "top-right")
+                        } else {
+                            toastHandler.showErrorToast("There was an error updating the livestream", "top-right")
+                        }
+                    }
+                ).catch(error => {
+                    toastHandler.showErrorToast("There was an error updating the livestream", "top-right")
+                    console.error(error)
+                })
+
+
         }
 
-        if (!validateLink(formData.streamlink)) {
-            setError("streamlink", { message: "Please enter a valid link" })
+        if (!validateLink(formData.streamLink)) {
+            setError("streamLink", { message: "Please enter a valid link" })
         }
     }
 
@@ -173,12 +205,12 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
                         currentStreamPlatform !== "none" &&
                         <div >
                             <Input
-                                id="streamlink"
+                                id="streamLink"
                                 label={`What's the link to the stream?`}
                                 placeholder="e.g https://youtube.com/watch?v=dQw4w9WgXcQ"
                                 type="text"
                                 helpText={null}
-                                errorMessage={errors.streamlink && errors.streamlink.message as string}
+                                errorMessage={errors.streamLink && errors.streamLink.message as string}
                                 register={register}
                             />
                         </div>
@@ -268,7 +300,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
                     <Button
                         buttonClassType="text"
                         buttonText="Edit"
-                        buttonType="button"
+                        buttonType="submit"
                         overrideClasses="w-fit text-deepBlue-500 sm:mt-0 xxs:mt-4 sm:inline-block xxs:block sm:ml-0 xxs:ml-auto"
                         onClick={() => { toggleMinified((prev) => { return !prev }) }}
                     />
@@ -282,8 +314,8 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
         toastHandler.showErrorToast("Please what platform Hyphonix is streaming on before saving", "top-right")
     }
 
-    if (errors.streamlink?.type == "required") {
-        setError("streamlink", { message: "Please enter a valid link" })
+    if (errors.streamLink?.type == "required") {
+        setError("streamLink", { message: "Please enter a valid link" })
     }
 
     return (

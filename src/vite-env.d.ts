@@ -46,4 +46,6 @@ interface ImportMetaEnv {
     VITE_FIREBASE_WEB_PUSH_CERTIFICATE: string,
     /** This is the indexed DB database */
     VITE_INDEXED_DB_DATABASE: string,
+    /**This is the path for updating the live stream data */
+    VITE_ADMIN_UPDATE_LIVESTREAM: string
 }

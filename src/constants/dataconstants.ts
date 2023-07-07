@@ -55,4 +55,4 @@ export const emptyAppData: appData = {
     liveData: emptyLiveData
 }
 
-export const possibleComponents = { selector: "selector", nameSkit: "nameSkit", livestream: "none" }
+export const possibleComponents = { selector: "selector", nameSkit: "nameskit", livestream: "none" }

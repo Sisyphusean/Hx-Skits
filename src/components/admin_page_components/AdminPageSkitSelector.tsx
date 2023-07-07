@@ -20,7 +20,7 @@ import { useGetAppData } from "../../customhooks/useGetAppData";
  */
 export default function AdminPageSkitSelector() {
     const { register, handleSubmit, watch, setError, formState: { errors, isDirty } } = useForm()
-    const skitTypes: skitTypes[] = ['none', 'nameSkit', 'raid']
+    const skitTypes: skitTypes[] = ['none', 'nameskit', 'raid']
     const setAppData = useSetAppData()
     const displayOptions = ["None (John is just livestreaming random stuff)", "Community name skit", "Raid Shadow Legends"]
     const { appData } = useGetAppData()

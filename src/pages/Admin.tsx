@@ -25,7 +25,7 @@ export default function Admin() {
             setCurrentComponent(possibleComponents.selector)
         }
 
-        if (appData.skitData.currentSkit === "nameSkit") {
+        if (appData.skitData.currentSkit === "nameskit") {
             setCurrentComponent(possibleComponents.nameSkit)
         }
 
@@ -36,7 +36,7 @@ export default function Admin() {
 
     const getCurrentNameSkit = useCallback(() => {
 
-        if (appData.skitData.currentSkit === "nameSkit") {
+        if (appData.skitData.currentSkit === "nameskit") {
             return (
                 <div className="flex flex-col m-0 p-0 gap-6">
                     <AdminPageSetTags />
@@ -61,7 +61,7 @@ export default function Admin() {
     const getCurrentComponents = useCallback(() => {
         return (
             <motion.div
-                key="nameSkit"
+                key="nameskit"
                 layout
             >
                 <div className="flex flex-col w-full items-center gap-12">
