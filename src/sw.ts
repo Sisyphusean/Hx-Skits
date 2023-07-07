@@ -278,8 +278,6 @@ const updateMessageLastReceived = async (token: string): Promise<string> => {
 
 // //Handle Background Firebase Messages that come in while the app is closed
 onBackgroundMessage(messaging, (payload: any) => {
-    console.log('Received background message ', payload)
-
     //After the message is received, update the last received time for the token
     checkIfFcmTokenExists().then(
         (fcmTokenExists) => {
