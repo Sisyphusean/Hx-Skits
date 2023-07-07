@@ -44,4 +44,6 @@ interface ImportMetaEnv {
     VITE_FIREBASE_APP_ID: string,
     /**This is the firebase Web Push certificate or Vapid Key*/
     VITE_FIREBASE_WEB_PUSH_CERTIFICATE: string,
+    /** This is the indexed DB database */
+    VITE_INDEXED_DB_DATABASE: string,
 }

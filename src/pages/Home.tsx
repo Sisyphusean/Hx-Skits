@@ -48,18 +48,6 @@ export default function Home() {
 
     }, [])
 
-    useEffect(() => {
-
-        let isNotificationEnabled = appData.userData.areNotificationEnabled
-
-        if (isNotificationEnabled) {
-            getFirebaseCloudMessengerToken()
-        } else {
-            console.log("Notifications are disabled")
-        }
-
-    }, [appData.userData.areNotificationEnabled])
-
 
     return (
 

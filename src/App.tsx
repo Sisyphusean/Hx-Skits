@@ -27,6 +27,7 @@ import { useContext, useEffect, useCallback } from 'react';
 
 //Utils
 import { AppDataContext } from './contexts/appdatacontext';
+import { openDatabase, getFcmObjectStoreData, updateFcmToken, getFcmToken, addFcmToken, deletAllFcmTokens } from './utilities/indexdb';
 
 //Interfaces
 import { appData } from './interfaces/datainterfaces';
@@ -35,7 +36,7 @@ import { appData } from './interfaces/datainterfaces';
 import { getFirebaseCloudMessengerToken } from './firebase/firebase';
 
 //Services
-import { saveToken, validateToken } from './services/firebaseservices'
+import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
 
 
 function App() {
@@ -45,13 +46,14 @@ function App() {
   const setAppData = useSetAppData()
 
 
+
   useEffect(() => {
 
     let fcmToken = appData.userData.userFCMToken
     let onboardingState = appData.userData.onboardingState
     let userPlatform = appData.userData.userPlatform
 
-    const renewToken = async () => {
+    const fetchNewToken = async () => {
       const token = await getFirebaseCloudMessengerToken()
 
       if (token) {
@@ -64,10 +66,20 @@ function App() {
           }
         }
 
-        await saveToken(token as string, userPlatform).then(
-          (response) => {
-            if (typeof response !== "boolean" && response.status === 200) {
+        await saveAndSubscribeTokenToTopics(token as string, userPlatform).then(
+          async (response) => {
+            //200 means the token was saved successfully
+            //409 means the token already exists
+            if (typeof response !== "boolean"
+              && (response.status === 200 || response.status === 409)) {
               setAppData(newDataWithUpdateAppToken)
+
+              //Add the new token to the indexedDB or update the existing one
+              await openDatabase()
+                .then(
+                  async (db) => {
+                    addFcmToken(db, token as string)
+                  })
             }
           },
 
@@ -75,16 +87,23 @@ function App() {
             console.error("Error saving user fcm token, user will not recieve notifications ", reject)
           }
         )
-        setAppData(newDataWithUpdateAppToken)
 
       }
     }
 
     const handleToken = async () => {
-      if (!fcmToken && (onboardingState === "complete" || onboardingState === "notifications")) {
-        await renewToken()
+      /**
+       * If the user has not granted notification permissions up to this points,
+       * we will not attempt to fetch a new FCM token since there will be no point as getToken() will fail
+       */
+      if (!fcmToken
+        && appData.userData.areNotificationEnabled
+        && (onboardingState === "complete" || onboardingState === "notifications")) {
+        await fetchNewToken()
       }
 
+      //If the token is exists, we will check if it is valid and if not, 
+      //we will remove it from every where it is stored
       if (fcmToken) {
         const isTokenValid = await validateToken(fcmToken)
 
@@ -96,8 +115,19 @@ function App() {
               userFCMToken: null
             }
           }
+
+          //remove it from appData (react memory and local storage)
           setAppData(newAppDataWithNoFCMToken)
+
+          //remove it from indexedDB
+          openDatabase().then(
+            (db) => {
+              deletAllFcmTokens(db).then().catch((error) => console.error("Error deleting all tokens from indexedDB ", error))
+            }
+          )
+
         }
+
       }
     }
 

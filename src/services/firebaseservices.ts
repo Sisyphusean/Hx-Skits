@@ -4,7 +4,7 @@ import { platform } from "../types/types";
 //ApiRequest services
 import { poster } from "./apirequests";
 
-export const saveToken = async (token: string, platform: platform) => {
+export const saveAndSubscribeTokenToTopics = async (token: string, platform: platform) => {
     const data = {
         token, platform
     }
@@ -16,11 +16,12 @@ export const saveToken = async (token: string, platform: platform) => {
             if (response.status == 200) {
                 console.log("Saved token successfully")
                 return response
+            } else if (response.status == 409) {
+                console.warn("Token already exists", response)
+                return response
             } else {
-                console.error("Failed to save token", response)
                 return false
             }
-            //We still need to pass the Token to local storage
         },
 
         (reject) => {

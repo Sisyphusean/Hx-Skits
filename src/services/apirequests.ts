@@ -65,8 +65,10 @@ export const poster = async (
         }
 
         if (axios.isAxiosError(error)) {
+            // console.log(error.response?.data)
             return error.response?.data as apiResponse
         } else {
+            console.log(error)
             throw new Error("Something went wrong")
         }
     }

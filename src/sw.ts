@@ -15,17 +15,20 @@ import {
 //Import module for caching precached assets
 import type { ManifestEntry } from 'workbox-build'
 
+//Import indexdb.ts for accessing the indexdb database
+import { openDatabase, getFcmToken } from './utilities/indexdb'
+
 //Firebase
-// declare let firebase: any;
-// importScripts('https://www.gstatic.com/firebasejs/9.6.8/firebase-app-compat.js');
 import { initializeApp } from 'firebase/app';
-// importScripts('https://www.gstatic.com/firebasejs/9.6.8/firebase-messaging-compat.js');
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 
-//Extend the ServiceWorkerGlobalScope to include the __WB_MANIFEST property
-interface MyServiceWorkerGlobalScope extends ServiceWorkerGlobalScope {
-    __WB_MANIFEST: any;
-}
+//Interfaces
+import { MyServiceWorkerGlobalScope } from './interfaces/swinterfaces'
+import { fcmDocument } from "./interfaces/indexdbinterfaces"
+
+
+
+
 
 // Give TypeScript the correct global.
 declare let self: MyServiceWorkerGlobalScope
@@ -86,33 +89,13 @@ const buildStrategy = (): Strategy => {
     }
 }
 
+//Access the notification permission
+const notificationPermission = Notification.permission
+
 //Retrieve the manifest. First define asynchronus function to retrieve the manifest
 // This is also required for the injection of the manifest into the service worker by workbox
 // So despite it being outdate, Your application will not build without it
 const manifest = self.__WB_MANIFEST as Array<ManifestEntry>
-
-// async function retrieveManifest() {
-//     const cacheStorage = await caches.open(cacheName)
-//     let manifest: ManifestEntry[] = await cacheStorage.match('manifest.json').then(
-//         (response) => {
-//             if (response) {
-//                 console.log("Retrieved manifest.json from cache ", response)
-//                 return response.json()
-//             }
-//         }
-//     ).catch((e) => {
-//         console.log("Failed to retrieve manifest.json", e)
-//     })
-
-//     return manifest
-// }
-
-// //Assign Manifest to manifest variable
-// retrieveManifest().then(
-//     (retrievedManifest) => {
-//         manifest = retrievedManifest
-//     }
-// )
 
 //Array for resources that have been cached by the service worker
 const cacheEntries: RequestInfo[] = []
@@ -130,6 +113,9 @@ const manifestURLs = manifest.map(
         return url.href
     }
 )
+
+//Disable debug messages for intercepted requests and responses
+self.__WB_DISABLE_DEV_LOGS = !data.debug;
 
 // Cache resources when the service worker is first installed
 self.addEventListener('install', (event: ExtendableEvent) => {
@@ -220,8 +206,108 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig)
 const messaging = getMessaging(firebaseApp)
 
+const getFcmTokenForServiceWorker = (): Promise<string> => {
+
+    return new Promise((resolve, reject) => {
+        openDatabase(self).then(
+            (db) => {
+                getFcmToken(db).then(
+                    (fcmDocument) => {
+                        let { fcmToken } = fcmDocument[0] as fcmDocument
+                        resolve(fcmToken)
+                    }
+                ).catch((error: Error) => {
+                    reject(error)
+                })
+            }
+        )
+    })
+
+}
+
+const checkIfFcmTokenExists = (): Promise<boolean> => {
+
+    return new Promise((resolve, reject) => {
+        openDatabase(self).then(
+            (db) => {
+                getFcmToken(db).then(
+                    (fcmDocument) => {
+                        if (fcmDocument.length > 0) {
+                            resolve(true)
+                        } else {
+                            resolve(false)
+                        }
+                    }
+                ).catch((error: Error) => {
+                    reject(error)
+                })
+            }
+        )
+    })
+
+}
+
+//Function for updating the last received time of the message
+const updateMessageLastReceived = async (token: string): Promise<string> => {
+    const messagelastreceivedon = new Date()
+    const data = {
+        token,
+        messagelastreceivedon
+    }
+
+    const fcmLastMessagePath = import.meta.env.VITE_FCM_UPDATE_LAST_MESSAGE_ON as string
+    let webServerPath
+
+    if (import.meta.env.VITE_ENV === 'dev') {
+        webServerPath = import.meta.env.VITE_DEV_BE_BASE_URL as string
+    } else {
+        webServerPath = import.meta.env.VITE_BE_BASE_URL as string
+    }
+
+    const path = webServerPath + fcmLastMessagePath
+
+    const response = await fetch(path, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+
+    return response.json()
+}
 
 // //Handle Background Firebase Messages that come in while the app is closed
 onBackgroundMessage(messaging, (payload: any) => {
     console.log('Received background message ', payload)
+
+    //After the message is received, update the last received time for the token
+    checkIfFcmTokenExists().then(
+        (fcmTokenExists) => {
+            if (notificationPermission === 'granted' && fcmTokenExists) {
+
+                //If user has granted permission, 
+                //fetch token from Window thread, and update the last received time
+                getFcmTokenForServiceWorker()
+                    .then(async (token) => {
+
+                        //After the message is received, 
+                        //update the last received time
+
+                        updateMessageLastReceived(token)
+                            .then((response) => {
+                                console.log(response)
+                            }).catch((error) => {
+                                console.error(
+                                    "Failed to update service worker's last received time",
+                                    error
+                                )
+                            })
+                    })
+                    .catch(error => console.log(error))
+            }
+
+        }
+    )
 })
+
+

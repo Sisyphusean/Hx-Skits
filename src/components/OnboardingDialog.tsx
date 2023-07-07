@@ -16,7 +16,6 @@ import { toastHandler } from "../utilities/toastHandler"
 var defferedPrompt: beforeInstallPromptEvent | null = null
 window.addEventListener("beforeinstallprompt", (event) => {
     defferedPrompt = event as beforeInstallPromptEvent
-    // { import.meta.env.VITE_ENV === 'dev' ? console.log("Added event listener", defferedPrompt) : null }
 })
 
 
