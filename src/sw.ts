@@ -191,6 +191,45 @@ setCatchHandler(
 self.skipWaiting()
 clientsClaim()
 
+//Add notification click event listener
+self.addEventListener('notificationclick', (event: NotificationEvent) => {
+    event.waitUntil(
+
+        //Retrieve all the open windows controlled by the service worker
+        self.clients.matchAll({
+            type: 'window',
+            includeUncontrolled: true
+        }).then(
+            (clientList) => {
+                let client = null
+
+                for (let i = 0; i < clientList.length; i++) {
+                    let item = clientList[i]
+
+                    if (item.url) {
+                        client = item
+                        break
+                    }
+                }
+
+                //If the navigate property exists in the client, 
+                //focus the client and navigate to the url
+                if (client && 'navigate' in client) {
+                    client.focus()
+                    event.notification.close()
+                    return client.navigate(client.url)
+                }
+                //Otherwise, close the notification and open a new window with the url
+                else {
+                    event.notification.close()
+                }
+            }
+        )
+
+    )
+
+})
+
 //Firebase config. You can init here by pasting the details. Don't worry it's not a security risk
 //as the config is used to connect to the firebase project for listening and not to access the project's admin console
 const firebaseConfig = {
