@@ -36,6 +36,9 @@ declare let self: MyServiceWorkerGlobalScope
 // Declare type for ExtendableEvent to use in install and activate events
 declare type ExtendableEvent = any
 
+//Create the broadcsat channel for communicating with the React app
+const broadcastChannel = new BroadcastChannel(import.meta.env.VITE_BROADCASTCHANNEL_NAME as string)
+
 const data = {
     race: false, //Fetch first, if it fails, return a previously cached response
     debug: false, //Don't log debug messages for intercepted requests and responses
@@ -217,7 +220,7 @@ self.addEventListener('notificationclick', (event: NotificationEvent) => {
                 if (client && 'navigate' in client) {
                     client.focus()
                     event.notification.close()
-                    return client.navigate(client.url)
+                    // return client.navigate(client.url)
                 }
                 //Otherwise, close the notification and open a new window with the url
                 else {
@@ -317,6 +320,11 @@ const updateMessageLastReceived = async (token: string): Promise<string> => {
 
 // //Handle Background Firebase Messages that come in while the app is closed
 onBackgroundMessage(messaging, (payload: any) => {
+
+    //If data is included in the payload, send a message to the React app
+    if (payload.data) {
+        broadcastChannel.postMessage(payload.data)
+    }
     //After the message is received, update the last received time for the token
     checkIfFcmTokenExists().then(
         (fcmTokenExists) => {

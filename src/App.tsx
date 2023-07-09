@@ -28,6 +28,7 @@ import { useContext, useEffect, useCallback } from 'react';
 //Utils
 import { AppDataContext } from './contexts/appdatacontext';
 import { openDatabase, getFcmObjectStoreData, updateFcmToken, getFcmToken, addFcmToken, deletAllFcmTokens } from './utilities/indexdb';
+import { prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject } from './utilities/preparedataforupdatinglivestreamandSkitObject';
 
 //Interfaces
 import { appData } from './interfaces/datainterfaces';
@@ -40,6 +41,7 @@ import { messaging, getFirebaseCloudMessengerToken, handleFirebaseMessage } from
 
 //Services
 import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
+import { firebaseLiveStreamResponse } from './interfaces/apiinterfaces';
 
 
 function App() {
@@ -47,6 +49,23 @@ function App() {
   const { userType } = useIsUserTypeSet()
   const { appData } = useContext(AppDataContext)
   const setAppData = useSetAppData()
+
+  //Connect React application to the broadcast channel
+  const broadcastChannel = new BroadcastChannel(import.meta.env.VITE_BROADCASTCHANNEL_NAME as string)
+
+  //UseEffect for listening to broadcast messages
+  useEffect(() => {
+    broadcastChannel.onmessage = (event) => {
+
+      //If the message is as a result of a live stream update,
+      // we will update the live stream state in th+e react app
+      if (event.data.messageFromEvent === "liveStreamUpdate") {
+        const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(event.data, appData)
+        setAppData(updatedAppDataWithUpdatedLiveStreamAndCurrentSkit)
+      }
+    }
+
+  }, [])
 
   //UseEffect for fetching the user's FCM token and ensuring it is valid
   useEffect(() => {
@@ -141,6 +160,16 @@ function App() {
   useEffect(() => {
     onMessage(messaging, (payload) => {
       handleFirebaseMessage(payload, appData)
+        .then(
+          (response) => {
+            //Specifically for the new notification is triggered as a result of the livestream update
+            if (response && response.messageFromEvent === "liveStreamUpdate") {
+              let firebaseDataObject = response as firebaseLiveStreamResponse
+              const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(firebaseDataObject, appData)
+              setAppData(updatedAppDataWithUpdatedLiveStreamAndCurrentSkit)
+            }
+          }
+        )
     })
   }, [appData])
 

@@ -11,6 +11,7 @@ import { toastHandler } from "../utilities/toastHandler";
 
 //Interaces
 import { appData } from "../interfaces/datainterfaces";
+import { firebaseLiveStreamResponse } from "../interfaces/apiinterfaces";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -48,16 +49,48 @@ export const getFirebaseCloudMessengerToken = async () => {
     })
 }
 
-export const handleFirebaseMessage = (payload: MessagePayload, appData: appData) => {
-    if (payload.notification && payload.notification.title
-        && !appData.userData.isUserLoggedIn) {
-        const { title } = payload.notification
+export const handleFirebaseMessage =
+    (payload: MessagePayload, appData: appData): Promise<false | firebaseLiveStreamResponse> => {
 
-        toastHandler.showSuccessToast(title, "top-center")
+        return new Promise((resolve, reject) => {
+
+            if (payload.notification && payload.notification.title
+                && !appData.userData.isUserLoggedIn) {
+                const { title } = payload.notification
+
+                toastHandler.showSuccessToast(title, "top-center")
 
 
-        if (localFirebaseToken) {
-            updateMessageLastReceived(localFirebaseToken)
-        }
+                if (localFirebaseToken) {
+                    updateMessageLastReceived(localFirebaseToken)
+                }
+                console.log(payload)
+
+                if (payload.data) {
+
+                    if (payload.data.messageFromEvent === "liveStreamUpdate") {
+
+                        let newData: firebaseLiveStreamResponse = {
+                            messageFromEvent: payload.data.messageFromEvent,
+                            streamingOn: payload.data.streamingOn,
+                            activityType: payload.data.activityType,
+                            streamingLink: payload.data.streamingLink
+                        }
+                        resolve(newData)
+
+                    } else {
+                        reject(false)
+                    }
+
+                } else {
+                    reject(false)
+                }
+
+            } else {
+                reject(false)
+            }
+
+        })
+
+
     }
-}

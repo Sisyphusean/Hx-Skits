@@ -80,8 +80,6 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
             activityType: "none"
         }
 
-        console.log(apiObject)
-
         if (streamingOn !== "none") {
             apiObject.streamingLink = streamLink as string
             apiObject.activityType = activityType
@@ -144,6 +142,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
                     (response) => {
                         if (response.status === 200) {
                             toggleMinified(true)
+                            //We don't need to remove this local update because our app will compare the local storage data with react storage data before updating
                             setAppData(updatedLiveStreamAppData)
                             toastHandler.showSuccessToast("Successfully updated the livestream", "top-right")
                         } else {

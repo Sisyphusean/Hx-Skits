@@ -47,5 +47,7 @@ interface ImportMetaEnv {
     /** This is the indexed DB database */
     VITE_INDEXED_DB_DATABASE: string,
     /**This is the path for updating the live stream data */
-    VITE_ADMIN_UPDATE_LIVESTREAM: string
+    VITE_ADMIN_UPDATE_LIVESTREAM: string,
+    /**This is the broadcast channel the service worker and React app use to communicate with each other */
+    VITE_BROADCASTCHANNEL_NAME: string,
 }

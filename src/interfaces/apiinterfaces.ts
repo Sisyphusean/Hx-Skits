@@ -21,3 +21,7 @@ export interface updateLiveStreamDataObject {
     streamingLink?: string,
     activityType: string
 }
+export interface firebaseLiveStreamResponse extends updateLiveStreamDataObject {
+    //This is the event that triggered the response
+    messageFromEvent: string
+}
