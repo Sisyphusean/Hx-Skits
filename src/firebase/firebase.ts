@@ -1,6 +1,6 @@
 //Firebase
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { MessagePayload, getMessaging, getToken } from "firebase/messaging";
 import { onMessage } from "firebase/messaging";
 
 //Custom Firebase services
@@ -8,6 +8,9 @@ import { updateMessageLastReceived } from "../services/firebaseservices"
 
 //Utils
 import { toastHandler } from "../utilities/toastHandler";
+
+//Interaces
+import { appData } from "../interfaces/datainterfaces";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -45,15 +48,16 @@ export const getFirebaseCloudMessengerToken = async () => {
     })
 }
 
-onMessage(messaging, (payload) => {
-
-    if (payload.notification && payload.notification.title) {
+export const handleFirebaseMessage = (payload: MessagePayload, appData: appData) => {
+    if (payload.notification && payload.notification.title
+        && !appData.userData.isUserLoggedIn) {
         const { title } = payload.notification
+
         toastHandler.showSuccessToast(title, "top-center")
+
 
         if (localFirebaseToken) {
             updateMessageLastReceived(localFirebaseToken)
         }
     }
-
-})
+}

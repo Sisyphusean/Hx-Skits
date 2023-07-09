@@ -33,7 +33,10 @@ import { openDatabase, getFcmObjectStoreData, updateFcmToken, getFcmToken, addFc
 import { appData } from './interfaces/datainterfaces';
 
 //Firebase
-import { getFirebaseCloudMessengerToken } from './firebase/firebase';
+import { onMessage } from 'firebase/messaging';
+
+//Custom Firebase
+import { messaging, getFirebaseCloudMessengerToken, handleFirebaseMessage } from './firebase/firebase';
 
 //Services
 import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
@@ -45,8 +48,7 @@ function App() {
   const { appData } = useContext(AppDataContext)
   const setAppData = useSetAppData()
 
-
-
+  //UseEffect for fetching the user's FCM token and ensuring it is valid
   useEffect(() => {
 
     let fcmToken = appData.userData.userFCMToken
@@ -93,7 +95,7 @@ function App() {
 
     const handleToken = async () => {
       /**
-       * If the user has not granted notification permissions up to this points,
+       * If the user has not granted notification permissions up to this point,
        * we will not attempt to fetch a new FCM token since there will be no point as getToken() will fail
        */
       if (!fcmToken
@@ -134,6 +136,13 @@ function App() {
     handleToken()
 
   }, [appData.userData.userFCMToken, appData.userData.onboardingState])
+
+  //UseEffect for adding the onMessage listener
+  useEffect(() => {
+    onMessage(messaging, (payload) => {
+      handleFirebaseMessage(payload, appData)
+    })
+  }, [appData])
 
   return (
 
