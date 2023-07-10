@@ -20,7 +20,6 @@ export default function Admin() {
     const [currentComponent, setCurrentComponent] = useState(possibleComponents.nameSkit)
 
     useEffect(() => {
-        console.log("appData.skitData.currentSkit", appData.skitData.currentSkit)
         if (!appData.skitData.currentSkit) {
             setCurrentComponent(possibleComponents.selector)
         }

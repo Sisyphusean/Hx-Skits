@@ -50,4 +50,8 @@ interface ImportMetaEnv {
     VITE_ADMIN_UPDATE_LIVESTREAM: string,
     /**This is the broadcast channel the service worker and React app use to communicate with each other */
     VITE_BROADCASTCHANNEL_NAME: string,
+    /**This is the API path for updating the omelge tags*/
+    VITE_ADMIN_UPDATE_OMEGLE_TAGS: string,
+    /**This is the API path for deleting all of the omelge tags*/
+    VITE_ADMIN_RESET_OMEGLE_TAGS: string,
 }

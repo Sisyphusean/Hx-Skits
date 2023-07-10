@@ -41,7 +41,7 @@ import { messaging, getFirebaseCloudMessengerToken, handleFirebaseMessage } from
 
 //Services
 import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
-import { firebaseLiveStreamResponse } from './interfaces/apiinterfaces';
+import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse } from './interfaces/apiinterfaces';
 
 
 function App() {
@@ -168,8 +168,23 @@ function App() {
               const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(firebaseDataObject, appData)
               setAppData(updatedAppDataWithUpdatedLiveStreamAndCurrentSkit)
             }
+
+            if (response && response.messageFromEvent === "omegleUpdate") {
+              let firebaseOmegleUpdateDataObject = response as firebaseOmegleToggleResponse
+              let appDataWithUpdatedOmegleTags: appData = {
+                ...appData,
+                liveData: {
+                  ...appData.liveData,
+                  currentOmegleTags: firebaseOmegleUpdateDataObject.currentOmegleTags
+                }
+              }
+              setAppData(appDataWithUpdatedOmegleTags)
+            }
           }
-        )
+        ).catch((error) => {
+          import.meta.env.VITE_ENV === "dev" ?
+            console.log("Failed to handle firebase notification", error) : ""
+        })
     })
   }, [appData])
 

@@ -11,7 +11,7 @@ import { toastHandler } from "../utilities/toastHandler";
 
 //Interaces
 import { appData } from "../interfaces/datainterfaces";
-import { firebaseLiveStreamResponse } from "../interfaces/apiinterfaces";
+import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse } from "../interfaces/apiinterfaces";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -50,21 +50,22 @@ export const getFirebaseCloudMessengerToken = async () => {
 }
 
 export const handleFirebaseMessage =
-    (payload: MessagePayload, appData: appData): Promise<false | firebaseLiveStreamResponse> => {
-
+    (payload: MessagePayload, appData: appData)
+        : Promise<false | firebaseLiveStreamResponse | firebaseOmegleToggleResponse> => {
         return new Promise((resolve, reject) => {
 
-            if (payload.notification && payload.notification.title
-                && !appData.userData.isUserLoggedIn) {
+            //Handle Live Stream Update notifications
+            if (payload.notification && payload.notification.title) {
                 const { title } = payload.notification
 
-                toastHandler.showSuccessToast(title, "top-center")
-
+                //Show in-app notification if user is not logged in
+                if (!appData.userData.isUserLoggedIn) {
+                    toastHandler.showSuccessToast(title, "top-center")
+                }
 
                 if (localFirebaseToken) {
                     updateMessageLastReceived(localFirebaseToken)
                 }
-                console.log(payload)
 
                 if (payload.data) {
 
@@ -86,7 +87,21 @@ export const handleFirebaseMessage =
                     reject(false)
                 }
 
-            } else {
+            }
+
+            // Handle Data only notification from updating Omegle Tags
+            if (payload.data) {
+                const rawData = payload.data
+                const data = rawData.currentOmegleTags.split(",")
+                let receivedFirebaseData: firebaseOmegleToggleResponse = {
+                    messageFromEvent: rawData.messageFromEvent,
+                    currentOmegleTags: data
+                }
+
+                resolve(receivedFirebaseData)
+            }
+
+            else {
                 reject(false)
             }
 

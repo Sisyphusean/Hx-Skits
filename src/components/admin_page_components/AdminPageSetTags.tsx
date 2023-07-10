@@ -14,6 +14,9 @@ import { toastHandler } from "../../utilities/toastHandler";
 //Import Interfaces
 import { appData } from "../../interfaces/datainterfaces";
 
+//Services
+import { poster, getter } from "../../services/apirequests";
+
 export default function AdminPageSetTags() {
     const { register, handleSubmit, formState: { errors }, reset, setError } = useForm()
     const { appData } = useGetAppData()
@@ -29,8 +32,23 @@ export default function AdminPageSetTags() {
             }
         }
 
-        setAppData(newData)
-        toastHandler.showSuccessToast("Previous tags cleared", "bottom-center")
+        let pathForClearingOmegleTags = import.meta.env.VITE_ADMIN_RESET_OMEGLE_TAGS
+        getter(pathForClearingOmegleTags, appData.userData.userToken)
+            .then(
+                (response) => {
+                    if (response.status === 200) {
+                        setAppData(newData)
+                        toastHandler.showSuccessToast("Previous tags cleared", "bottom-center")
+                    } else {
+                        toastHandler.showErrorToast("Failed to clear previous tags", "bottom-center")
+                    }
+                }
+            ).catch((error) => {
+                console.error("Failed to clear previous tags", error)
+                toastHandler.showErrorToast("Failed to clear previous tags", "bottom-center")
+            })
+
+
     }
 
     const setOmegleTags = (formData: any) => {
@@ -42,23 +60,37 @@ export default function AdminPageSetTags() {
 
             let tagsArrayWithoutUndefined: string[] = []
 
-            for(let i = 0; i < splitTags.length; i++) {
-                if(splitTags[i] !== undefined) {
+            //Remove empty strings and undefined values from the array
+            for (let i = 0; i < splitTags.length; i++) {
+                if (splitTags[i] !== undefined && splitTags[i] !== "") {
                     tagsArrayWithoutUndefined.push(splitTags[i].trim())
                 }
             }
 
-            let newData: appData= {
-                ...appData,
-                liveData: {
-                    ...appData.liveData,
-                    currentOmegleTags: tagsArrayWithoutUndefined
-                }
-            };
+            let pathForUpdatingOmegleTags = import.meta.env.VITE_ADMIN_UPDATE_OMEGLE_TAGS
+            poster(pathForUpdatingOmegleTags,
+                { currentOmegleTags: tagsArrayWithoutUndefined },
+                () => { },
+                appData.userData.userToken)
+                .then(
+                    (response) => {
+                        let allOmegleTags = response.data as string[];
+                        let newData: appData = {
+                            ...appData,
+                            liveData: {
+                                ...appData.liveData,
+                                currentOmegleTags: allOmegleTags
+                            }
+                        }
+                        setAppData(newData);
+                        toastHandler.showSuccessToast("New tags set successfully", "bottom-center");
+                        reset();
+                    }
+                ).catch((error) => {
+                    console.error("Failed to update the omegle tags", error)
+                    toastHandler.showErrorToast("Failed to update the omegle tags", "bottom-center")
+                })
 
-            setAppData(newData);
-            toastHandler.showSuccessToast("New tags set successfully", "bottom-center");
-            reset();
         } else {
             setError("tags", { message: "Please enter at least one tag" });
         }
@@ -104,7 +136,7 @@ export default function AdminPageSetTags() {
                     errorMessage={errors.tags && errors.tags.message as string}
                     register={register}
                 />
-            
+
                 <button
                     className="bg-deepBlue-500 text-white rounded-md 
                 h-14 flex flex-row justify-center items-center px-4 gap-4

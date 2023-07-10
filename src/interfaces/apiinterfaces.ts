@@ -25,3 +25,8 @@ export interface firebaseLiveStreamResponse extends updateLiveStreamDataObject {
     //This is the event that triggered the response
     messageFromEvent: string
 }
+
+export interface firebaseOmegleToggleResponse {
+    messageFromEvent: string,
+    currentOmegleTags: string[]
+}
