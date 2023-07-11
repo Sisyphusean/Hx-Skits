@@ -54,4 +54,8 @@ interface ImportMetaEnv {
     VITE_ADMIN_UPDATE_OMEGLE_TAGS: string,
     /**This is the API path for deleting all of the omelge tags*/
     VITE_ADMIN_RESET_OMEGLE_TAGS: string,
+    /**This is the path for getting the current omegle tags */
+    VITE_USER_GET_OMEGLE_TAGS: string,
+    /**This is the path for getting the current livestream platforms */
+    VITE_USER_GET_LIVESTREAM: string,
 }
