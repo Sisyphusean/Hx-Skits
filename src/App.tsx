@@ -54,7 +54,8 @@ function App() {
   //Connect React application to the broadcast channel
   const broadcastChannel = new BroadcastChannel(import.meta.env.VITE_BROADCASTCHANNEL_NAME as string)
 
-  //UseEffect for listening to broadcast messages. These allows us to update the react app
+  //UseEffect for listening to broadcast messages.
+  //These allows us to update the react app
   //when a message is received from the service worker
   useEffect(() => {
     broadcastChannel.onmessage = (event) => {

@@ -20,12 +20,11 @@ window.addEventListener("beforeinstallprompt", (event) => {
 
 
 export default function OnboardingDialog() {
+    //App Data instantiations
+    const { appData } = useContext(AppDataContext)
     const notificationStateIndicators = { enabled: "✅", disabled: "🟠" }
     const [currentPage, setCurrentPage] = useState(1)
     const [isDialogOpen, toggleDialogOpen] = useState(true)
-
-    //App Data instantiations
-    const { appData } = useContext(AppDataContext)
     const setAppData = useSetAppData()
     var isUserBrowserSupported: boolean = true
     var pageToDisplay: ReactNode = null
@@ -41,7 +40,6 @@ export default function OnboardingDialog() {
 
     const installPWA = useCallback(
         async () => {
-
             if (defferedPrompt !== null && appData.userData.userPlatform !== "ios") {
 
                 //Show the install prompt and get the user's choice
@@ -76,15 +74,15 @@ export default function OnboardingDialog() {
                 }
 
                 if (!pwaInstallResults) {
-                    setAppData(
-                        {
-                            ...appData,
-                            userData: {
-                                ...appData.userData,
-                                onboardingState: "pwa"
-                            }
+                    let newAppData: appData = {
+                        ...appData,
+                        userData: {
+                            ...appData.userData,
+                            onboardingState: "pwa",
                         }
-                    )
+                    }
+
+                    setAppData(newAppData)
                     moveDialogToTheNextPage()
                 }
 
@@ -265,7 +263,7 @@ export default function OnboardingDialog() {
                 : "opacity-0 translate-x-40 absolute pointer-events-none"}`)
     }, [currentPage])
 
-    const pageOne = useMemo(() => {
+    const pageOne = useCallback(() => {
 
         let instructionPreamble: ReactNode = <></>
         let buttonText = ""
@@ -383,7 +381,7 @@ export default function OnboardingDialog() {
     }, [currentPage, appData])
 
     /** This is the dynamic first page that will be rendered depending on external dependencies */
-    const pageTwo = useMemo(() => {
+    const pageTwo = useCallback(() => {
         return (
             <div
                 className={getClassNameDependingOnPage(currentPage, 2)}>
@@ -474,15 +472,12 @@ export default function OnboardingDialog() {
 
     pageToDisplay = useMemo(() => {
         if (currentPage === 1) {
-            return pageOne
+            return pageOne()
         }
 
-        if (currentPage === 2) {
-            return pageTwo
-        }
-        
+        return pageTwo()
 
-    }, [currentPage])
+    }, [currentPage, appData])
 
 
     /** 
