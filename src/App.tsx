@@ -42,6 +42,7 @@ import { messaging, getFirebaseCloudMessengerToken, handleFirebaseMessage } from
 //Services
 import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
 import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse } from './interfaces/apiinterfaces';
+import { toastHandler } from './utilities/toastHandler';
 
 
 function App() {
@@ -53,9 +54,12 @@ function App() {
   //Connect React application to the broadcast channel
   const broadcastChannel = new BroadcastChannel(import.meta.env.VITE_BROADCASTCHANNEL_NAME as string)
 
-  //UseEffect for listening to broadcast messages
+  //UseEffect for listening to broadcast messages. These allows us to update the react app
+  //when a message is received from the service worker
   useEffect(() => {
     broadcastChannel.onmessage = (event) => {
+
+      console.log(event)
 
       //If the message is as a result of a live stream update,
       // we will update the live stream state in th+e react app
@@ -65,7 +69,7 @@ function App() {
       }
     }
 
-  }, [])
+  }, [appData])
 
   //UseEffect for fetching the user's FCM token and ensuring it is valid
   useEffect(() => {
@@ -171,13 +175,23 @@ function App() {
 
             if (response && response.messageFromEvent === "omegleUpdate") {
               let firebaseOmegleUpdateDataObject = response as firebaseOmegleToggleResponse
+
+              let cleanedFirebaseOmegleTags =
+                firebaseOmegleUpdateDataObject.currentOmegleTags.filter((tag) => {
+                  if (tag !== "") {
+                    return tag
+                  }
+                })
+
               let appDataWithUpdatedOmegleTags: appData = {
                 ...appData,
                 liveData: {
                   ...appData.liveData,
-                  currentOmegleTags: firebaseOmegleUpdateDataObject.currentOmegleTags
+                  currentOmegleTags: cleanedFirebaseOmegleTags
                 }
               }
+
+              toastHandler.showSuccessToast("The omegle tags have been updated", "top-center")
               setAppData(appDataWithUpdatedOmegleTags)
             }
           }

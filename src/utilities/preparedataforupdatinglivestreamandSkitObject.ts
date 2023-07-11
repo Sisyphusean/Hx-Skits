@@ -11,8 +11,6 @@ import { appData, liveData, skitData } from "../interfaces/datainterfaces";
 export const prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject = (liveStreamData: any,
     appData: appData) => {
 
-    console.log(liveStreamData)
-
     let modifiedLiveData: liveData = {
         currentOmegleTags: [],
         isHyphonixLiveOnTwitch: false,
