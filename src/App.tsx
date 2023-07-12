@@ -59,13 +59,10 @@ function App() {
   //when a message is received from the service worker
   useEffect(() => {
     broadcastChannel.onmessage = (event) => {
-
-      console.log(event)
-
       //If the message is as a result of a live stream update,
       // we will update the live stream state in th+e react app
       if (event.data.messageFromEvent === "liveStreamUpdate") {
-        const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(event.data, appData)
+        const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(event.data.liveStreamData, appData)
         setAppData(updatedAppDataWithUpdatedLiveStreamAndCurrentSkit)
       }
     }
@@ -169,9 +166,26 @@ function App() {
           (response) => {
             //Specifically for the new notification is triggered as a result of the livestream update
             if (response && response.messageFromEvent === "liveStreamUpdate") {
+              console.log(response)
               let firebaseDataObject = response as firebaseLiveStreamResponse
-              const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(firebaseDataObject, appData)
-              setAppData(updatedAppDataWithUpdatedLiveStreamAndCurrentSkit)
+
+              //Create an object that contains the updated live stream data and the current skit
+              const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit =
+                prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(
+                  firebaseDataObject.liveStreamData, appData
+                )
+              
+              //Create an object that contains the current Omegle tags
+              const liveAppDataWithCurrentSkitUpdated: appData = {
+                ...updatedAppDataWithUpdatedLiveStreamAndCurrentSkit,
+                liveData: {
+                  ...updatedAppDataWithUpdatedLiveStreamAndCurrentSkit.liveData,
+                  currentOmegleTags: firebaseDataObject.currentOmegleTags
+                }
+              }
+
+              setAppData(liveAppDataWithCurrentSkitUpdated)
+
             }
 
             if (response && response.messageFromEvent === "omegleUpdate") {

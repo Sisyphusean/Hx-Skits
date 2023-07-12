@@ -52,6 +52,7 @@ export const getFirebaseCloudMessengerToken = async () => {
 export const handleFirebaseMessage =
     (payload: MessagePayload, appData: appData)
         : Promise<false | firebaseLiveStreamResponse | firebaseOmegleToggleResponse> => {
+
         return new Promise((resolve, reject) => {
 
             //Handle Live Stream Update notifications
@@ -68,14 +69,19 @@ export const handleFirebaseMessage =
                 }
 
                 if (payload.data) {
+                    const liveStreamData = JSON.parse(payload.data.liveStreamData)
 
-                    if (payload.data.messageFromEvent === "liveStreamUpdate") {
+                    if (payload.data.messageFromEvent === "liveStreamUpdate"
+                        && payload.data.liveStreamData !== "") {
 
                         let newData: firebaseLiveStreamResponse = {
                             messageFromEvent: payload.data.messageFromEvent,
-                            streamingOn: payload.data.streamingOn,
-                            activityType: payload.data.activityType,
-                            streamingLink: payload.data.streamingLink
+                            liveStreamData: {
+                                streamingOn: liveStreamData.streamingOn,
+                                streamingLink: liveStreamData.streamingLink,
+                                activityType: liveStreamData.activityType
+                            },
+                            currentOmegleTags: payload.data.currentOmegleTags ? payload.data.currentOmegleTags.split(",") : []
                         }
                         resolve(newData)
 

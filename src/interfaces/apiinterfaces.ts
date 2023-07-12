@@ -21,9 +21,16 @@ export interface updateLiveStreamDataObject {
     streamingLink?: string,
     activityType: string
 }
-export interface firebaseLiveStreamResponse extends updateLiveStreamDataObject {
+
+export interface firebaseLiveStreamResponse {
     //This is the event that triggered the response
-    messageFromEvent: string
+    messageFromEvent: string,
+    liveStreamData: {
+        streamingOn: string,
+        streamingLink?: string,
+        activityType: string
+    },
+    currentOmegleTags: string[] | []
 }
 
 export interface firebaseOmegleToggleResponse extends getOmegleTagsResponse {
