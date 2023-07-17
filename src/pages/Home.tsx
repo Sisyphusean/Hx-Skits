@@ -78,6 +78,7 @@ export default function Home() {
                     ...appDataWithUpdatedLiveStreamData,
                     skitData: {
                         ...appData.skitData,
+                        currentSkit: livestreamData.activityType === "nameskit" ? "nameskit" : "none",
                         nameSkitData: {
                             ...appData.skitData.nameSkitData,
                             marksCurrentName: nameSkitData.marksName,
