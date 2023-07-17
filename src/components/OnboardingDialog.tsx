@@ -446,16 +446,33 @@ export default function OnboardingDialog() {
 
     const unsupportedBrowserPage = useMemo(() => {
         let userBrowser = appData.userData.browserType.toLowerCase()
-        let isBrowserNotInSupportedList = (
-            userBrowser !== "chrome"
-            && userBrowser !== "edge"
-            && userBrowser !== "safari"
-            && userBrowser !== "brave"
+        let userPlatform = appData.userData.userPlatform.toLowerCase()
+
+        let isPlatformSupported = (
+            userPlatform !== "macos"
+            && userPlatform !== "ios"
+        )
+
+        let isBrowserSupported = (
+            userBrowser === "chrome"
+            || userBrowser === "brave"
         )
 
 
-        if (isBrowserNotInSupportedList) {
+        if (!isBrowserSupported) {
             isUserBrowserSupported = false
+        }
+
+        let textToDisplay = ""
+
+        if (!isBrowserSupported && isPlatformSupported) {
+            textToDisplay = `Your Browser (${userBrowser[0].toLocaleUpperCase() + userBrowser.slice(1)}) is currently not supported. <br />
+            Please open the app in Google Chrome or Brave Browser to continue.`
+        }
+
+        if (!isBrowserSupported && !isPlatformSupported) {
+            textToDisplay = "Apple devices are currently not supported. Don't worry, they'll be supported in the future. \
+            For now, please use a Windows or Android device to continue."
         }
 
         return (
@@ -463,12 +480,11 @@ export default function OnboardingDialog() {
                 <p
                     className="text-center text-lg font-bold"
                 >
-                    Your Browser ({userBrowser[0].toLocaleUpperCase() + userBrowser.slice(1)}) is currently not supported. <br />
-                    Please open the app in Safari, Microsoft Edge, Google Chrome or Brave Browser to continue.
+                    {textToDisplay}
                 </p>
             </div>
         )
-    }, [appData.userData.browserType])
+    }, [appData])
 
     pageToDisplay = useMemo(() => {
         if (currentPage === 1) {
@@ -478,6 +494,8 @@ export default function OnboardingDialog() {
         return pageTwo()
 
     }, [currentPage, appData])
+
+    // console.log(`Is ${appData.userData.browserType} Supported: `, isUserBrowserSupported)
 
 
     /** 
