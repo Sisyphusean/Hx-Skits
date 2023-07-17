@@ -27,7 +27,7 @@ import { getFirebaseCloudMessengerToken } from '../firebase/firebase'
 import { getter } from '../services/apirequests';
 
 //Interfaces
-import { getOmegleTagsResponse, updateLiveStreamDataObject } from '../interfaces/apiinterfaces';
+import { getOmegleTagsResponse, nameSkitDataObject, updateLiveStreamDataObject } from '../interfaces/apiinterfaces';
 import { appData } from '../interfaces/datainterfaces';
 
 //Utilities
@@ -46,12 +46,15 @@ export default function Home() {
             //Get the Omegle Data on app load
             getter(import.meta.env.VITE_USER_GET_OMEGLE_TAGS as string),
             //Get the livestream data on app load
-            getter(import.meta.env.VITE_USER_GET_LIVESTREAM as string)
+            getter(import.meta.env.VITE_USER_GET_LIVESTREAM as string),
+            //Get the name skit data on app load
+            getter(import.meta.env.VITE_USER_GET_NAMESKIT as string)
 
         ]).then((results) => {
             //The results are in the order of the Omegle request and then the livestream request
             let omegleData: getOmegleTagsResponse | undefined;
             let livestreamData: updateLiveStreamDataObject | undefined;
+            let nameSkitData: nameSkitDataObject | undefined
 
             results.map((result, index) => {
 
@@ -62,13 +65,25 @@ export default function Home() {
                 if (result.status === "fulfilled" && index === 1) {
                     livestreamData = result.value.data as updateLiveStreamDataObject
                 }
+
+                if (result.status === "fulfilled" && index === 2) {
+                    nameSkitData = result.value.data as nameSkitDataObject
+                }
             })
 
-            if (omegleData && livestreamData) {
+            if (omegleData && livestreamData && nameSkitData) {
 
                 let appDataWithUpdatedLiveStreamData = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(livestreamData, appData)
                 let newUpdatedAppData: appData = {
                     ...appDataWithUpdatedLiveStreamData,
+                    skitData: {
+                        ...appData.skitData,
+                        nameSkitData: {
+                            ...appData.skitData.nameSkitData,
+                            marksCurrentName: nameSkitData.marksName,
+                            shouldTheMarkBeGaslight: JSON.parse(nameSkitData.shouldUserBeGaslit)
+                        }
+                    },
                     liveData: {
                         ...appDataWithUpdatedLiveStreamData.liveData,
                         currentOmegleTags: omegleData.currentOmegleTags

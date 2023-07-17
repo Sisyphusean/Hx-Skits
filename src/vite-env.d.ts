@@ -58,4 +58,6 @@ interface ImportMetaEnv {
     VITE_USER_GET_OMEGLE_TAGS: string,
     /**This is the path for getting the current livestream platforms */
     VITE_USER_GET_LIVESTREAM: string,
+    /**This is the path for getting the current Name skit data */
+    VITE_USER_GET_NAMESKIT: string,
 }
