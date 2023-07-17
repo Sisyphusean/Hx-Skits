@@ -9,15 +9,29 @@ import { useState, useEffect, useCallback } from "react";
 
 //Custom hooks
 import { useGetAppData } from "../customhooks/useGetAppData";
+import { useSetAppData } from "../customhooks/useSetAppData";
 
 //Framer
 import { motion, AnimatePresence } from "framer-motion";
 
+//Interfaces
+import { appData } from "../interfaces/datainterfaces";
+import { getOmegleTagsResponse, updateLiveStreamDataObject, nameSkitDataObject } from "../interfaces/apiinterfaces";
+
+//Constants
 import { possibleComponents } from "../constants/dataconstants";
+
+//Services
+import { getter } from "../services/apirequests";
+
+//Utilities
+import { prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject } from "../utilities/preparedataforupdatinglivestreamandSkitObject";
+
 
 export default function Admin() {
     const { appData } = useGetAppData()
     const [currentComponent, setCurrentComponent] = useState(possibleComponents.nameSkit)
+    const setAppData = useSetAppData()
 
     useEffect(() => {
         if (!appData.skitData.currentSkit) {
@@ -32,6 +46,67 @@ export default function Admin() {
             setCurrentComponent(possibleComponents.livestream)
         }
     }, [appData])
+
+    // Make a call to omegle data, livestream data, and 
+    // name skit data API and update the memory
+    useEffect(() => {
+        Promise.allSettled([
+
+            //Get the Omegle Data on app load
+            getter(import.meta.env.VITE_USER_GET_OMEGLE_TAGS as string),
+            //Get the livestream data on app load
+            getter(import.meta.env.VITE_USER_GET_LIVESTREAM as string),
+            //Get the name skit data on app load
+            getter(import.meta.env.VITE_USER_GET_NAMESKIT as string)
+
+        ]).then((results) => {
+            //The results are in the order of the Omegle request and then the livestream request
+            let omegleData: getOmegleTagsResponse | undefined;
+            let livestreamData: updateLiveStreamDataObject | undefined;
+            let nameSkitData: nameSkitDataObject | undefined
+
+            results.map((result, index) => {
+
+                if (result.status === "fulfilled" && index === 0) {
+                    omegleData = result.value.data as getOmegleTagsResponse
+                }
+
+                if (result.status === "fulfilled" && index === 1) {
+                    livestreamData = result.value.data as updateLiveStreamDataObject
+                }
+
+                if (result.status === "fulfilled" && index === 2) {
+                    nameSkitData = result.value.data as nameSkitDataObject
+                }
+            })
+
+            if (omegleData && livestreamData && nameSkitData) {
+
+                let appDataWithUpdatedLiveStreamData = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(livestreamData, appData)
+                let newUpdatedAppData: appData = {
+                    ...appDataWithUpdatedLiveStreamData,
+                    skitData: {
+                        ...appData.skitData,
+                        currentSkit: livestreamData.activityType === "nameskit" ? "nameskit" : "none",
+                        nameSkitData: {
+                            ...appData.skitData.nameSkitData,
+                            marksCurrentName: nameSkitData.marksName,
+                            shouldTheMarkBeGaslight: JSON.parse(nameSkitData.shouldUserBeGaslit)
+                        }
+                    },
+                    liveData: {
+                        ...appDataWithUpdatedLiveStreamData.liveData,
+                        currentOmegleTags: omegleData.currentOmegleTags
+                    }
+                }
+
+                setAppData(newUpdatedAppData)
+
+            }
+
+        })
+
+    }, [])
 
     const getCurrentNameSkit = useCallback(() => {
 
