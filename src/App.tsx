@@ -29,6 +29,9 @@ import { useContext, useEffect, useCallback } from 'react';
 import { AppDataContext } from './contexts/appdatacontext';
 import { openDatabase, getFcmObjectStoreData, updateFcmToken, getFcmToken, addFcmToken, deletAllFcmTokens } from './utilities/indexdb';
 import { prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject } from './utilities/preparedataforupdatinglivestreamandSkitObject';
+import { checkUserTokenValidity } from './utilities/checkusertokenvalidity';
+import { toastHandler } from './utilities/toastHandler';
+import { logUserOutLocally } from './utilities/loguseroutlocally';
 
 //Interfaces
 import { appData } from './interfaces/datainterfaces';
@@ -42,7 +45,6 @@ import { messaging, getFirebaseCloudMessengerToken, handleFirebaseMessage } from
 //Services
 import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
 import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse } from './interfaces/apiinterfaces';
-import { toastHandler } from './utilities/toastHandler';
 
 
 function App() {
@@ -174,7 +176,7 @@ function App() {
                 prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(
                   firebaseDataObject.liveStreamData, appData
                 )
-              
+
               //Create an object that contains the current Omegle tags
               const liveAppDataWithCurrentSkitUpdated: appData = {
                 ...updatedAppDataWithUpdatedLiveStreamAndCurrentSkit,
@@ -215,6 +217,28 @@ function App() {
             console.log("Failed to handle firebase notification", error) : ""
         })
     })
+  }, [appData])
+
+  //UseEffect for checking if the user's JWT is valid. If not, log the user out.
+  useEffect(() => {
+
+    const checkUserTokenValidityAndLogUserOutIfInvalid = async () => {
+      if (appData.userData.userToken
+        && appData.userData.username) {
+        let isJWTValid = await checkUserTokenValidity(appData.userData.userToken, appData.userData.username)
+
+        if (!isJWTValid) {
+          let newData = logUserOutLocally(appData)
+          console.log(newData)
+          toastHandler.showErrorToast("Your session has expired. Please login again.", "top-right")
+          setAppData(newData)
+        }
+
+      }
+    }
+
+    checkUserTokenValidityAndLogUserOutIfInvalid()
+
   }, [appData])
 
   return (

@@ -84,28 +84,6 @@ export default function Home() {
 
     }, [appData])
 
-
-
-    useEffect(() => {
-
-        const checkUserTokenValidityAndLogUserOutIfInvalid = async () => {
-            if (appData.userData.userToken
-                && appData.userData.username) {
-                let isJWTValid = await checkUserTokenValidity(appData.userData.userToken, appData.userData.username)
-
-                if (!isJWTValid) {
-                    let newData = logUserOutLocally(appData)
-                    toastHandler.showErrorToast("Your session has expired. Please login again.", "top-right")
-                    setAppData(newData)
-                }
-
-            }
-        }
-
-        checkUserTokenValidityAndLogUserOutIfInvalid()
-
-    }, [])
-
     //UseEffect for getting the omegle and livestream data from the db
     useEffect(() => {
         getAppDataFromAPIAndSetItInMemory()
