@@ -472,7 +472,7 @@ export default function OnboardingDialog() {
 
         if (!isBrowserSupported && !isPlatformSupported) {
             textToDisplay = "Apple devices are currently not supported. Don't worry, they'll be supported in the future. \
-            For now, please use a Windows or Android device to continue."
+            For now, please use a Windows, Linux, or Android device to continue."
         }
 
         return (
