@@ -229,7 +229,6 @@ function App() {
 
         if (!isJWTValid) {
           let newData = logUserOutLocally(appData)
-          console.log(newData)
           toastHandler.showErrorToast("Your session has expired. Please login again.", "top-right")
           setAppData(newData)
         }

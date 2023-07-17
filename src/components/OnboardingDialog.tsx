@@ -446,15 +446,14 @@ export default function OnboardingDialog() {
 
     const unsupportedBrowserPage = useMemo(() => {
         let userBrowser = appData.userData.browserType.toLowerCase()
-        let isBrowserNotInSupportedList = (
-            userBrowser !== "chrome"
-            && userBrowser !== "edge"
-            && userBrowser !== "safari"
-            && userBrowser !== "brave"
+        console.log(userBrowser)
+        let isBrowserSupported = (
+            userBrowser === "chrome"
+            || userBrowser === "brave"
         )
 
 
-        if (isBrowserNotInSupportedList) {
+        if (!isBrowserSupported) {
             isUserBrowserSupported = false
         }
 
@@ -464,11 +463,11 @@ export default function OnboardingDialog() {
                     className="text-center text-lg font-bold"
                 >
                     Your Browser ({userBrowser[0].toLocaleUpperCase() + userBrowser.slice(1)}) is currently not supported. <br />
-                    Please open the app in Safari, Microsoft Edge, Google Chrome or Brave Browser to continue.
+                    Please open the app in Google Chrome or Brave Browser to continue.
                 </p>
             </div>
         )
-    }, [appData.userData.browserType])
+    }, [appData])
 
     pageToDisplay = useMemo(() => {
         if (currentPage === 1) {
@@ -478,6 +477,8 @@ export default function OnboardingDialog() {
         return pageTwo()
 
     }, [currentPage, appData])
+
+    // console.log(`Is ${appData.userData.browserType} Supported: `, isUserBrowserSupported)
 
 
     /** 
