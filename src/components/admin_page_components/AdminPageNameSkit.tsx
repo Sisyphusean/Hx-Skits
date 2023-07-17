@@ -16,9 +16,11 @@ import { appData } from "../../interfaces/datainterfaces";
 //React Hook Form
 import { useForm } from "react-hook-form";
 
-
 //Utilities
 import { toastHandler } from "../../utilities/toastHandler";
+
+//Services
+import { poster } from "../../services/apirequests";
 
 export default function AdminPageNameSkitActivity(props: adminPageNameSkitActivityProps) {
     const { appData } = useGetAppData()
@@ -26,29 +28,41 @@ export default function AdminPageNameSkitActivity(props: adminPageNameSkitActivi
     let defaultValues = { marksName: appData.skitData.nameSkitData.marksCurrentName, shouldUserBeGaslit: appData.skitData.nameSkitData.shouldTheMarkBeGaslight.toString() }
     const { register, reset, handleSubmit, formState: { errors }, setError } = useForm()
 
+    //Reset the form on first load
     useEffect(() => {
         reset(defaultValues)
     }, [])
 
     const processNameSkitData = (formData: any) => {
+        console.log(formData)
         if (formData.marksName && formData.shouldUserBeGaslit) {
-            let marksName = formData.marksName.trim()
-            let shouldUserBeGaslit: boolean = JSON.parse(formData.shouldUserBeGaslit)
 
-            let newData: appData = {
-                ...appData,
-                skitData: {
-                    ...appData.skitData,
-                    nameSkitData: {
-                        ...appData.skitData.nameSkitData,
-                        marksCurrentName: marksName,
-                        shouldTheMarkBeGaslight: shouldUserBeGaslit
+            const pathForUpdatingNameSkitData = import.meta.env.VITE_ADMIN_UPDATE_NAMESKIT
+            poster(
+                pathForUpdatingNameSkitData,
+                formData,
+                () => { },
+                appData.userData.userToken).then(
+                    (response) => {
+                        let newData: appData = {
+                            ...appData,
+                            skitData: {
+                                ...appData.skitData,
+                                nameSkitData: {
+                                    ...appData.skitData.nameSkitData,
+                                    marksCurrentName: formData.marksName,
+                                    shouldTheMarkBeGaslight: formData.shouldUserBeGaslit
+                                }
+                            }
+                        }
+
+                        setAppData(newData)
+                        toastHandler.showSuccessToast("Name skit data updated successfully", "top-right")
                     }
-                }
-            }
+                ).catch(error => {
+                    console.error("Failed to set nameskit data ", error)
+                })
 
-            setAppData(newData)
-            toastHandler.showSuccessToast("Name skit data updated successfully", "top-right")
         } else {
             toastHandler.showErrorToast("Please enter the current victim's name and select if they should be Gaslit", "top-right")
         }

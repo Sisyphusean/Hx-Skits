@@ -21,7 +21,7 @@ export default function HomepageSkitComponent(props: homePageSkitComponentProps)
                     <h5>Current Skit: <span className='font-medium'>Community Name Skit</span></h5>
 
                     <h5>Name being trolled:
-                        {props.marksCurrentName === "" ? " - Not available"
+                        {props.marksCurrentName === "" || props.marksCurrentName === "NA NA" ? " - Not available"
                             : <SkitName marksCurrentName={marksCurrentName} shouldUserGaslightTheMark={shouldUserGaslightTheMark} />}
                     </h5>
 

@@ -60,4 +60,6 @@ interface ImportMetaEnv {
     VITE_USER_GET_LIVESTREAM: string,
     /**This is the path for getting the current Name skit data */
     VITE_USER_GET_NAMESKIT: string,
+    /**This is the path for updating the nameskit data */
+    VITE_ADMIN_UPDATE_NAMESKIT: string
 }

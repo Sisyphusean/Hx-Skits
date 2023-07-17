@@ -134,6 +134,18 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
 
             }
 
+            //Update the name skit settings by passing an empty data to the name skit API
+            const pathForUpdatingNameSkitData = import.meta.env.VITE_ADMIN_UPDATE_NAMESKIT
+            //The empty state is "NA NA" across front end and backend
+            poster(
+                pathForUpdatingNameSkitData,
+                { marksName: "NA NA", shouldUserBeGaslit: false },
+                () => { },
+                appData.userData.userToken).catch(error => {
+                    console.error("Failed to set nameskit data ", error)
+                })
+
+            //Update the live stream settings
             poster(
                 updateLiveStreamDataPath,
                 apiObject,
@@ -142,7 +154,8 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
                     (response) => {
                         if (response.status === 200) {
                             toggleMinified(true)
-                            //We don't need to remove this local update because our app will compare the local storage data with react storage data before updating
+                            //We don't need to remove this local update because our 
+                            //app will compare the local storage data with react storage data before updating
                             setAppData(updatedLiveStreamAppData)
                             toastHandler.showSuccessToast("Successfully updated the livestream", "top-right")
                         } else {
