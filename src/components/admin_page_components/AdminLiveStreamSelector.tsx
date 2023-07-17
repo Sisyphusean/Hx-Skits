@@ -33,7 +33,6 @@ import { poster } from "../../services/apirequests"
 //Custom Components
 import Select from "../SelectInput"
 
-
 export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorProps) {
 
     let { minified } = props
@@ -44,6 +43,7 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
         activityType: appData.skitData.currentSkit ? appData.skitData.currentSkit : "none"
     }
     const [isMinified, toggleMinified] = useState(minified)
+    const [isRequestLoadingState, setRequestLoadingState] = useState(false)
     const { register, handleSubmit, setError, watch, reset, formState: { errors } } = useForm({})
     const setAppData = useSetAppData()
     const watchedStreamingOn: string = watch("streamingOn")
@@ -51,6 +51,14 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
     const skitTypes: skitTypes[] = ['none', 'nameskit', 'raid']
     const displayedUserOptions = ["None (John is just livestreaming random stuff)", "Community Name Skit", "Raid Shadow Legends"]
     let capitalizedCurrentPlatform = currentStreamPlatform ? currentStreamPlatform[0].toUpperCase() + currentStreamPlatform.substring(1) : ""
+
+    const onLoading = (isRequestLoading: boolean) => {
+        if (isRequestLoading) {
+            setRequestLoadingState(true)
+        } else {
+            setRequestLoadingState(false)
+        }
+    }
 
     useEffect(() => {
         //Reset values to default  when user arrives at the page for the first time for better UX
@@ -134,22 +142,25 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
 
             }
 
-            //Update the name skit settings by passing an empty data to the name skit API
-            const pathForUpdatingNameSkitData = import.meta.env.VITE_ADMIN_UPDATE_NAMESKIT
-            //The empty state is "NA NA" across front end and backend
-            poster(
-                pathForUpdatingNameSkitData,
-                { marksName: "NA NA", shouldUserBeGaslit: false },
-                () => { },
-                appData.userData.userToken).catch(error => {
-                    console.error("Failed to set nameskit data ", error)
-                })
+            //If the user is streaming on none, we need to update the name skit settings to empty
+            if (formData.streamingOn === "none") {
+                //Update the name skit settings by passing an empty data to the name skit API
+                const pathForUpdatingNameSkitData = import.meta.env.VITE_ADMIN_UPDATE_NAMESKIT
+                //The empty state is "NA NA" across front end and backend
+                poster(
+                    pathForUpdatingNameSkitData,
+                    { marksName: "NA NA", shouldUserBeGaslit: false },
+                    () => { },
+                    appData.userData.userToken).catch(error => {
+                        console.error("Failed to set nameskit data ", error)
+                    })
+            }
 
             //Update the live stream settings
             poster(
                 updateLiveStreamDataPath,
                 apiObject,
-                undefined,
+                onLoading,
                 appData.userData.userToken).then(
                     (response) => {
                         if (response.status === 200) {
@@ -255,8 +266,8 @@ export default function AdminLiveStreamSelector(props: adminLiveStreamSelectorPr
 
                         <Button
                             buttonType="submit"
-                            buttonClassType="filled"
-                            buttonText="Send notification"
+                            buttonClassType={isRequestLoadingState ? "disabled" : "filled"}
+                            buttonText={isRequestLoadingState ? "Sending notification ✈️" : "Send notification"}
                             buttonIcon="arrowRight"
                             overrideClasses="
                             ml-auto

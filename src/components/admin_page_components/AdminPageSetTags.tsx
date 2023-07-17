@@ -1,5 +1,9 @@
+//React
+import { useState } from "react";
+
 //Custom Components
 import Input from "../TextInput";
+import { buttonTailwindStyles } from "../Button";
 
 //Import RHF 
 import { useForm } from "react-hook-form";
@@ -22,6 +26,15 @@ export default function AdminPageSetTags() {
     const { appData } = useGetAppData()
     const setAppData = useSetAppData()
     let omegleTags = appData.liveData.currentOmegleTags
+    const [isRequestLoadingState, setRequestLoadingState] = useState(false)
+
+    const onLoading = (isRequestLoading: boolean) => {
+        if (isRequestLoading) {
+            setRequestLoadingState(true)
+        } else {
+            setRequestLoadingState(false)
+        }
+    }
 
     const clearPreviousTags = () => {
         let newData = {
@@ -70,7 +83,7 @@ export default function AdminPageSetTags() {
             let pathForUpdatingOmegleTags = import.meta.env.VITE_ADMIN_UPDATE_OMEGLE_TAGS
             poster(pathForUpdatingOmegleTags,
                 { currentOmegleTags: tagsArrayWithoutUndefined },
-                () => { },
+                onLoading,
                 appData.userData.userToken)
                 .then(
                     (response) => {
@@ -123,30 +136,40 @@ export default function AdminPageSetTags() {
 
             <form
                 onSubmit={handleSubmit(setOmegleTags)}
-                className="flex gap-4 items-end
+                className="flex gap-4 items-end w-full
             xxs:flex-col
                 sm:flex-row">
 
-                <Input
-                    label="What's Hyphonix's current Omegle tags?"
-                    placeholder="e.g Youtube, Twitch"
-                    type="text"
-                    id="tags"
-                    helpText="Separate each tag with commas."
-                    errorMessage={errors.tags && errors.tags.message as string}
-                    register={register}
-                />
+                <div
+                    className="w-full flex 
+                    xxs:flex-col
+                    sm:flex-row gap-4 align-bottom"
+                >
+                    <Input
+                        label="What's Hyphonix's current Omegle tags?"
+                        placeholder="e.g Youtube, Twitch"
+                        type="text"
+                        id="tags"
+                        helpText="Separate each tag with commas."
+                        errorMessage={errors.tags && errors.tags.message as string}
+                        register={register}
+                    />
 
-                <button
-                    className="bg-deepBlue-500 text-white rounded-md 
-                h-14 flex flex-row justify-center items-center px-4 gap-4
-                xxs:w-full
-                sm:w-3/12
-                md:w-4/12"
-                    type="submit">
-                    Set tags
-                    <img src="/assets/arrowRight.svg" alt="arrow-right" />
-                </button>
+                    <div
+                        className="self-end mb-1 m-0 h-14
+                    xxs:w-full
+                    sm:w-3/12
+                    md:w-8/12
+                    lg:w-4/12"
+                    >
+                        <button
+                            className={(isRequestLoadingState ? buttonTailwindStyles["disabled"] : buttonTailwindStyles["filled"])}
+                            type="submit">
+                            {isRequestLoadingState ? "Setting ✈️" : "Set tags"}
+                            {isRequestLoadingState ? "" : <img src="/assets/arrowRight.svg" alt="arrow-right" />}
+                        </button>
+                    </div>
+                </div>
 
             </form>
         </div>

@@ -8,6 +8,7 @@ import { useSetAppData } from "../../customhooks/useSetAppData";
 //Components
 import Input from "../TextInput";
 import RadioInput from "../Radio";
+import { buttonTailwindStyles } from "../Button";
 
 //Interfaces
 import { adminPageNameSkitActivityProps } from "../../interfaces/propinterfaces";
@@ -25,8 +26,18 @@ import { poster } from "../../services/apirequests";
 export default function AdminPageNameSkitActivity(props: adminPageNameSkitActivityProps) {
     const { appData } = useGetAppData()
     const setAppData = useSetAppData()
-    let defaultValues = { marksName: appData.skitData.nameSkitData.marksCurrentName, shouldUserBeGaslit: appData.skitData.nameSkitData.shouldTheMarkBeGaslight.toString() }
+    let defaultMarkname = appData.skitData.nameSkitData.marksCurrentName === "NA NA" || appData.skitData.nameSkitData.marksCurrentName === "" ? "" : appData.skitData.nameSkitData.marksCurrentName
+    let defaultValues = { marksName: defaultMarkname, shouldUserBeGaslit: appData.skitData.nameSkitData.shouldTheMarkBeGaslight.toString() }
     const { register, reset, handleSubmit, formState: { errors }, setError } = useForm()
+    const [isRequestLoadingState, setRequestLoadingState] = useState(false)
+
+    const onLoading = (isRequestLoading: boolean) => {
+        if (isRequestLoading) {
+            setRequestLoadingState(true)
+        } else {
+            setRequestLoadingState(false)
+        }
+    }
 
     //Reset the form on first load
     useEffect(() => {
@@ -41,7 +52,7 @@ export default function AdminPageNameSkitActivity(props: adminPageNameSkitActivi
             poster(
                 pathForUpdatingNameSkitData,
                 formData,
-                () => { },
+                onLoading,
                 appData.userData.userToken).then(
                     (response) => {
                         let newData: appData = {
@@ -131,17 +142,24 @@ export default function AdminPageNameSkitActivity(props: adminPageNameSkitActivi
                     xxs:flex-col-reverse xxs:items-start xxs:mt-4
                     sm:flex-row-reverse sm:items-center sm:mt-6">
 
-                        <button
-                            className="flex justify-center items-center gap-2 bg-deepBlue-500 rounded-lg text-white p-4 
-                            xxs:w-full
-                            sm:w-3/12">
-                            Update
-                            <img
-                                title="Arrow Right"
-                                src="/assets/arrowRight.svg"
-                                alt="Arrow Right"
-                            />
-                        </button>
+                        <div>
+                            <button
+                                disabled={isRequestLoadingState}
+                                className={(isRequestLoadingState ? buttonTailwindStyles["disabled"] : buttonTailwindStyles["filled"])}>
+                                {isRequestLoadingState ? "Updating ✈️" : "Update"}
+                                {
+                                    isRequestLoadingState ?
+                                        "" :
+                                        <img
+                                            title="Arrow Right"
+                                            src="/assets/arrowRight.svg"
+                                            alt="Arrow Right"
+                                        />
+                                }
+                            </button>
+
+                        </div>
+
 
                         <p
                             className="text-xs leading-4 

@@ -1,5 +1,6 @@
 // Components
 import Input from "../components/TextInput"
+import { buttonTailwindStyles } from "../components/Button"
 
 //Services
 import { poster } from "../services/apirequests"
@@ -131,39 +132,35 @@ export default function Login() {
                                     register={register}
                                 />
 
-                                <button
-                                    disabled={isApiLoading}
-                                    type="submit"
-                                    className="flex flex-row gap-2 align-middle items-center justify-center
-                                     border-2 text-white bg-deepBlue-500
-                                    rounded-lg py-4 px-8 transition font-medium ml-auto mt-4
-                                    xxs:w-full
-                                    sm:w-auto	
-                                    hover:font-medium hover:bg-belizeHole-500 hover:scale-105
-                                    active:text-white active:font-bold active:bg-deepBlue-500 active:scale-95">
+                                <div className="pt-2 ml-auto sm:w-4/12 xxs:w-full ">
+                                    <button
+                                        disabled={isApiLoading}
+                                        type="submit"
+                                        className={(isApiLoading ? buttonTailwindStyles["disabled"] : buttonTailwindStyles["filled"])}>
 
-                                    {isApiLoading ? "Logging you in" : "Login"}
+                                        {isApiLoading ? "Logging in" : "Login"}
 
 
-                                    <motion.div
-                                        className="m-0 p-0 flex flex-row"
-                                        animate={isApiLoading ? { rotate: [0, 360] } : { rotate: 0 }}
-                                        transition={isApiLoading
-                                            ? {
-                                                ease: "linear",
-                                                duration: 1.5,
-                                                flip: Infinity,
-                                                repeat: Infinity
-                                            } : { duration: 0, flip: 0, repeat: 0 }}
-                                    >
-                                        <img
-                                            ref={scope}
-                                            title=""
-                                            alt={isApiLoading ? "Loading Spinner" : "Right arrow"}
-                                            className={`inline-block ${isApiLoading ? "ml-2" : "pl-1"}`}
-                                            src={isApiLoading ? "./assets/spinner-third.svg" : "./assets/arrowRight.svg"} />
-                                    </motion.div>
-                                </button>
+                                        <motion.div
+                                            className="m-0 p-0 flex flex-row"
+                                            animate={isApiLoading ? { rotate: [0, 360] } : { rotate: 0 }}
+                                            transition={isApiLoading
+                                                ? {
+                                                    ease: "linear",
+                                                    duration: 1.5,
+                                                    flip: Infinity,
+                                                    repeat: Infinity
+                                                } : { duration: 0, flip: 0, repeat: 0 }}
+                                        >
+                                            <img
+                                                ref={scope}
+                                                title=""
+                                                alt={isApiLoading ? "Loading Spinner" : "Right arrow"}
+                                                className={`inline-block ${isApiLoading ? "ml-2" : "pl-1"}`}
+                                                src={isApiLoading ? "./assets/spinner-third.svg" : "./assets/arrowRight.svg"} />
+                                        </motion.div>
+                                    </button>
+                                </div>
                             </form>
                         </div>
 
