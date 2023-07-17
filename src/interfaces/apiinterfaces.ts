@@ -40,3 +40,13 @@ export interface firebaseOmegleToggleResponse extends getOmegleTagsResponse {
 export interface getOmegleTagsResponse {
     currentOmegleTags: string[]
 }
+
+export interface nameSkitDataObject {
+    marksName: string,
+    shouldUserBeGaslit: string
+}
+
+export interface firebaseNameSkitResponse {
+    messageFromEvent: string,
+    nameSkitData: nameSkitDataObject
+}

@@ -11,7 +11,7 @@ import { toastHandler } from "../utilities/toastHandler";
 
 //Interaces
 import { appData } from "../interfaces/datainterfaces";
-import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse } from "../interfaces/apiinterfaces";
+import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse, firebaseNameSkitResponse, nameSkitDataObject } from "../interfaces/apiinterfaces";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -51,7 +51,7 @@ export const getFirebaseCloudMessengerToken = async () => {
 
 export const handleFirebaseMessage =
     (payload: MessagePayload, appData: appData)
-        : Promise<false | firebaseLiveStreamResponse | firebaseOmegleToggleResponse> => {
+        : Promise<false | firebaseLiveStreamResponse | firebaseOmegleToggleResponse | firebaseNameSkitResponse> => {
 
         return new Promise((resolve, reject) => {
 
@@ -69,25 +69,46 @@ export const handleFirebaseMessage =
                 }
 
                 if (payload.data) {
-                    const liveStreamData = JSON.parse(payload.data.liveStreamData)
 
-                    if (payload.data.messageFromEvent === "liveStreamUpdate"
-                        && payload.data.liveStreamData !== "") {
+                    if (payload.data.messageFromEvent === "liveStreamUpdate") {
 
-                        let newData: firebaseLiveStreamResponse = {
-                            messageFromEvent: payload.data.messageFromEvent,
-                            liveStreamData: {
-                                streamingOn: liveStreamData.streamingOn,
-                                streamingLink: liveStreamData.streamingLink,
-                                activityType: liveStreamData.activityType
-                            },
-                            currentOmegleTags: payload.data.currentOmegleTags ? payload.data.currentOmegleTags.split(",") : []
+                        if (payload.data.liveStreamData !== "") {
+                            const liveStreamData = JSON.parse(payload.data.liveStreamData)
+                            let newData: firebaseLiveStreamResponse = {
+                                messageFromEvent: payload.data.messageFromEvent,
+                                liveStreamData: {
+                                    streamingOn: liveStreamData.streamingOn,
+                                    streamingLink: liveStreamData.streamingLink,
+                                    activityType: liveStreamData.activityType
+                                },
+                                currentOmegleTags: payload.data.currentOmegleTags ? payload.data.currentOmegleTags.split(",") : []
+                            }
+                            resolve(newData)
+
+                        } else {
+                            reject(false)
                         }
-                        resolve(newData)
-
-                    } else {
-                        reject(false)
                     }
+
+                    if (payload.data.messageFromEvent === "nameSkitUpdate") {
+
+                        const nameSkitData = payload.data.nameSkitData ? JSON.parse(payload.data.nameSkitData) as nameSkitDataObject : null
+
+                        if (nameSkitData && nameSkitData.marksName && nameSkitData.shouldUserBeGaslit) {
+                            let newData: firebaseNameSkitResponse = {
+                                messageFromEvent: payload.data.messageFromEvent,
+                                nameSkitData: {
+                                    marksName: nameSkitData.marksName,
+                                    shouldUserBeGaslit: JSON.parse(nameSkitData.shouldUserBeGaslit)
+                                }
+                            }
+                            resolve(newData)
+                        } else {
+                            reject(false)
+                        }
+
+                    }
+
 
                 } else {
                     reject(false)

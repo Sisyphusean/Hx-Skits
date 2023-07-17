@@ -18,10 +18,10 @@ export default function HomepageSkitComponent(props: homePageSkitComponentProps)
 
                 <div className='flex flex-col gap-4'>
 
-                    <h5>Current Skit: <span className='font-medium'>[Skit Name]</span></h5>
+                    <h5>Current Skit: <span className='font-medium'>Community Name Skit</span></h5>
 
                     <h5>Name being trolled:
-                        {props.marksCurrentName === "" ? " -"
+                        {props.marksCurrentName === "" ? " - Not available"
                             : <SkitName marksCurrentName={marksCurrentName} shouldUserGaslightTheMark={shouldUserGaslightTheMark} />}
                     </h5>
 

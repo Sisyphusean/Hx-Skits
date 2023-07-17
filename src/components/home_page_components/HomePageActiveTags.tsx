@@ -116,7 +116,7 @@ export default function ActiveTags(props: activeTagsProps) {
 
                 </span>
 
-                : " -"}
+                : " - Not available"}
         </div>
     )
 }

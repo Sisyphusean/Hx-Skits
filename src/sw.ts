@@ -340,7 +340,7 @@ onBackgroundMessage(messaging, (payload: any) => {
 
                         updateMessageLastReceived(token)
                             .then((response) => {
-                                console.log(response)
+                                import.meta.env.VITE_ENV === "dev" ? console.log(response) : null
                             }).catch((error) => {
                                 console.error(
                                     "Failed to update service worker's last received time",

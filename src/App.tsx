@@ -29,6 +29,7 @@ import { useContext, useEffect, useCallback } from 'react';
 import { AppDataContext } from './contexts/appdatacontext';
 import { openDatabase, getFcmObjectStoreData, updateFcmToken, getFcmToken, addFcmToken, deletAllFcmTokens } from './utilities/indexdb';
 import { prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject } from './utilities/preparedataforupdatinglivestreamandSkitObject';
+import { prepareappdataforupdatingnameskitobject } from './utilities/prepareappdataforupdatingnameskitobject';
 import { checkUserTokenValidity } from './utilities/checkusertokenvalidity';
 import { toastHandler } from './utilities/toastHandler';
 import { logUserOutLocally } from './utilities/loguseroutlocally';
@@ -44,7 +45,7 @@ import { messaging, getFirebaseCloudMessengerToken, handleFirebaseMessage } from
 
 //Services
 import { saveAndSubscribeTokenToTopics, validateToken } from './services/firebaseservices'
-import { firebaseLiveStreamResponse, firebaseOmegleToggleResponse } from './interfaces/apiinterfaces';
+import { firebaseLiveStreamResponse, firebaseNameSkitResponse, firebaseOmegleToggleResponse } from './interfaces/apiinterfaces';
 
 
 function App() {
@@ -62,11 +63,25 @@ function App() {
   useEffect(() => {
     broadcastChannel.onmessage = (event) => {
       //If the message is as a result of a live stream update,
-      // we will update the live stream state in th+e react app
+      // we will update the live stream state in the react app
       if (event.data.messageFromEvent === "liveStreamUpdate") {
         const updatedAppDataWithUpdatedLiveStreamAndCurrentSkit = prepareDataForUpdatingLivestreamStorageAndCurrentSkitObject(event.data.liveStreamData, appData)
         setAppData(updatedAppDataWithUpdatedLiveStreamAndCurrentSkit)
       }
+
+      //If the message is as a result of a name skit update,
+      // we will update the name skit state in the react app
+
+      //THIS SOLUTION IS SUPER DJANKY OH MY GODDDDDDDDDDDD!
+      if (event.data.messageFromEvent === "nameSkitUpdate") {
+        const { appDataWithUpdatedNameSkit } =
+          prepareappdataforupdatingnameskitobject(
+            appData,
+            event.data,
+            false)
+        setAppData(appDataWithUpdatedNameSkit)
+      }
+
     }
 
   }, [appData])
@@ -208,8 +223,24 @@ function App() {
                 }
               }
 
-              toastHandler.showSuccessToast("The omegle tags have been updated", "top-center")
+              if (!appData.userData.isUserLoggedIn) {
+                toastHandler.showSuccessToast("The omegle tags have been updated", "top-center")
+              }
               setAppData(appDataWithUpdatedOmegleTags)
+            }
+
+            if (response && response.messageFromEvent === "nameSkitUpdate") {
+              const firebaseNameSkitDatObject = response as firebaseNameSkitResponse
+
+              const { appDataWithUpdatedNameSkit, notificationMessage } =
+                prepareappdataforupdatingnameskitobject(appData, firebaseNameSkitDatObject)
+
+              if (!appData.userData.isUserLoggedIn) {
+                toastHandler.showSuccessToast(notificationMessage, "top-center")
+              }
+
+              setAppData(appDataWithUpdatedNameSkit)
+
             }
           }
         ).catch((error) => {
