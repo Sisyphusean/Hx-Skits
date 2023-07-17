@@ -466,7 +466,7 @@ export default function OnboardingDialog() {
         let textToDisplay = ""
 
         if (!isBrowserSupported && isPlatformSupported) {
-            textToDisplay = `Your Browser (${userBrowser[0].toLocaleUpperCase() + userBrowser.slice(1)}) is currently not supported. <br />
+            textToDisplay = `Your Browser (${userBrowser[0].toLocaleUpperCase() + userBrowser.slice(1)}) is currently not supported. 
             Please open the app in Google Chrome or Brave Browser to continue.`
         }
 
@@ -478,7 +478,7 @@ export default function OnboardingDialog() {
         return (
             <div>
                 <p
-                    className="text-center text-lg font-bold"
+                    className="text-center text-lg font-bold px-4"
                 >
                     {textToDisplay}
                 </p>
