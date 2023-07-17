@@ -48,10 +48,11 @@ export default function Login() {
 
     //HandleLogin
     const handleLogin = async (formData: any) => {
+
         if (!errors.password && !errors.username) {
             poster(
                 import.meta.env.VITE_LOGIN_PATH,
-                formData,
+                { username: formData.username.toLocaleLowerCase(), password: formData.password },
                 onLoading).then(
                     (apiResponse) => {
                         if (apiResponse.status == 400) {
@@ -130,7 +131,9 @@ export default function Login() {
                                     register={register}
                                 />
 
-                                <button type="submit"
+                                <button
+                                    disabled={isApiLoading}
+                                    type="submit"
                                     className="flex flex-row gap-2 align-middle items-center justify-center
                                      border-2 text-white bg-deepBlue-500
                                     rounded-lg py-4 px-8 transition font-medium ml-auto mt-4
